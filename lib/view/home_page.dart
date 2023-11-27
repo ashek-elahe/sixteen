@@ -7,6 +7,7 @@ import 'package:sixteen/model/installment_model.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/converter.dart';
 import 'package:sixteen/utilities/style.dart';
+import 'package:sixteen/widget/balance_widget.dart';
 import 'package:sixteen/widget/user_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -37,6 +38,10 @@ class _HomePageState extends State<HomePage> {
           child: Image.asset(Constants.logoTransparent, height: 40, width: 40),
         )),
         title: Text(Constants.appName, style:fontBold.copyWith(color: Theme.of(context).canvasColor, fontSize: 20)),
+        actions: [Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: BalanceWidget(balance: Get.find<AuthController>().getUserData()!.balance ?? 0),
+        )],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(Constants.padding),
@@ -53,6 +58,8 @@ class _HomePageState extends State<HomePage> {
           GetBuilder<InstallmentController>(builder: (insController) {
             return insController.installments != null ? insController.installments!.isNotEmpty ? ListView.builder(
               itemCount: insController.installments!.length,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
               itemBuilder: (context, index) {
                 InstallmentModel installment = insController.installments![index];
 
@@ -63,13 +70,14 @@ class _HomePageState extends State<HomePage> {
                     border: Border.all(color: Theme.of(context).disabledColor, width: 0.5),
                   ),
                   padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   child: Row(children: [
-                    
-                    Expanded(flex: 7, child: Column(children: [
-                      
+
+                    Expanded(flex: 7, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
                       Text(
                         Converter.dateToMonth(installment.month!),
-                        style: fontBold.copyWith(fontSize: 20, color: Theme.of(context).canvasColor),
+                        style: fontBold.copyWith(fontSize: 18, color: Theme.of(context).canvasColor),
                       ),
                       const SizedBox(height: 5),
 
@@ -78,23 +86,22 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(width: 5),
                         Expanded(child: Text(installment.receiverName ?? '', style: fontMedium.copyWith(color: Theme.of(context).canvasColor))),
                       ]),
-                      
+
                     ])),
 
-                    DottedLine(direction: Axis.vertical, dashColor: Theme.of(context).disabledColor),
+                    SizedBox(height: 60, child: DottedLine(direction: Axis.vertical, dashColor: Theme.of(context).disabledColor)),
 
                     Expanded(flex: 3, child: Column(children: [
 
                       Text(
                         installment.amount?.toStringAsFixed(0) ?? '0',
-                        style: fontBlack.copyWith(fontSize: 25, color: Theme.of(context).canvasColor),
+                        style: fontBlack.copyWith(fontSize: 20, color: Theme.of(context).canvasColor),
                       ),
-                      const SizedBox(height: 5),
 
                       Text('BDT', style: fontMedium.copyWith(color: Theme.of(context).canvasColor)),
 
                     ])),
-                    
+
                   ]),
                 );
               },

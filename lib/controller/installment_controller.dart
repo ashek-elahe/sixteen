@@ -64,7 +64,7 @@ class InstallmentController extends GetxController implements GetxService {
 
   Future<void> getInstallments({required String uid, bool isMine = false}) async {
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('installments').where('uid', isEqualTo: uid).orderBy('month', descending: true).get();
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('installments').where('user_id', isEqualTo: uid).orderBy('month', descending: true).get();
       if(isMine) {
         _installments = [];
       }else {

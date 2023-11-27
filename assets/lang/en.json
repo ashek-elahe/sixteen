@@ -49,5 +49,6 @@
   "amount": "Amount",
   "installment_added": "Installment added",
   "no_installment_found": "No installment found",
-  "received_by": "Received by"
+  "received_by": "Received by",
+  "show_balance": "Show Balance"
 }
