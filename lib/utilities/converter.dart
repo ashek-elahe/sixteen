@@ -1,0 +1,37 @@
+import 'package:intl/intl.dart';
+
+class Converter {
+
+  static String dateToDateString(DateTime dateTime) {
+    return DateFormat('dd MMMM yyyy').format(dateTime);
+  }
+
+  static String dateToMonth(DateTime dateTime) {
+    return DateFormat('MMMM - yy').format(dateTime);
+  }
+
+  static String dateToDateTimeString(DateTime dateTime) {
+    return DateFormat('dd MMMM yyyy  hh:mm a').format(dateTime);
+  }
+
+  static String convertAmount(double amount) {
+    return '${amount.floor()}৳';
+  }
+
+  static String convertPhone(String phone) {
+    String number = phone;
+    if(number.isNotEmpty) {
+      if(number.startsWith('1')) {
+        number = '+880$number';
+      }else if(number.startsWith('01')) {
+        number = '+88$number';
+      }else if(number.startsWith('801'))  {
+        number = '+8$number';
+      }else if(number.startsWith('8801')) {
+        number = '+$number';
+      }
+    }
+    return number;
+  }
+
+}

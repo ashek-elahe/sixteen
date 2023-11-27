@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "940829537826",
+    "project_id": "six-teen",
+    "storage_bucket": "six-teen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940829537826:android:10118ed1b4b639594cfc7b",
+        "android_client_info": {
+          "package_name": "com.sixteen.user.sixteen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtjIoxEJ5XDcB7TK6B-9vytSD_jHLok8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

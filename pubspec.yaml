@@ -1,0 +1,59 @@
+name: sixteen
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  get: ^4.6.6
+  rive: ^0.12.3
+  firebase_core: ^2.23.0
+  cloud_firestore: ^4.13.2
+  firebase_auth: ^4.14.1
+  firebase_storage: ^11.5.2
+  url_strategy: ^0.2.0
+  flare_flutter: ^3.0.2
+  shared_preferences: ^2.2.2
+  intl: ^0.18.1
+  image_picker: ^1.0.4
+  cached_network_image: ^3.3.0
+  firebase_admin: ^0.2.0
+  flutter_slidable: ^3.0.1
+  month_picker_dialog: ^2.2.1
+  dotted_line: ^3.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/animation/
+    - assets/lang/
+    - assets/fonts/
+    - assets/image/
+    - assets/credential/
+
+  fonts:
+    - family: FiraSans
+      fonts:
+        - asset: assets/fonts/FiraSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/FiraSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/FiraSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/FiraSans-Black.ttf
+          weight: 900
+
