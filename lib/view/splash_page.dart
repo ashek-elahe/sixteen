@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixteen/controller/auth_controller.dart';
+import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/widget/animated_zoom_widget.dart';
+import 'package:sixteen/widget/custom_snackbar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,11 +22,35 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 3), () {
-      if(FirebaseAuth.instance.currentUser != null) {
-        Get.offNamed(Routes.getInitialRoute());
+    FirebaseMessaging.instance.subscribeToTopic(Constants.topic);
+    if(FirebaseAuth.instance.currentUser != null) {
+      Get.find<AuthController>().getUser(uid: FirebaseAuth.instance.currentUser!.uid).then((success) {
+        Get.find<AuthController>().updateDeviceToken();
+        if(success) {
+          route();
+        }
+      });
+    }else {
+      route();
+    }
+  }
+
+  void route() {
+    Get.find<SplashController>().getSettings().then((success) {
+      if(success) {
+        Get.find<AuthController>().setAdmin();
+        Future.delayed(Duration(seconds: FirebaseAuth.instance.currentUser != null ? 1 : 3), () {
+          if(Get.find<SplashController>().settings!.maintenance!
+              || Get.find<SplashController>().settings!.minimumVersion! > Constants.version) {
+            Get.offNamed(Routes.getUpdateRoute(Get.find<SplashController>().settings!.minimumVersion! > Constants.version));
+          }else if(FirebaseAuth.instance.currentUser != null) {
+            Get.offNamed(Routes.getInitialRoute());
+          }else {
+            Get.offNamed(Routes.getLoginRoute());
+          }
+        });
       }else {
-        Get.offNamed(Routes.getLoginRoute());
+        showSnackBar(message: 'please_exit_from_app'.tr);
       }
     });
   }

@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final FocusNode _emailNode = FocusNode();
   final FocusNode _phoneNode = FocusNode();
   final FocusNode _addressNode = FocusNode();
-  UserModel user = Get.find<AuthController>().getUserData()!;
+  UserModel user = Get.find<AuthController>().user!;
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: GetBuilder<AuthController>(builder: (authController) {
-                    return CustomImage(image: authController.getUserData()!.image ?? '', height: 100, width: 100);
+                    return CustomImage(image: authController.user!.image ?? '', height: 100, width: 100);
                   }),
                 ),
 

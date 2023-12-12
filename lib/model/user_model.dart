@@ -9,10 +9,11 @@ class UserModel {
   DateTime? lastActive;
   String? address;
   double? balance;
+  String? deviceToken;
 
   UserModel({
     this.uid, this.name, this.email, this.phone, this.joiningDate, this.image,
-    this.isActive, this.lastActive, this.address, this.balance,
+    this.isActive, this.lastActive, this.address, this.balance, this.deviceToken,
   });
 
   UserModel.fromJson(Map<String, dynamic> json, bool firebase) {
@@ -28,6 +29,7 @@ class UserModel {
         : DateTime.parse(json['last_active']) : null;
     address = json['address'];
     balance = json['balance']?.toDouble();
+    deviceToken = json['device_token'];
   }
 
   Map<String, dynamic> toJson(bool firebase) {
@@ -42,6 +44,7 @@ class UserModel {
     data['last_active'] = lastActive != null ? firebase ? lastActive : lastActive!.toIso8601String() : null;
     data['address'] = address;
     data['balance'] = balance;
+    data['device_token'] = deviceToken;
     return data;
   }
 
@@ -97,6 +100,11 @@ class UserModel {
     }else if(user != null && user.balance != null) {
       data['balance'] = user.balance!;
     }
+    if(deviceToken != null) {
+      data['device_token'] = deviceToken;
+    }else if(user != null && user.deviceToken != null) {
+      data['device_token'] = user.deviceToken!;
+    }
     return data;
   }
 
@@ -131,6 +139,9 @@ class UserModel {
     }
     if(balance != null) {
       data['balance'] = balance;
+    }
+    if(deviceToken != null) {
+      data['device_token'] = deviceToken;
     }
     return data;
   }

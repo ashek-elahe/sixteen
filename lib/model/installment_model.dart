@@ -4,13 +4,15 @@ class InstallmentModel {
   String? userImage;
   double? amount;
   DateTime? month;
+  String? medium;
+  String? reference;
   String? receiverId;
   String? receiverName;
   String? receiverImage;
   DateTime? createdAt;
 
   InstallmentModel({
-    this.userId, this.userName, this.userImage, this.amount, this.month,
+    this.userId, this.userName, this.userImage, this.amount, this.month, this.medium, this.reference,
     this.receiverId, this.receiverName, this.receiverImage, this.createdAt,
   });
 
@@ -21,6 +23,8 @@ class InstallmentModel {
     amount = json['amount']?.toDouble();
     month = json['month'] != null ? firebase ? DateTime.parse(json['month'].toDate().toString())
         : DateTime.parse(json['month']) : null;
+    medium = json['medium'];
+    reference = json['reference'];
     receiverId = json['receiver_id'];
     receiverName = json['receiver_name'];
     receiverImage = json['receiver_image'];
@@ -35,6 +39,8 @@ class InstallmentModel {
     data['user_image'] = userImage;
     data['amount'] = amount;
     data['month'] = month != null ? firebase ? month : month!.toIso8601String() : null;
+    data['medium'] = medium;
+    data['reference'] = reference;
     data['receiver_id'] = receiverId;
     data['receiver_name'] = receiverName;
     data['receiver_image'] = receiverImage;
@@ -68,6 +74,16 @@ class InstallmentModel {
       data['month'] = month!.toIso8601String();
     }else if(install?.month != null) {
       data['month'] = install?.month!.toIso8601String();
+    }
+    if(medium != null) {
+      data['medium'] = medium;
+    }else if(install?.medium != null) {
+      data['medium'] = install?.medium;
+    }
+    if(reference != null) {
+      data['reference'] = reference;
+    }else if(install?.reference != null) {
+      data['reference'] = install?.reference;
     }
     if(receiverId != null) {
       data['receiver_id'] = receiverId;
@@ -108,6 +124,12 @@ class InstallmentModel {
     }
     if(month != null) {
       data['month'] = month;
+    }
+    if(medium != null) {
+      data['medium'] = medium;
+    }
+    if(reference != null) {
+      data['reference'] = reference;
     }
     if(receiverId != null) {
       data['receiver_id'] = receiverId;

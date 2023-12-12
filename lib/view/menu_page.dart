@@ -34,9 +34,15 @@ class _MenuPageState extends State<MenuPage> {
 
           MenuButton(
             icon: Icons.lock_reset, title: 'change_password'.tr,
-            onPressed: () => Get.find<AuthController>().resetPassword(Get.find<AuthController>().getUserData()!.email!),
+            onPressed: () => Get.find<AuthController>().resetPassword(Get.find<AuthController>().user!.email!),
           ),
           const SizedBox(height: Constants.padding),
+
+          Get.find<AuthController>().isAdmin ? MenuButton(
+            icon: Icons.notification_add, title: 'send_notification'.tr,
+            onPressed: () => Get.toNamed(Routes.getNotificationRoute()),
+          ) : const SizedBox(),
+          SizedBox(height: Get.find<AuthController>().isAdmin ? Constants.padding : 0),
 
           MenuButton(
             icon: Icons.language, title: 'language'.tr,

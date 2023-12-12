@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixteen/utilities/converter.dart';
+import 'package:sixteen/utilities/style.dart';
 
 class BalanceWidget extends StatefulWidget {
   final double balance;
@@ -44,7 +45,7 @@ class _BalanceWidgetState extends State<BalanceWidget> {
             duration: const Duration(milliseconds: 500),
             child: Text(
               Converter.convertAmount(widget.balance),
-              style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 14),
+              style: fontMedium.copyWith(color: Theme.of(context).primaryColor),
             ),
           ),
 

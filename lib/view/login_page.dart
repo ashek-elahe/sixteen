@@ -51,13 +51,13 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(20),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max, children: [
 
-          Hero(
-            tag: 'logo',
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(Constants.padding),
-              child: Image.asset(Constants.logo, height: 100, width: 100),
-            ),
-          ),
+          // Hero(
+          //   tag: 'logo',
+          //   child: ClipRRect(
+          //     borderRadius: BorderRadius.circular(Constants.padding),
+          //     child: Image.asset(Constants.logo, height: 100, width: 100),
+          //   ),
+          // ),
 
           GetBuilder<AuthController>(builder: (authController) {
             return SizedBox(height: 300, width: 300, child: ClipRRect(

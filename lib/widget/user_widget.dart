@@ -16,55 +16,58 @@ class UserWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardWidget(child: Row(children: [
+    return CardWidget(child: Column(children: [
 
-      Expanded(child: Column(children: [
+      Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-        InfoWidget(title: 'name'.tr, value: user.name),
-        const SizedBox(height: 5),
+        Expanded(child: Column(children: [
 
-        InfoWidget(title: 'phone'.tr, value: user.phone),
-        const SizedBox(height: 5),
+          InfoWidget(title: 'name'.tr, value: user.name),
+          const SizedBox(height: 5),
 
-        InfoWidget(title: 'email'.tr, value: user.email),
-        const SizedBox(height: 5),
+          InfoWidget(title: 'joined_at'.tr, value: Helper.getDateDistance(user.joiningDate ?? DateTime.now())),
+          const SizedBox(height: 5),
 
-        InfoWidget(title: 'joined_at'.tr, value: Helper.getDateDistance(user.joiningDate ?? DateTime.now())),
-        const SizedBox(height: 5),
+          InfoWidget(title: 'phone'.tr, value: user.phone),
+          const SizedBox(height: 5),
 
-        InfoWidget(title: 'address'.tr, value: user.address),
+        ])),
 
-      ])),
-      const SizedBox(width: 10),
+        Column(children: [
 
-      Column(children: [
+          showBalance ? Container(
+            margin: const EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Theme.of(context).primaryColor, width: 0.5),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Text(
+              Converter.convertAmount(user.balance ?? 0),
+              style: fontMedium.copyWith(fontSize: 12, color: Theme.of(context).canvasColor),
+            ),
+          ) : const SizedBox(),
 
-        showBalance ? Container(
-          margin: const EdgeInsets.only(bottom: Constants.padding),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Theme.of(context).primaryColor, width: 0.5),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).primaryColor.withOpacity(0.2),
+              border: Border.all(width: 0.5, color: Theme.of(context).primaryColor),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CustomImage(image: user.image ?? '', height: 50, width: 50),
+            ),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: Text(
-            Converter.convertAmount(user.balance ?? 0),
-            style: fontMedium.copyWith(fontSize: 12, color: Theme.of(context).canvasColor),
-          ),
-        ) : const SizedBox(),
 
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context).primaryColor.withOpacity(0.2),
-            border: Border.all(width: 0.5, color: Theme.of(context).primaryColor),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: CustomImage(image: user.image ?? '', height: 80, width: 80),
-          ),
-        ),
+        ]),
 
       ]),
+
+      InfoWidget(title: 'email'.tr, value: user.email),
+      const SizedBox(height: 5),
+
+      InfoWidget(title: 'address'.tr, value: user.address),
 
     ]));
   }

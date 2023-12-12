@@ -3,11 +3,13 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/user_controller.dart';
+import 'package:sixteen/dialog/action_dialog.dart';
 import 'package:sixteen/dialog/add_installment_dialog.dart';
 import 'package:sixteen/dialog/add_member_dialog.dart';
 import 'package:sixteen/dialog/animated_dialog.dart';
 import 'package:sixteen/dialog/confirmation_dialog.dart';
 import 'package:sixteen/utilities/constants.dart';
+import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/utilities/style.dart';
 import 'package:sixteen/widget/user_widget.dart';
 import 'package:sixteen/widget/my_app_bar.dart';
@@ -31,11 +33,14 @@ class _MembersPageState extends State<MembersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: MyAppBar(title: 'members'.tr, backButton: false),
+
       floatingActionButton: Get.find<AuthController>().isAdmin ? FloatingActionButton.extended(
         onPressed: () => showAnimatedDialog(const AddMemberDialog()),
         label: Text('add_member'.tr, style: fontMedium.copyWith(color: Colors.white)),
       ) : null,
+
       body: GetBuilder<UserController>(builder: (userController) {
         return userController.users != null ? userController.users!.isNotEmpty ? ListView.builder(
           itemCount: userController.users!.length,
@@ -66,15 +71,6 @@ class _MembersPageState extends State<MembersPage> {
                   children: [
                     SlidableAction(
                       onPressed: (context) => showAnimatedDialog(AddInstallmentDialog(user: userController.users![index])),
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      icon: Icons.add_comment,
-                      label: 'info'.tr,
-                      spacing: 2,
-                      padding: EdgeInsets.zero,
-                    ),
-                    SlidableAction(
-                      onPressed: (context) => showAnimatedDialog(AddInstallmentDialog(user: userController.users![index])),
                       backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Colors.white,
                       icon: Icons.add_comment,
@@ -82,10 +78,22 @@ class _MembersPageState extends State<MembersPage> {
                       spacing: 2,
                       padding: EdgeInsets.zero,
                     ),
+                    SlidableAction(
+                      onPressed: (context) => showAnimatedDialog(ActionDialog(user: userController.users![index]), isFlip: true),
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                      icon: Icons.more_horiz,
+                      label: 'actions'.tr,
+                      spacing: 2,
+                      padding: EdgeInsets.zero,
+                    ),
                   ],
                 ),
 
-                child: UserWidget(user: userController.users![index], showBalance: Get.find<AuthController>().isAdmin),
+                child: InkWell(
+                  onTap: Get.find<AuthController>().isAdmin ? () => Get.toNamed(Routes.getUserDetailsRoute(userController.users![index])) : null,
+                  child: UserWidget(user: userController.users![index], showBalance: Get.find<AuthController>().isAdmin),
+                ),
               ),
             );
           },

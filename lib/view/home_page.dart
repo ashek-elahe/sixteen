@@ -1,13 +1,11 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/installment_controller.dart';
-import 'package:sixteen/model/installment_model.dart';
 import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/converter.dart';
 import 'package:sixteen/utilities/style.dart';
 import 'package:sixteen/widget/balance_widget.dart';
+import 'package:sixteen/widget/installments_view.dart';
 import 'package:sixteen/widget/user_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,12 +16,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
 
-    Get.find<InstallmentController>().getInstallments(uid: Get.find<AuthController>().getUserData()!.uid!, isMine: true);
+    Get.find<InstallmentController>().getMyInstallments(uid: Get.find<AuthController>().user!.uid!, reload: true);
   }
 
   @override
@@ -40,77 +39,38 @@ class _HomePageState extends State<HomePage> {
         title: Text(Constants.appName, style:fontBold.copyWith(color: Theme.of(context).canvasColor, fontSize: 20)),
         actions: [Padding(
           padding: const EdgeInsets.only(right: 20),
-          child: BalanceWidget(balance: Get.find<AuthController>().getUserData()!.balance ?? 0),
+          child: GetBuilder<AuthController>(builder: (authController) {
+            return BalanceWidget(balance: authController.user!.balance ?? 0);
+          }),
         )],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(Constants.padding),
-        child: Column(children: [
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await Get.find<AuthController>().getUser(uid: Get.find<AuthController>().user!.uid!);
+          await Get.find<InstallmentController>().getMyInstallments(uid: Get.find<AuthController>().user!.uid!, reload: true);
+        },
+        backgroundColor: Theme.of(context).primaryColor,
+        color: Colors.white,
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          padding: const EdgeInsets.all(Constants.padding),
+          physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          child: Column(children: [
 
-          GetBuilder<AuthController>(builder: (authController) {
-            return UserWidget(user: authController.getUserData()!);
-          }),
-          const SizedBox(height: Constants.padding),
+            GetBuilder<AuthController>(builder: (authController) {
+              return UserWidget(user: authController.user!);
+            }),
+            const SizedBox(height: Constants.padding),
 
-          Text('installments'.tr, style: fontBold.copyWith(fontSize: 20, color: Theme.of(context).canvasColor)),
-          const SizedBox(height: 10),
+            GetBuilder<InstallmentController>(builder: (insController) {
+              return InstallmentsView(
+                installments: insController.installments, scrollController: _scrollController, enabledPagination: insController.paginate,
+                onPaginate: () => Get.find<InstallmentController>().getMyInstallments(uid: Get.find<AuthController>().user!.uid!),
+              );
+            }),
 
-          GetBuilder<InstallmentController>(builder: (insController) {
-            return insController.installments != null ? insController.installments!.isNotEmpty ? ListView.builder(
-              itemCount: insController.installments!.length,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                InstallmentModel installment = insController.installments![index];
-
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Theme.of(context).disabledColor, width: 0.5),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Row(children: [
-
-                    Expanded(flex: 7, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                      Text(
-                        Converter.dateToMonth(installment.month!),
-                        style: fontBold.copyWith(fontSize: 18, color: Theme.of(context).canvasColor),
-                      ),
-                      const SizedBox(height: 5),
-
-                      Row(children: [
-                        Text('${'received_by'.tr}:', style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
-                        const SizedBox(width: 5),
-                        Expanded(child: Text(installment.receiverName ?? '', style: fontMedium.copyWith(color: Theme.of(context).canvasColor))),
-                      ]),
-
-                    ])),
-
-                    SizedBox(height: 60, child: DottedLine(direction: Axis.vertical, dashColor: Theme.of(context).disabledColor)),
-
-                    Expanded(flex: 3, child: Column(children: [
-
-                      Text(
-                        installment.amount?.toStringAsFixed(0) ?? '0',
-                        style: fontBlack.copyWith(fontSize: 20, color: Theme.of(context).canvasColor),
-                      ),
-
-                      Text('BDT', style: fontMedium.copyWith(color: Theme.of(context).canvasColor)),
-
-                    ])),
-
-                  ]),
-                );
-              },
-            ) : Center(child: Text(
-              'no_installment_found'.tr, style: fontRegular.copyWith(color: Theme.of(context).canvasColor),
-            )) : const Center(child: CircularProgressIndicator());
-          }),
-
-        ]),
+          ]),
+        ),
       ),
     );
   }

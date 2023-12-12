@@ -1,14 +1,16 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/model/user_model.dart';
+import 'package:sixteen/utilities/db_table.dart';
 import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 import 'package:sixteen/widget/loading_button.dart';
@@ -23,7 +25,7 @@ class AuthController extends GetxController implements GetxService {
   UserModel? _user;
   bool _isLoading = false;
   XFile? _file;
-  bool _isAdmin = true;
+  bool _isAdmin = false;
 
   LoginState get loginState => _loginState;
   UserModel? get user => _user;
@@ -45,7 +47,8 @@ class AuthController extends GetxController implements GetxService {
     update();
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-      DocumentReference reference = FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid);
+      setAdmin();
+      DocumentReference reference = FirebaseFirestore.instance.collection(DbTable.users.name).doc(userCredential.user!.uid);
       DocumentSnapshot doc = await reference.get();
       if(doc.exists) {
         _user = UserModel.fromJson(doc.data() as Map<String, dynamic>, true);
@@ -56,8 +59,9 @@ class AuthController extends GetxController implements GetxService {
         );
         reference.set(_user!.toJson(true));
       }
+      updateDeviceToken();
       debugPrint(('Data:=====> ${_user!.toJson(true)}'));
-      saveUserData(_user);
+      // saveUserData(_user);
       await _manageSignIn(userCredential, buttonController);
     } on FirebaseAuthException catch (e) {
       buttonController.error();
@@ -81,6 +85,63 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
+  Future<bool> getUser({required String uid}) async {
+    bool success = false;
+    try {
+      DocumentSnapshot doc = await FirebaseFirestore.instance.collection(DbTable.users.name).doc(uid).get();
+      _user = UserModel.fromJson(doc.data() as Map<String, dynamic>, true);
+      debugPrint(('Data:=====> ${_user!.toJson(true)}'));
+      success = true;
+    } catch (e) {
+      showSnackBar(message: e.toString());
+      debugPrint(('Error:=====> ${e.toString()}'));
+    }
+    update();
+    return success;
+  }
+
+  void setAdmin() {
+    if(FirebaseAuth.instance.currentUser != null
+        && Get.find<SplashController>().settings!.admins!.contains(FirebaseAuth.instance.currentUser!.email)) {
+      _isAdmin = true;
+    }
+  }
+
+  Future<void> updateDeviceToken() async {
+    try {
+      String? deviceToken;
+      if (GetPlatform.isIOS && !GetPlatform.isWeb) {
+        FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(alert: true, badge: true, sound: true);
+        NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+          alert: true, announcement: false, badge: true, carPlay: false,
+          criticalAlert: false, provisional: false, sound: true,
+        );
+        if(settings.authorizationStatus == AuthorizationStatus.authorized) {
+          deviceToken = await _saveDeviceToken();
+        }
+      }else {
+        deviceToken = await _saveDeviceToken();
+      }
+      await FirebaseFirestore.instance.collection(DbTable.users.name).doc(FirebaseAuth.instance.currentUser!.uid).update(
+        UserModel(deviceToken: deviceToken).toJsonForUpdate(),
+      );
+      debugPrint(('Data:=====> $deviceToken'));
+    } catch (e) {
+      showSnackBar(message: e.toString());
+      debugPrint(('Error:=====> ${e.toString()}'));
+    }
+    update();
+  }
+
+  Future<String?> _saveDeviceToken() async {
+    String? deviceToken = '@';
+    try {
+      deviceToken = await FirebaseMessaging.instance.getToken();
+    }catch(_) {}
+    debugPrint('--------Device Token---------- $deviceToken');
+    return deviceToken;
+  }
+
   Future<void> _manageSignIn(UserCredential userCredential, RoundedLoadingButtonController buttonController) async {
     buttonController.success();
     _loginState = LoginState.success;
@@ -102,7 +163,7 @@ class AuthController extends GetxController implements GetxService {
     if(_file != null) {
       try {
         Uint8List data = await _file!.readAsBytes();
-        UploadTask task = FirebaseStorage.instance.ref().child('users').child('${getUserData()!.uid}.${_file!.name.split('.').last}').putData(data);
+        UploadTask task = FirebaseStorage.instance.ref().child(DbTable.users.name).child('${_user!.uid}.${_file!.name.split('.').last}').putData(data);
         TaskSnapshot snapshot = await task.whenComplete(() {});
         String url = await snapshot.ref.getDownloadURL();
         updateUserProfile(user: UserModel(image: url));
@@ -135,9 +196,9 @@ class AuthController extends GetxController implements GetxService {
     update();
     try {
       _user = user;
-      saveUserData(user);
+      // saveUserData(user);
       debugPrint(('Body:=====> ${user.toJsonForUpdate()}'));
-      await FirebaseFirestore.instance.collection('users').doc(getUserData()!.uid).update(user.toJsonForUpdate());
+      await FirebaseFirestore.instance.collection(DbTable.users.name).doc(_user!.uid).update(user.toJsonForUpdate());
       buttonController?.success();
     }catch(e) {
       buttonController?.error();
@@ -148,26 +209,26 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
-  void saveUserData(UserModel? user) {
-    if(user != null) {
-      sharedPreferences.setString('user', jsonEncode(user.toJsonForShared(getUserData())));
-    }else {
-      if(sharedPreferences.containsKey('user')) {
-        sharedPreferences.remove('user');
-      }
-    }
-  }
-
-  UserModel? getUserData() {
-    UserModel? user;
-    try{
-      if(sharedPreferences.containsKey('user')) {
-        String data = sharedPreferences.getString('user') ?? '';
-        user = UserModel.fromJson(jsonDecode(data), false);
-      }
-      // ignore: empty_catches
-    }catch(e) {}
-    return user;
-  }
+  // void saveUserData(UserModel? user) {
+  //   if(user != null) {
+  //     sharedPreferences.setString('user', jsonEncode(user.toJsonForShared(getUserData())));
+  //   }else {
+  //     if(sharedPreferences.containsKey('user')) {
+  //       sharedPreferences.remove('user');
+  //     }
+  //   }
+  // }
+  //
+  // UserModel? getUserData() {
+  //   UserModel? user;
+  //   try{
+  //     if(sharedPreferences.containsKey('user')) {
+  //       String data = sharedPreferences.getString('user') ?? '';
+  //       user = UserModel.fromJson(jsonDecode(data), false);
+  //     }
+  //     // ignore: empty_catches
+  //   }catch(e) {}
+  //   return user;
+  // }
 
 }

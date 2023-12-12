@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:sixteen/utilities/constants.dart';
+import 'package:sixteen/dialog/photo_viewer.dart';
 
 class CustomImage extends StatelessWidget {
   final String image;
@@ -11,10 +13,13 @@ class CustomImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: image, height: height, width: width, fit: fit,
-      placeholder: (context, url) => Image.asset(Constants.logo, height: height, width: width, fit: fit),
-      errorWidget: (context, url, error) => Image.asset(Constants.logo, height: height, width: width, fit: fit),
+    return InkWell(
+      onTap: () => PhotoViewer.view(image),
+      child: CachedNetworkImage(
+        imageUrl: image, height: height, width: width, fit: fit,
+        placeholder: (context, url) => Image.asset(Constants.logo, height: height, width: width, fit: fit),
+        errorWidget: (context, url, error) => Image.asset(Constants.logo, height: height, width: width, fit: fit),
+      ),
     );
   }
 }

@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:sixteen/controller/theme_controller.dart';
 import 'package:sixteen/controller/translation_controller.dart';
@@ -13,9 +15,12 @@ import 'package:sixteen/model/language_model.dart';
 import 'package:sixteen/model/messages.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/dependency_injection.dart';
+import 'package:sixteen/utilities/notification_helper.dart';
 import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/utilities/themes.dart';
 import 'package:url_strategy/url_strategy.dart';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 void main() async {
 
@@ -39,6 +44,9 @@ void main() async {
     });
     languages['${languageModel.languageCode}_${languageModel.countryCode}'] = json;
   }
+
+  await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
+  FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
   runApp(MyApp(languages: languages));
 }

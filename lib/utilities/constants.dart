@@ -3,23 +3,35 @@ import 'package:sixteen/model/language_model.dart';
 class Constants {
 
   static const String appName = '6Teen';
+  static const int version = 1;
+  static const int pagination = 10;
   static const String fontFamily = 'FiraSans';
   static const String logo = 'assets/image/logo.png';
   static const String logoTransparent = 'assets/image/logo_transparent.png';
-
+  static const String firebaseServerKey = 'AAAA2w3PdiI:APA91bF1k5JDwx6-mmX7bZh8YeIUZsDLzAjKdjWbNkh2HD_4i2fgXWwDcpltEZ1F8gP2DNQMq4QO3Z0bHUwJ0mwMF3Z88fNqMQpvrUzT27JeFsBPwqP5gAhZ14IxxgaCIM8ua3UnyDPo';
 
   static const List<double> amounts = [1000, 1500, 2000, 3000, 4000, 5000];
+  static const List<String> mediums = ['Cash', 'Mobile Banking', 'Bank', 'Others'];
 
   /// Animations
   static const Anim loginCharacter = Anim(
     'assets/animation/login_character.riv',
     ['idle', 'hands_up', 'hands_down', 'success', 'fail'],
   );
+  static const Anim maintenance = Anim(
+    'assets/animation/maintenance.riv',
+    ['spin1', 'spin2'],
+  );
+  static const Anim update = Anim(
+    'assets/animation/update.riv',
+    ['combineAnimation', 'rotate', 'bgLoop', 'moveup', 'moveOut', 'bob'],
+  );
 
   /// Keys
   static const String languageCode = 'language_code';
   static const String countryCode = 'country_code';
   static const String theme = 'theme';
+  static const String topic = 'sixteen';
 
   /// Paddings
   static const double padding = 20.0;

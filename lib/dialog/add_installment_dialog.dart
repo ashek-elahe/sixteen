@@ -22,6 +22,7 @@ class AddInstallmentDialog extends StatefulWidget {
 class _AddInstallmentDialogState extends State<AddInstallmentDialog> {
   final RoundedLoadingButtonController _buttonController = RoundedLoadingButtonController();
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _referenceController = TextEditingController();
 
   @override
   void initState() {
@@ -88,6 +89,46 @@ class _AddInstallmentDialogState extends State<AddInstallmentDialog> {
         ),
         const SizedBox(height: Constants.padding),
 
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text('medium'.tr, style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
+        ),
+        const SizedBox(height: 5),
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Theme.of(context).primaryColor),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: Constants.padding),
+          child: DropdownButton<String>(
+            value: insController.medium,
+            style: fontMedium.copyWith(color: Theme.of(context).canvasColor),
+            underline: const SizedBox(),
+            isExpanded: true,
+            dropdownColor: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(10),
+            items: Constants.mediums.map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value, style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
+              );
+            }).toList(),
+            onChanged: (String? value) => insController.setMedium(value!),
+          ),
+        ),
+        const SizedBox(height: Constants.padding),
+
+        InputField(
+          titleText: 'reference'.tr,
+          hintText: 'enter_reference'.tr,
+          controller: _amountController,
+          isNumber: true,
+          inputType: const TextInputType.numberWithOptions(decimal: true, signed: true),
+          borderRadius: BorderRadius.circular(10),
+          inputAction: TextInputAction.done,
+        ),
+        const SizedBox(height: Constants.padding),
+
         InkWell(
           onTap: () async {
             DateTime? month = await showMonthPicker(
@@ -122,12 +163,16 @@ class _AddInstallmentDialogState extends State<AddInstallmentDialog> {
             if(amount <= 0) {
               showSnackBar(message: 'enter_amount'.tr);
               _buttonController.error();
+            }else if(_referenceController.text.trim().isEmpty) {
+              showSnackBar(message: 'enter_reference'.tr);
+              _buttonController.error();
             }else if(insController.dateTime == null) {
               showSnackBar(message: 'select_month'.tr);
               _buttonController.error();
             }else {
               Get.find<InstallmentController>().addInstallment(
-                user: widget.user, amount: amount, month: insController.dateTime!, buttonController: _buttonController,
+                user: widget.user, amount: amount, month: insController.dateTime!, reference: _referenceController.text.trim(),
+                buttonController: _buttonController,
               );
             }
           },

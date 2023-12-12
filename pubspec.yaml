@@ -18,6 +18,8 @@ dependencies:
   cloud_firestore: ^4.13.2
   firebase_auth: ^4.14.1
   firebase_storage: ^11.5.2
+  firebase_messaging: ^14.7.6
+  flutter_local_notifications: ^16.2.0
   url_strategy: ^0.2.0
   flare_flutter: ^3.0.2
   shared_preferences: ^2.2.2
@@ -28,6 +30,10 @@ dependencies:
   flutter_slidable: ^3.0.1
   month_picker_dialog: ^2.2.1
   dotted_line: ^3.2.2
+  http: ^0.13.0
+  photo_view: ^0.14.0
+  url_launcher: ^6.2.2
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
