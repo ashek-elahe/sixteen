@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:sixteen/model/conversation_model.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/view/admin_page.dart';
+import 'package:sixteen/view/conversation_page.dart';
 import 'package:sixteen/view/forgot_page.dart';
 import 'package:sixteen/view/initial_page.dart';
 import 'package:sixteen/view/login_page.dart';
+import 'package:sixteen/view/message_page.dart';
 import 'package:sixteen/view/notification_page.dart';
 import 'package:sixteen/view/profile_page.dart';
 import 'package:sixteen/view/splash_page.dart';
@@ -23,6 +26,8 @@ class Routes {
   static const String userDetails = '/user-details';
   static const String update = '/update';
   static const String notification = '/notification';
+  static const String conversation = '/conversation';
+  static const String messages = '/messages';
 
   static String getInitialRoute() => initial;
   static String getSplashRoute() => splash;
@@ -36,6 +41,11 @@ class Routes {
   }
   static String getUpdateRoute(bool isUpdate) => '$update?isUpdate=${isUpdate.toString()}';
   static String getNotificationRoute() => notification;
+  static String getConversationRoute() => conversation;
+  static String getMessagesRoute(ConversationModel conversation) {
+    String data = base64Url.encode(utf8.encode(jsonEncode(conversation.toJson(false))));
+    return '$messages?conversation=$data';
+  }
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => const InitialPage()),
@@ -51,6 +61,10 @@ class Routes {
       isUpdate: Get.parameters['isUpdate']! == 'true',
     )),
     GetPage(name: notification, page: () => const NotificationPage()),
+    GetPage(name: conversation, page: () => const ConversationPage()),
+    GetPage(name: messages, page: () => MessagePage(
+      conversation: ConversationModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['conversation']!.replaceAll(' ', '+')))), false),
+    )),
   ];
 
 }

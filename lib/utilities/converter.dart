@@ -6,6 +6,16 @@ class Converter {
     return DateFormat('dd MMMM yyyy').format(dateTime);
   }
 
+  static String dateToTime(DateTime dateTime) {
+    DateTime date = DateTime(dateTime.year, dateTime.month, dateTime.day);
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    if(date.isAtSameMomentAs(today)) {
+      return DateFormat('hh:mm a').format(dateTime);
+    }else {
+      return DateFormat('dd/MM/yy').format(dateTime);
+    }
+  }
+
   static String dateToMonth(DateTime dateTime) {
     return DateFormat('MMMM - yy').format(dateTime);
   }

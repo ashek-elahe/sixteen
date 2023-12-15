@@ -38,6 +38,12 @@ class _MenuPageState extends State<MenuPage> {
           ),
           const SizedBox(height: Constants.padding),
 
+          MenuButton(
+            icon: Icons.chat, title: 'message'.tr,
+            onPressed: () => Get.toNamed(Routes.getConversationRoute()),
+          ),
+          const SizedBox(height: Constants.padding),
+
           Get.find<AuthController>().isAdmin ? MenuButton(
             icon: Icons.notification_add, title: 'send_notification'.tr,
             onPressed: () => Get.toNamed(Routes.getNotificationRoute()),

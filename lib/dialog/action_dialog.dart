@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/dialog/animated_dialog.dart';
 import 'package:sixteen/dialog/base_dialog.dart';
 import 'package:sixteen/dialog/confirmation_dialog.dart';
+import 'package:sixteen/model/conversation_model.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/routes.dart';
@@ -15,12 +17,18 @@ class ActionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserModel me = Get.find<AuthController>().user!;
     return BaseDialog(children: [
 
       Text(user.name ?? '', style: fontMedium.copyWith(fontSize: 14, color: Theme.of(context).canvasColor)),
       const SizedBox(height: Constants.padding),
 
       ActionButton(title: 'info'.tr, onPressed: () => Get.toNamed(Routes.getUserDetailsRoute(user))),
+
+      ActionButton(title: 'send_message'.tr, onPressed: () => Get.toNamed(Routes.getMessagesRoute(ConversationModel(
+        user1Id: user.uid, user1Email: user.email, user1Phone: user.phone, user1Name: user.name, user1Image: user.image,
+        user2Id: me.uid, user2Email: me.email, user2Phone: me.phone, user2Name: me.name, user2Image: me.image,
+      )))),
 
       ActionButton(title: 'poke_for_installment'.tr, onPressed: () => Get.find<SplashController>().sendNotification(
         toTopic: false, token: user.deviceToken ?? '', title: 'Hello ${user.name}', body: 'please_complete_your_installment_of_this_month'.tr,

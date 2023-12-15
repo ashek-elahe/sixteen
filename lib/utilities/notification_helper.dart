@@ -11,7 +11,7 @@ class NotificationHelper {
     var androidInitialize = const AndroidInitializationSettings('notification_icon');
     var iOSInitialize = const DarwinInitializationSettings();
     var initializationsSettings = InitializationSettings(android: androidInitialize, iOS: iOSInitialize);
-    if(!GetPlatform.isWeb) {
+    if(GetPlatform.isAndroid) {
       flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!.requestNotificationsPermission();
     }
     flutterLocalNotificationsPlugin.initialize(initializationsSettings, onDidReceiveNotificationResponse: (NotificationResponse? response) async {

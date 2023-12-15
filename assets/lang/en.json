@@ -70,5 +70,11 @@
   "enter_the_title": "Enter the title",
   "enter_the_message": "Enter the message",
   "send": "Send",
-  "notification_sent_successfully": "Notification sent successfully"
+  "notification_sent_successfully": "Notification sent successfully",
+  "conversations": "Conversations",
+  "no_conversation_found": "No conversation found",
+  "no_message_found": "No message found",
+  "type_a_message": "Type a message",
+  "no_recent_emojis": "No recent emojis",
+  "send_message": "Send Message"
 }
