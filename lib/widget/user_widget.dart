@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/model/user_model.dart';
-import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/converter.dart';
 import 'package:sixteen/utilities/helper.dart';
 import 'package:sixteen/utilities/style.dart';
 import 'package:sixteen/widget/card_widget.dart';
 import 'package:sixteen/widget/custom_image.dart';
-import 'package:sixteen/widget/info_widget.dart';
 
 class UserWidget extends StatelessWidget {
   final UserModel user;
@@ -16,37 +15,13 @@ class UserWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardWidget(child: Column(children: [
+    double imageSize = 70;
 
-      Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Stack(children: [
 
-        Expanded(child: Column(children: [
+      CardWidget(child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-          InfoWidget(title: 'name'.tr, value: user.name),
-          const SizedBox(height: 5),
-
-          InfoWidget(title: 'joined_at'.tr, value: Helper.getDateDistance(user.joiningDate ?? DateTime.now())),
-          const SizedBox(height: 5),
-
-          InfoWidget(title: 'phone'.tr, value: user.phone),
-          const SizedBox(height: 5),
-
-        ])),
-
-        Column(children: [
-
-          showBalance ? Container(
-            margin: const EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Theme.of(context).primaryColor, width: 0.5),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: Text(
-              Converter.convertAmount(user.balance ?? 0),
-              style: fontMedium.copyWith(fontSize: 12, color: Theme.of(context).canvasColor),
-            ),
-          ) : const SizedBox(),
+        Stack(children: [
 
           Container(
             decoration: BoxDecoration(
@@ -56,19 +31,79 @@ class UserWidget extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: CustomImage(image: user.image ?? '', height: 50, width: 50),
+              child: CustomImage(image: user.image ?? '', height: imageSize, width: imageSize),
             ),
           ),
 
+          !user.isActive! ? Positioned(
+            top: 0, bottom: 0, left: 0, right: 0,
+            child: Container(
+              width: imageSize, height: imageSize,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ) : const SizedBox(),
+
         ]),
+        const SizedBox(width: 20),
 
-      ]),
+        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
 
-      InfoWidget(title: 'email'.tr, value: user.email),
-      const SizedBox(height: 5),
+          RichText(text: TextSpan(
+            text: (user.name != null && user.name!.isNotEmpty) ? user.name! : 'N/A',
+            style: fontMedium.copyWith(color: Theme.of(context).canvasColor, fontSize: 16),
+            children: [TextSpan(
+              text: Get.find<AuthController>().isAnAdmin(user.email!) ? ' (${'admin'.tr})' : '',
+              style: fontMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: 10),
+            )],
+          )),
+          const SizedBox(height: 2),
 
-      InfoWidget(title: 'address'.tr, value: user.address),
+          Text(
+            Helper.getDateDistance(user.joiningDate ?? DateTime.now()),
+            style: fontRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: 12),
+          ),
+          const SizedBox(height: 2),
 
-    ]));
+          (user.phone != null && user.phone!.isNotEmpty) ? Text(
+            (user.phone != null && user.phone!.isNotEmpty) ? user.phone! : 'N/A',
+            style: fontRegular.copyWith(color: Theme.of(context).canvasColor),
+          ) : const SizedBox(),
+          SizedBox(height: (user.phone != null && user.phone!.isNotEmpty) ? 2 : 0),
+
+          Text(
+            (user.email != null && user.email!.isNotEmpty) ? user.email! : 'N/A',
+            style: fontRegular.copyWith(color: Theme.of(context).canvasColor),
+          ),
+          const SizedBox(height: 2),
+
+          (user.address != null && user.address!.isNotEmpty) ? Text(
+            (user.address != null && user.address!.isNotEmpty) ? user.address! : 'N/A',
+            style: fontMedium.copyWith(color: Theme.of(context).canvasColor),
+          ) : const SizedBox(),
+
+        ])),
+
+      ])),
+
+    showBalance ? Positioned(
+        top: -5, right: 0,
+        child: Container(
+          margin: const EdgeInsets.only(top: 5),
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10)),
+            color: Theme.of(context).primaryColor,
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          child: Text(
+            Converter.convertAmount(user.balance ?? 0),
+            style: fontMedium.copyWith(fontSize: 12, color: Colors.white),
+          ),
+        ),
+      ) : const SizedBox(),
+
+    ]);
   }
 }

@@ -6,6 +6,8 @@ import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/routes.dart';
+import 'package:sixteen/utilities/style.dart';
+import 'package:sixteen/widget/animated_entrance_widget.dart';
 import 'package:sixteen/widget/animated_zoom_widget.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 
@@ -80,6 +82,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Image.asset(Constants.logo, height: 200, width: 200),
               ),
             ),
+          ),
+          const SizedBox(height: 20),
+
+          AnimatedEntranceWidget(
+            entrance: Entrance.bottom,
+            child: Text(Constants.slogan, style: fontMedium.copyWith(color: Colors.white, fontSize: 16)),
           ),
 
         ]),

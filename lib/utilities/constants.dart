@@ -2,7 +2,8 @@ import 'package:sixteen/model/language_model.dart';
 
 class Constants {
 
-  static const String appName = '6Teen';
+  static const String appName = 'প্রজন্ম-১৬';
+  static const String slogan = 'শিকড় থেকে শিখরে পৌছানোর প্রত্যয়';
   static const int version = 1;
   static const int pagination = 10;
   static const String fontFamily = 'FiraSans';

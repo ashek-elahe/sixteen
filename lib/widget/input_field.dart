@@ -87,6 +87,7 @@ class InputFieldState extends State<InputField> {
         isDense: true,
         hintText: widget.hintText,
         labelText: widget.titleText,
+        alignLabelWithHint: true,
         floatingLabelStyle: fontRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: 16),
         fillColor: Theme.of(context).cardColor,
         hintStyle: fontRegular.copyWith(fontSize: 14, color: Theme.of(context).hintColor),

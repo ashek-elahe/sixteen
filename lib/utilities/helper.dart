@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 class Helper {
 
   static String getDateDistance(DateTime dateTime) {
-    String text = '';
+    String text = 'joined'.tr;
     int days = DateTime.now().difference(dateTime).inDays;
     int year = 0;
     if(days > 365) {

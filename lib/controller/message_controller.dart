@@ -37,22 +37,42 @@ class MessageController extends GetxController implements GetxService {
   Future<void> getConversations() async {
     UserModel user = Get.find<AuthController>().user!;
     Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.messages.name).where(Filter.or(
-        Filter('user_1_id', isEqualTo: user.uid),
-        Filter('user_2_id', isEqualTo: user.uid),
         Filter('user_1_email', isEqualTo: user.email),
         Filter('user_2_email', isEqualTo: user.email),
     )).orderBy('last_message_time', descending: true);
     _conversationSubscription?.cancel();
-    _conversationSubscription = query.get().asStream().listen((QuerySnapshot<Map<String, dynamic>> event) {
+    _conversationSubscription = query.snapshots().listen((QuerySnapshot<Map<String, dynamic>> event) {
       _conversations = [];
       for(DocumentSnapshot document in event.docs) {
         _conversations!.add(ConversationModel.fromJson(document.data() as Map<String, dynamic>, true));
       }
+      _sortUnread(user);
+      debugPrint(('Fetched Size:=====> ${event.docs.length}'));
       update();
     });
   }
 
-  void cancelListeningConversation() => _conversationSubscription?.cancel();
+  void _sortUnread(UserModel user) {
+    List<ConversationModel> tempList = [];
+    tempList.addAll(_conversations!.toList());
+    List<int> unreadIndexes = [];
+    for(int index = 0; index < _conversations!.length; index++) {
+      if((_conversations![index].user1Email == user.email && _conversations![index].user1Unread! > 0)
+          || (_conversations![index].user2Email == user.email && _conversations![index].user2Unread! > 0)) {
+        unreadIndexes.add(index);
+      }
+    }
+    _conversations!.removeWhere((conversation) => (conversation.user1Email == user.email && conversation.user1Unread! > 0)
+        || (conversation.user2Email == user.email && conversation.user2Unread! > 0));
+    for(int index = (unreadIndexes.length-1); index >= 0; index--) {
+      _conversations!.insert(0, tempList[unreadIndexes[index]]);
+    }
+  }
+
+  void cancelListeningConversation() {
+    _conversationSubscription?.cancel();
+    debugPrint((':=====> Conversation Listening cancelled'));
+  }
 
   Query<Map<String, dynamic>> _getQueryFromId({required String id}) => FirebaseFirestore.instance.collection(DbTable.messages.name)
       .doc(id).collection('replies').orderBy('time', descending: true);
@@ -60,29 +80,35 @@ class MessageController extends GetxController implements GetxService {
   Future<void> listenMessages({required String id}) async {
     Query<Map<String, dynamic>> query = _getQueryFromId(id: id);
     _subscription?.cancel();
-    print('-----Listening');
-    _subscription = query.get().asStream().listen((QuerySnapshot<Map<String, dynamic>> event) {
-      print('-----Listening....');
+    _subscription = query.snapshots().listen((QuerySnapshot<Map<String, dynamic>> event) {
       for(DocumentChange changes in event.docChanges) {
         if(!_ids.contains(changes.doc.id)) {
           MessageModel messageModel = MessageModel.fromJson(changes.doc.data() as Map<String, dynamic>, true);
           _messages!.insert(0, messageModel);
           _ids.insert(0, changes.doc.id);
-          if(messageModel.userEmail == Get.find<AuthController>().user!.email && !messageModel.isSeen!) {
-            Map<String, dynamic> m = MessageModel(isSeen: true).toJson(true);
-            m.removeWhere((key, value) => value == null);
-            FirebaseFirestore.instance.collection(DbTable.messages.name).doc(id).collection('replies').doc(messageModel.id).update(m);
-          }
+          _readReply(id, messageModel);
         }
       }
+      debugPrint(('Fetched Size:=====> ${event.docChanges.length}/${event.docs.length}'));
       update();
     });
   }
 
-  void cancelListeningMessage() => _subscription?.cancel();
+  void _readReply(String id, MessageModel messageModel) {
+    if(messageModel.userEmail != Get.find<AuthController>().user!.email && !messageModel.isSeen! && messageModel.id!.isNotEmpty) {
+      Map<String, dynamic> m = MessageModel(isSeen: true).toJson(true);
+      m.removeWhere((key, value) => value == null);
+      FirebaseFirestore.instance.collection(DbTable.messages.name).doc(id).collection('replies').doc(messageModel.id).update(m);
+    }
+  }
+
+  void cancelListeningMessage() {
+    _subscription?.cancel();
+    debugPrint((':=====> Message Listening cancelled'));
+  }
 
   Future<void> getMessages({required String id, bool reload = false}) async {
-    if(reload) {
+    if(reload || _messages == null) {
       _lastDocument = null;
       _paginate = true;
     }
@@ -92,7 +118,7 @@ class MessageController extends GetxController implements GetxService {
         query = query.startAfterDocument(_lastDocument!);
       }
       QuerySnapshot snapshot = await query.get();
-      if(reload) {
+      if(reload || _messages == null) {
         _messages = [];
         _ids = [];
       }
@@ -106,12 +132,9 @@ class MessageController extends GetxController implements GetxService {
         MessageModel messageModel = MessageModel.fromJson(document.data() as Map<String, dynamic>, true);
         _messages!.add(messageModel);
         _ids.add(document.id);
-        if(messageModel.userEmail == Get.find<AuthController>().user!.email && !messageModel.isSeen!) {
-          Map<String, dynamic> m = MessageModel(isSeen: true).toJson(true);
-          m.removeWhere((key, value) => value == null);
-          FirebaseFirestore.instance.collection(DbTable.messages.name).doc(id).collection('replies').doc(messageModel.id).update(m);
-        }
+        _readReply(id, messageModel);
       }
+
       listenMessages(id: id);
       debugPrint(('Fetched Size:=====> ${snapshot.docs.length}'));
     } catch (e) {
@@ -126,35 +149,14 @@ class MessageController extends GetxController implements GetxService {
     bool success = false;
     update();
     try {
-      UserModel user1 = Get.find<AuthController>().user!;
+      UserModel me = Get.find<AuthController>().user!;
       List<String> attachments = await uploadAttachment(_attachments);
       MessageModel message = MessageModel(
-        id: '', userId: user1.uid, userEmail: user1.email, userPhone: user1.phone,
+        id: '', userId: me.uid, userEmail: me.email, userPhone: me.phone,
         message: reply, attachments: attachments, isSeen: false, time: DateTime.now(),
       );
 
-      _conversation!.lastMessage = reply;
-      _conversation!.lastMessageTime = DateTime.now();
-      if(_conversation!.id == null) {
-        _conversation!.user2Unread = 0;
-        _conversation!.user1Unread = 1;
-        DocumentReference reference = await FirebaseFirestore.instance.collection(DbTable.messages.name).add(_conversation!.toJson(true));
-        Map<String, dynamic> c = ConversationModel(id: reference.id).toJson(true);
-        c.removeWhere((key, value) => value == null);
-        _conversation!.id = reference.id;
-        await FirebaseFirestore.instance.collection(DbTable.messages.name).doc(reference.id).update(c);
-      }else {
-        if(_conversation!.user1Email == user1.email) {
-          _conversation!.user2Unread = _conversation!.user2Unread! + 1;
-        }else {
-          _conversation!.user1Unread = _conversation!.user1Unread! + 1;
-        }
-        Map<String, dynamic> c = ConversationModel(
-          lastMessage: _conversation!.lastMessage, lastMessageTime: _conversation!.lastMessageTime,
-          user1Unread: _conversation!.user1Unread, user2Unread: _conversation!.user2Unread,
-        ).toJson(true);
-        await FirebaseFirestore.instance.collection(DbTable.messages.name).doc(_conversation!.id).update(c);
-      }
+      _updateConversation(me, reply);
 
       CollectionReference reference = FirebaseFirestore.instance.collection(DbTable.messages.name).doc(_conversation!.id).collection('replies');
       DocumentReference documentReference = await reference.add(message.toJson(true));
@@ -175,7 +177,35 @@ class MessageController extends GetxController implements GetxService {
     return success;
   }
 
+  Future<void> _updateConversation(UserModel me, String reply) async {
+    _conversation!.lastMessage = reply;
+    _conversation!.lastMessageTime = DateTime.now();
+    if(_conversation!.id == null) {
+      _conversation!.user2Unread = 0;
+      _conversation!.user1Unread = 1;
+      DocumentReference reference = await FirebaseFirestore.instance.collection(DbTable.messages.name).add(_conversation!.toJson(true));
+      Map<String, dynamic> c = ConversationModel(id: reference.id).toJson(true);
+      c.removeWhere((key, value) => value == null);
+      _conversation!.id = reference.id;
+      await FirebaseFirestore.instance.collection(DbTable.messages.name).doc(reference.id).update(c);
+      listenMessages(id: reference.id);
+    }else {
+      if(_conversation!.user1Email == me.email) {
+        _conversation!.user2Unread = _conversation!.user2Unread! + 1;
+      }else {
+        _conversation!.user1Unread = _conversation!.user1Unread! + 1;
+      }
+      Map<String, dynamic> c = ConversationModel(
+        lastMessage: _conversation!.lastMessage, lastMessageTime: _conversation!.lastMessageTime,
+        user1Unread: _conversation!.user1Unread, user2Unread: _conversation!.user2Unread,
+      ).toJson(true);
+      c.removeWhere((key, value) => value == null);
+      await FirebaseFirestore.instance.collection(DbTable.messages.name).doc(_conversation!.id).update(c);
+    }
+  }
+
   Future<ConversationModel?> getConversationAndMessages({required ConversationModel conversation}) async {
+    _messages = null;
     _conversation = ConversationModel.fromJson(conversation.toJson(false), false);
     if(_conversation?.id == null) {
       try {
@@ -197,6 +227,7 @@ class MessageController extends GetxController implements GetxService {
       }
     }
     if(_conversation?.id != null) {
+      await _resetUnreadCount();
       getMessages(id: _conversation!.id!);
     }else {
       _lastDocument = null;
@@ -206,6 +237,19 @@ class MessageController extends GetxController implements GetxService {
       update();
     }
     return _conversation;
+  }
+
+  Future<void> _resetUnreadCount() async {
+    bool isMeUser1 = _conversation!.user1Email == Get.find<AuthController>().user!.email;
+    if(isMeUser1 && _conversation!.user1Unread! > 0) {
+      Map<String, dynamic> c = ConversationModel(user1Unread: 0).toJson(true);
+      c.removeWhere((key, value) => value == null);
+      await FirebaseFirestore.instance.collection(DbTable.messages.name).doc(_conversation!.id).update(c);
+    }else if(!isMeUser1 && _conversation!.user2Unread! > 0) {
+      Map<String, dynamic> c = ConversationModel(user2Unread: 0).toJson(true);
+      c.removeWhere((key, value) => value == null);
+      await FirebaseFirestore.instance.collection(DbTable.messages.name).doc(_conversation!.id).update(c);
+    }
   }
 
   Future<List<String>> uploadAttachment(List<XFile>? attachments) async {
@@ -239,7 +283,9 @@ class MessageController extends GetxController implements GetxService {
   }
 
   String? getReceiverName(ConversationModel conversation) {
-    return conversation.user1Email == Get.find<AuthController>().user!.email ? conversation.user2Name : conversation.user1Name;
+    return conversation.user1Email == Get.find<AuthController>().user!.email
+        ? (conversation.user2Name!.isNotEmpty ? conversation.user2Name : conversation.user2Email)
+        : (conversation.user1Name!.isNotEmpty ? conversation.user1Name : conversation.user1Email);
   }
 
   int? getMyUnreadCount(ConversationModel conversation) {

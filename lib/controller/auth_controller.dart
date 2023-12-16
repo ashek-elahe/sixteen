@@ -62,7 +62,14 @@ class AuthController extends GetxController implements GetxService {
       updateDeviceToken();
       debugPrint(('Data:=====> ${_user!.toJson(true)}'));
       // saveUserData(_user);
-      await _manageSignIn(userCredential, buttonController);
+      if(_user!.isActive!) {
+        await _manageSignIn(userCredential, buttonController);
+      }else {
+        logoutUser();
+        buttonController.error();
+        _loginState = LoginState.fail;
+        showSnackBar(message: 'your_account_is_disabled'.tr);
+      }
     } on FirebaseAuthException catch (e) {
       buttonController.error();
       _loginState = LoginState.fail;
@@ -104,7 +111,13 @@ class AuthController extends GetxController implements GetxService {
     if(FirebaseAuth.instance.currentUser != null
         && Get.find<SplashController>().settings!.admins!.contains(FirebaseAuth.instance.currentUser!.email)) {
       _isAdmin = true;
+    }else {
+      _isAdmin = false;
     }
+  }
+
+  bool isAnAdmin(String email) {
+    return Get.find<SplashController>().settings!.admins!.contains(email);
   }
 
   Future<void> updateDeviceToken() async {

@@ -56,7 +56,7 @@ class _MessagePageState extends State<MessagePage> {
                 seen: isMe && message.isSeen!,
                 delivered: isMe,
                 sent: isMe,
-                isSender: !isMe,
+                isSender: isMe,
               );
             },
           ) : Center(child: Text(

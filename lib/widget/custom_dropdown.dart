@@ -19,7 +19,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: radius,
-          boxShadow: shadow,
+          boxShadow: shadow(),
           color: Theme.of(context).cardColor,
         ),
         padding: const EdgeInsets.all(10),

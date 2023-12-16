@@ -26,6 +26,6 @@ const fontBlack = TextStyle(
   fontSize: 14,
 );
 
-final shadow = [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300]!, blurRadius: 5, spreadRadius: 1)];
+List<BoxShadow> shadow() => [BoxShadow(color: Colors.grey[Get.isDarkMode ? 700 : 300]!, blurRadius: 5, spreadRadius: 1)];
 
 const radius = BorderRadius.only(topLeft: Radius.circular(20), bottomRight: Radius.circular(20));

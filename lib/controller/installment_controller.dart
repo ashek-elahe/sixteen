@@ -80,7 +80,7 @@ class InstallmentController extends GetxController implements GetxService {
   }
 
   Future<void> getMyInstallments({required String uid, bool reload = false}) async {
-    if(reload) {
+    if(reload || _installments == null) {
       _lastDocument = null;
       _paginate = true;
     }
@@ -91,7 +91,7 @@ class InstallmentController extends GetxController implements GetxService {
         query = query.startAfterDocument(_lastDocument!);
       }
       QuerySnapshot snapshot = await query.get();
-      if(reload) {
+      if(reload || _installments == null) {
         _installments = [];
       }
       if(snapshot.docs.isNotEmpty) {
@@ -112,7 +112,7 @@ class InstallmentController extends GetxController implements GetxService {
   }
 
   Future<void> getPersonInstallments({required String uid, bool reload = false}) async {
-    if(reload) {
+    if(reload || _personInstallments == null) {
       _lastPersonDocument = null;
       _personPaginate = true;
       _personInstallments = null;
@@ -124,7 +124,7 @@ class InstallmentController extends GetxController implements GetxService {
         query = query.startAfterDocument(_lastPersonDocument!);
       }
       QuerySnapshot snapshot = await query.get();
-      if(reload) {
+      if(reload || _personInstallments == null) {
         _personInstallments = [];
       }
       if(snapshot.docs.isNotEmpty) {

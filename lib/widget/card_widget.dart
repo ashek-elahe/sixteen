@@ -14,7 +14,7 @@ class CardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: radius,
         color: Theme.of(context).cardColor,
-        boxShadow: shadow,
+        boxShadow: shadow(),
       ),
       padding: padding ?? const EdgeInsets.all(Constants.padding),
       child: Column(children: [

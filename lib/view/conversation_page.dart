@@ -37,7 +37,7 @@ class _ConversationPageState extends State<ConversationPage> {
       body: GetBuilder<MessageController>(builder: (messageController) {
         return messageController.conversations != null ? messageController.conversations!.isNotEmpty ? ListView.separated(
           itemCount: messageController.conversations!.length,
-          separatorBuilder: (context, index) => const Divider(),
+          separatorBuilder: (context, index) => Divider(color: Theme.of(context).disabledColor),
           itemBuilder: (context, index) {
             ConversationModel conversation = messageController.conversations![index];
             return ListTile(

@@ -49,8 +49,7 @@ class _MembersPageState extends State<MembersPage> {
             return Padding(
               padding: const EdgeInsets.only(bottom: Constants.padding),
               child: Slidable(
-                enabled: Get.find<AuthController>().isAdmin,
-                startActionPane: ActionPane(
+                startActionPane: Get.find<AuthController>().isAdmin ? ActionPane(
                   extentRatio: 0.3,
                   motion: const ScrollMotion(),
                   children: [SlidableAction(
@@ -63,13 +62,14 @@ class _MembersPageState extends State<MembersPage> {
                     icon: Icons.delete,
                     label: 'delete'.tr,
                   )],
-                ),
+                ) : null,
 
                 endActionPane: ActionPane(
-                  extentRatio: 0.5,
+                  extentRatio: Get.find<AuthController>().isAdmin ? 0.5 : 0.3,
                   motion: const DrawerMotion(),
                   children: [
-                    SlidableAction(
+
+                    if(Get.find<AuthController>().isAdmin)...[SlidableAction(
                       onPressed: (context) => showAnimatedDialog(AddInstallmentDialog(user: userController.users![index])),
                       backgroundColor: Theme.of(context).primaryColor,
                       foregroundColor: Colors.white,
@@ -77,7 +77,8 @@ class _MembersPageState extends State<MembersPage> {
                       label: 'add_new_installment'.tr,
                       spacing: 2,
                       padding: EdgeInsets.zero,
-                    ),
+                    )],
+
                     SlidableAction(
                       onPressed: (context) => showAnimatedDialog(ActionDialog(user: userController.users![index]), isFlip: true),
                       backgroundColor: Colors.blue,
@@ -87,6 +88,7 @@ class _MembersPageState extends State<MembersPage> {
                       spacing: 2,
                       padding: EdgeInsets.zero,
                     ),
+
                   ],
                 ),
 

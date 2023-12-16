@@ -76,6 +76,7 @@ class SplashController extends GetxController implements GetxService {
       debugPrint(('Success:=====> ${response.statusCode}/${response.body}'));
       debugPrint(('Body:=====> $data'));
       success = true;
+      showSnackBar(message: 'poked'.tr, isError: false);
     }catch(e) {
       debugPrint(('Error:=====> ${e.toString()}'));
     }

@@ -4,7 +4,6 @@ import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/style.dart';
 import 'package:sixteen/widget/animated_entrance_widget.dart';
-import 'package:sixteen/widget/custom_button.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 import 'package:sixteen/widget/input_field.dart';
 import 'package:sixteen/widget/loading_button.dart';
