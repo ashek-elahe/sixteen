@@ -12,7 +12,7 @@ import 'package:sixteen/model/message_model.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/db_table.dart';
-import 'package:sixteen/widget/custom_snackbar.dart';
+import 'package:sixteen/utilities/helper.dart';
 
 class MessageController extends GetxController implements GetxService {
 
@@ -26,6 +26,7 @@ class MessageController extends GetxController implements GetxService {
   StreamSubscription? _subscription;
   List<String> _ids = [];
   bool _isLoading = false;
+  final String _replies = 'replies';
 
   List<ConversationModel>? get conversations => _conversations;
   ConversationModel? get conversation => _conversation;
@@ -35,21 +36,26 @@ class MessageController extends GetxController implements GetxService {
   bool get isLoading => _isLoading;
 
   Future<void> getConversations() async {
-    UserModel user = Get.find<AuthController>().user!;
-    Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.messages.name).where(Filter.or(
+    try {
+      UserModel user = Get.find<AuthController>().user!;
+      Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.messages.name).where(Filter.or(
         Filter('user_1_email', isEqualTo: user.email),
         Filter('user_2_email', isEqualTo: user.email),
-    )).orderBy('last_message_time', descending: true);
-    _conversationSubscription?.cancel();
-    _conversationSubscription = query.snapshots().listen((QuerySnapshot<Map<String, dynamic>> event) {
-      _conversations = [];
-      for(DocumentSnapshot document in event.docs) {
-        _conversations!.add(ConversationModel.fromJson(document.data() as Map<String, dynamic>, true));
-      }
-      _sortUnread(user);
-      debugPrint(('Fetched Size:=====> ${event.docs.length}'));
-      update();
-    });
+      )).orderBy('last_message_time', descending: true);
+
+      _conversationSubscription?.cancel();
+      _conversationSubscription = query.snapshots().listen((QuerySnapshot<Map<String, dynamic>> event) {
+        _conversations = [];
+        for(DocumentSnapshot document in event.docs) {
+          _conversations!.add(ConversationModel.fromJson(document.data() as Map<String, dynamic>, true));
+        }
+        _sortUnread(user);
+        debugPrint(('Fetched Size:=====> ${event.docs.length}'));
+        update();
+      });
+    }catch (e) {
+      Helper.handleError(e);
+    }
   }
 
   void _sortUnread(UserModel user) {
@@ -75,30 +81,34 @@ class MessageController extends GetxController implements GetxService {
   }
 
   Query<Map<String, dynamic>> _getQueryFromId({required String id}) => FirebaseFirestore.instance.collection(DbTable.messages.name)
-      .doc(id).collection('replies').orderBy('time', descending: true);
+      .doc(id).collection(_replies).orderBy('time', descending: true).limit(Constants.pagination);
 
   Future<void> listenMessages({required String id}) async {
-    Query<Map<String, dynamic>> query = _getQueryFromId(id: id);
-    _subscription?.cancel();
-    _subscription = query.snapshots().listen((QuerySnapshot<Map<String, dynamic>> event) {
-      for(DocumentChange changes in event.docChanges) {
-        if(!_ids.contains(changes.doc.id)) {
-          MessageModel messageModel = MessageModel.fromJson(changes.doc.data() as Map<String, dynamic>, true);
-          _messages!.insert(0, messageModel);
-          _ids.insert(0, changes.doc.id);
-          _readReply(id, messageModel);
+    try {
+      Query<Map<String, dynamic>> query = _getQueryFromId(id: id);
+      _subscription?.cancel();
+      _subscription = query.snapshots().listen((QuerySnapshot<Map<String, dynamic>> event) {
+        for(DocumentChange changes in event.docChanges) {
+          if(!_ids.contains(changes.doc.id)) {
+            MessageModel messageModel = MessageModel.fromJson(changes.doc.data() as Map<String, dynamic>, true);
+            _messages!.insert(0, messageModel);
+            _ids.insert(0, changes.doc.id);
+            _readReply(id, messageModel);
+          }
         }
-      }
-      debugPrint(('Fetched Size:=====> ${event.docChanges.length}/${event.docs.length}'));
-      update();
-    });
+        debugPrint(('Fetched Size:=====> ${event.docChanges.length}/${event.docs.length}'));
+        update();
+      });
+    }catch (e) {
+      Helper.handleError(e);
+    }
   }
 
   void _readReply(String id, MessageModel messageModel) {
     if(messageModel.userEmail != Get.find<AuthController>().user!.email && !messageModel.isSeen! && messageModel.id!.isNotEmpty) {
       Map<String, dynamic> m = MessageModel(isSeen: true).toJson(true);
       m.removeWhere((key, value) => value == null);
-      FirebaseFirestore.instance.collection(DbTable.messages.name).doc(id).collection('replies').doc(messageModel.id).update(m);
+      FirebaseFirestore.instance.collection(DbTable.messages.name).doc(id).collection(_replies).doc(messageModel.id).update(m);
     }
   }
 
@@ -114,6 +124,7 @@ class MessageController extends GetxController implements GetxService {
     }
     try {
       Query<Map<String, dynamic>> query = _getQueryFromId(id: id).limit(Constants.pagination);
+
       if(_lastDocument != null) {
         query = query.startAfterDocument(_lastDocument!);
       }
@@ -128,6 +139,7 @@ class MessageController extends GetxController implements GetxService {
       if(snapshot.docs.length < Constants.pagination) {
         _paginate = false;
       }
+
       for(QueryDocumentSnapshot document in snapshot.docs) {
         MessageModel messageModel = MessageModel.fromJson(document.data() as Map<String, dynamic>, true);
         _messages!.add(messageModel);
@@ -138,8 +150,7 @@ class MessageController extends GetxController implements GetxService {
       listenMessages(id: id);
       debugPrint(('Fetched Size:=====> ${snapshot.docs.length}'));
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
   }
@@ -169,8 +180,7 @@ class MessageController extends GetxController implements GetxService {
       _attachments = [];
       success = true;
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     _isLoading = false;
     update();
@@ -180,10 +190,12 @@ class MessageController extends GetxController implements GetxService {
   Future<void> _updateConversation(UserModel me, String reply) async {
     _conversation!.lastMessage = reply;
     _conversation!.lastMessageTime = DateTime.now();
+
     if(_conversation!.id == null) {
       _conversation!.user2Unread = 0;
       _conversation!.user1Unread = 1;
       DocumentReference reference = await FirebaseFirestore.instance.collection(DbTable.messages.name).add(_conversation!.toJson(true));
+
       Map<String, dynamic> c = ConversationModel(id: reference.id).toJson(true);
       c.removeWhere((key, value) => value == null);
       _conversation!.id = reference.id;
@@ -222,8 +234,7 @@ class MessageController extends GetxController implements GetxService {
         }
         debugPrint(('Fetched Size:=====> ${snapshot.docs.length}'));
       } catch (e) {
-        showSnackBar(message: e.toString());
-        debugPrint(('Error:=====> ${e.toString()}'));
+        Helper.handleError(e);
       }
     }
     if(_conversation?.id != null) {
@@ -265,8 +276,7 @@ class MessageController extends GetxController implements GetxService {
           references.add(url);
         }
       }catch(e) {
-        showSnackBar(message: e.toString());
-        debugPrint(('Error:=====> ${e.toString()}'));
+        Helper.handleError(e);
       }
     }
     return references;

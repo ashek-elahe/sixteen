@@ -6,6 +6,7 @@ import 'package:sixteen/model/installment_model.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/db_table.dart';
+import 'package:sixteen/utilities/helper.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 import 'package:sixteen/widget/loading_button.dart';
 
@@ -21,6 +22,7 @@ class InstallmentController extends GetxController implements GetxService {
   bool _isAmount = false;
   double _amount = Constants.amounts[0];
   String _medium = Constants.mediums[0];
+  bool _isLoading = false;
 
   List<InstallmentModel>? get installments => _installments;
   List<InstallmentModel>? get personInstallments => _personInstallments;
@@ -30,6 +32,7 @@ class InstallmentController extends GetxController implements GetxService {
   bool get isAmount => _isAmount;
   double get amount => _amount;
   String get medium => _medium;
+  bool get isLoading => _isLoading;
 
   void initData() {
     _dateTime = null;
@@ -63,18 +66,19 @@ class InstallmentController extends GetxController implements GetxService {
         userId: user.uid, userName: user.name, userImage: user.image, amount: amount, month: month, medium: _medium, reference: reference,
         receiverId: receiver.uid, receiverName: receiver.name, receiverImage: receiver.image, createdAt: DateTime.now(),
       );
+
       await FirebaseFirestore.instance.collection(DbTable.installments.name).doc().set(installment.toJson(true));
       await FirebaseFirestore.instance.collection(DbTable.users.name).doc(user.uid).update(
         UserModel(balance: user.balance! + amount).toJsonForUpdate(),
       );
       debugPrint(('Data:=====> ${installment.toJson(true)}'));
+
       buttonController.success();
       Get.back();
       showSnackBar(message: 'installment_added'.tr, isError: false);
     } catch (e) {
       buttonController.error();
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
   }
@@ -87,6 +91,7 @@ class InstallmentController extends GetxController implements GetxService {
     try {
       Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.installments.name)
           .where('user_id', isEqualTo: uid).orderBy('month', descending: true).limit(Constants.pagination);
+
       if(_lastDocument != null) {
         query = query.startAfterDocument(_lastDocument!);
       }
@@ -100,13 +105,13 @@ class InstallmentController extends GetxController implements GetxService {
       if(snapshot.docs.length < Constants.pagination) {
         _paginate = false;
       }
+
       for(QueryDocumentSnapshot document in snapshot.docs) {
         _installments!.add(InstallmentModel.fromJson(document.data() as Map<String, dynamic>, true));
       }
       debugPrint(('Fetched Size:=====> ${snapshot.docs.length}'));
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
   }
@@ -120,6 +125,7 @@ class InstallmentController extends GetxController implements GetxService {
     try {
       Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.installments.name)
           .where('user_id', isEqualTo: uid).orderBy('month', descending: true).limit(Constants.pagination);
+
       if(_lastPersonDocument != null) {
         query = query.startAfterDocument(_lastPersonDocument!);
       }
@@ -133,13 +139,13 @@ class InstallmentController extends GetxController implements GetxService {
       if(snapshot.docs.length < Constants.pagination) {
         _personPaginate = false;
       }
+
       for(QueryDocumentSnapshot document in snapshot.docs) {
         _personInstallments!.add(InstallmentModel.fromJson(document.data() as Map<String, dynamic>, true));
       }
       debugPrint(('Fetched Size:=====> ${snapshot.docs.length}'));
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
   }

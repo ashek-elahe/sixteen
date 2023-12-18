@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixteen/widget/custom_snackbar.dart';
 
 class Helper {
 
@@ -15,6 +17,11 @@ class Helper {
     }
     text = '$text $days ${'days'.tr} ${'ago'.tr}';
     return text;
+  }
+
+  static void handleError(Object e) {
+    showSnackBar(message: e.toString());
+    debugPrint(('Error:=====> ${e.toString()}'));
   }
 
 }

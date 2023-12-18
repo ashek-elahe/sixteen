@@ -7,6 +7,7 @@ import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/model/settings_model.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/db_table.dart';
+import 'package:sixteen/utilities/helper.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,8 +27,7 @@ class SplashController extends GetxController implements GetxService {
       debugPrint(('Data:=====> ${_settings!.toJson()}'));
       isSuccess = true;
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
     return isSuccess;
@@ -37,23 +37,26 @@ class SplashController extends GetxController implements GetxService {
     return _settings!.admins!.contains(email);
   }
 
-  void updateAdmin(String email, bool isAdd) async {
+  Future<void> updateAdmin(String email, bool isAdd) async {
     _isLoading = true;
     update();
     await getSettings();
+
     if(isAdd) {
       _settings!.admins!.add(email);
     }else {
       _settings!.admins!.remove(email);
     }
     Get.find<AuthController>().setAdmin();
+
     try {
       await FirebaseFirestore.instance.collection(DbTable.settings.name).doc('all_settings').update({'admins': _settings!.admins!});
       showSnackBar(message: 'settings_updated_successfully'.tr, isError: false);
     }catch(e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
+    _isLoading = false;
+    update();
   }
 
   Future<bool> sendNotification({required bool toTopic, required String token, required String title, required String body}) async {
@@ -73,12 +76,13 @@ class SplashController extends GetxController implements GetxService {
         headers: {'Content-Type': 'application/json', 'Authorization': 'key=${Constants.firebaseServerKey}'},
         body: jsonEncode(data),
       );
+
       debugPrint(('Success:=====> ${response.statusCode}/${response.body}'));
       debugPrint(('Body:=====> $data'));
       success = true;
       showSnackBar(message: 'poked'.tr, isError: false);
     }catch(e) {
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     return success;
   }

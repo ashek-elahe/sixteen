@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_admin/firebase_admin.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/db_table.dart';
+import 'package:sixteen/utilities/helper.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 // ignore: implementation_imports
 import 'package:firebase_admin/src/auth/credential.dart';
@@ -29,8 +29,7 @@ class UserController extends GetxController implements GetxService {
         _users!.add(UserModel.fromJson(document.data() as Map<String, dynamic>, true));
       }
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
   }
@@ -45,14 +44,14 @@ class UserController extends GetxController implements GetxService {
         uid: record.uid, name: '', email: email, phone: '', joiningDate: DateTime.now(),
         image: '', isActive: true, lastActive: DateTime.now(), address: '', balance: 0,
       ).toJson(true));
+
       buttonController.success();
       Get.back();
       showSnackBar(message: 'account_created_successfully'.tr, isError: false);
       getUsers();
     }catch(e) {
       buttonController.error();
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     _isLoading = false;
     update();
@@ -77,6 +76,9 @@ class UserController extends GetxController implements GetxService {
   }
 
   Future<void> updateAccountStatus(UserModel user) async {
+    _isLoading = true;
+    update();
+
     int index = -1;
     for(int i = 0; i < _users!.length; i++) {
       if(_users![i].email == user.email) {
@@ -84,6 +86,7 @@ class UserController extends GetxController implements GetxService {
         break;
       }
     }
+
     Map<String, dynamic> u = UserModel(isActive: !user.isActive!).toJson(true);
     u.removeWhere((key, value) => value == null);
     try{
@@ -95,17 +98,22 @@ class UserController extends GetxController implements GetxService {
       }
       showSnackBar(message: 'user_account_status_updated'.tr, isError: false);
     }catch(e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
+    _isLoading = false;
     update();
   }
 
   Future<void> deleteAccount(UserModel user) async {
+    _isLoading = true;
+    update();
     try{
+      _isLoading = true;
+      update();
       await _initApp();
       await _app!.auth().deleteUser(user.uid!);
       await FirebaseFirestore.instance.collection(DbTable.users.name).doc(user.uid).delete();
+
       QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(DbTable.messages.name).where(Filter.or(
         Filter('user_1_email', isEqualTo: user.email),
         Filter('user_2_email', isEqualTo: user.email),
@@ -117,12 +125,13 @@ class UserController extends GetxController implements GetxService {
         }
         await document.reference.delete();
       }
+
       _users!.removeWhere((u) => u.email == user.email);
       showSnackBar(message: 'user_account_status_updated'.tr, isError: false);
     }catch(e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
+    _isLoading = false;
     update();
   }
 

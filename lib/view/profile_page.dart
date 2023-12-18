@@ -154,7 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buttonController.error();
               }else {
                 Get.find<AuthController>().updateUserProfile(user: UserModel(
-                  name: name, phone: phone, email: email, address: address,
+                  uid: user.uid, name: name, phone: phone, email: email, address: address,
                 ), buttonController: _buttonController);
               }
             },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/converter.dart';
@@ -88,7 +89,7 @@ class UserWidget extends StatelessWidget {
 
       ])),
 
-    showBalance ? Positioned(
+      showBalance ? Positioned(
         top: -5, right: 0,
         child: Container(
           margin: const EdgeInsets.only(top: 5),
@@ -105,5 +106,51 @@ class UserWidget extends StatelessWidget {
       ) : const SizedBox(),
 
     ]);
+  }
+}
+
+class UserShimmer extends StatelessWidget {
+  const UserShimmer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CardWidget(child: Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+        Container(
+          height: 70, width: 70,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.grey[300],
+            border: Border.all(width: 0.5, color: Theme.of(context).primaryColor),
+          ),
+        ),
+        const SizedBox(width: 20),
+
+        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+          Container(height: 20, width: 250, color: Colors.grey[300]),
+          const SizedBox(height: 10),
+
+          Container(height: 10, width: 80, color: Colors.grey[300]),
+          const SizedBox(height: 10),
+
+          Container(height: 15, width: 150, color: Colors.grey[300]),
+          const SizedBox(height: 10),
+
+          Container(height: 15, width: 120, color: Colors.grey[300]),
+          const SizedBox(height: 10),
+
+          Container(height: 10, width: 200, color: Colors.grey[300]),
+          const SizedBox(height: 5),
+
+          Container(height: 10, width: 200, color: Colors.grey[300]),
+
+        ])),
+
+      ]),
+    ));
   }
 }

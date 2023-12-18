@@ -87,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
           AnimatedEntranceWidget(
             entrance: Entrance.bottom,
-            child: Text(Constants.slogan, style: fontMedium.copyWith(color: Colors.white, fontSize: 16)),
+            child: Text(Constants.slogan, style: fontMedium.copyWith(color: Colors.white, fontSize: 14)),
           ),
 
         ]),

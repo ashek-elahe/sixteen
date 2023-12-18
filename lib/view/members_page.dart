@@ -55,7 +55,11 @@ class _MembersPageState extends State<MembersPage> {
                   children: [SlidableAction(
                     onPressed: (context) => showAnimatedDialog(ConfirmationDialog(
                       message: 'are_you_sure_to_delete_this_account'.tr,
-                      onOkPressed: () {},
+                      isLoading: userController.isLoading,
+                      onOkPressed: () async {
+                        await Get.find<UserController>().deleteAccount(userController.users![index]);
+                        Get.back();
+                      },
                     ), isFlip: true),
                     backgroundColor: Theme.of(context).colorScheme.error,
                     foregroundColor: Colors.white,
@@ -101,7 +105,14 @@ class _MembersPageState extends State<MembersPage> {
           },
         ) : Center(child: Text(
           'no_member_found'.tr, style: fontRegular.copyWith(color: Theme.of(context).canvasColor),
-        )) : const Center(child: CircularProgressIndicator());
+        )) : ListView.builder(
+          itemCount: 20,
+          padding: const EdgeInsets.all(Constants.padding),
+          itemBuilder: (context, index) => const Padding(
+            padding: EdgeInsets.only(bottom: Constants.padding),
+            child: UserShimmer(),
+          ),
+        );
       }),
     );
   }

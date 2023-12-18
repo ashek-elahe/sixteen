@@ -11,14 +11,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title, style: fontMedium.copyWith(fontSize: 16, color: Theme.of(context).textTheme.bodyLarge!.color)),
+      title: Text(title, style: fontMedium.copyWith(fontSize: 16, color: Colors.white)),
       centerTitle: true,
       leading: backButton ? IconButton(
         icon: const Icon(Icons.arrow_back_ios),
-        color: Theme.of(context).textTheme.bodyLarge!.color,
+        color: Colors.white,
         onPressed: () => onBackPressed != null ? onBackPressed!() : Get.back(),
       ) : const SizedBox(),
-      backgroundColor: Theme.of(context).cardColor,
+      backgroundColor: Theme.of(context).primaryColor,
       elevation: 0,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
       actions: const [SizedBox()],

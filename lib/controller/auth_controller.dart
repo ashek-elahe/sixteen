@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/db_table.dart';
+import 'package:sixteen/utilities/helper.dart';
 import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 import 'package:sixteen/widget/loading_button.dart';
@@ -50,6 +51,7 @@ class AuthController extends GetxController implements GetxService {
       setAdmin();
       DocumentReference reference = FirebaseFirestore.instance.collection(DbTable.users.name).doc(userCredential.user!.uid);
       DocumentSnapshot doc = await reference.get();
+
       if(doc.exists) {
         _user = UserModel.fromJson(doc.data() as Map<String, dynamic>, true);
       }else {
@@ -60,6 +62,7 @@ class AuthController extends GetxController implements GetxService {
         reference.set(_user!.toJson(true));
       }
       updateDeviceToken();
+
       debugPrint(('Data:=====> ${_user!.toJson(true)}'));
       // saveUserData(_user);
       if(_user!.isActive!) {
@@ -80,14 +83,12 @@ class AuthController extends GetxController implements GetxService {
       }else if(e.code == 'INVALID_LOGIN_CREDENTIALS') {
         showSnackBar(message: 'invalid_login_credentials'.tr);
       }else {
-        showSnackBar(message: e.toString());
-        debugPrint(('Error:=====> ${e.toString()}'));
+        Helper.handleError(e);
       }
     } catch (e) {
       buttonController.error();
       _loginState = LoginState.fail;
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
   }
@@ -100,8 +101,7 @@ class AuthController extends GetxController implements GetxService {
       debugPrint(('Data:=====> ${_user!.toJson(true)}'));
       success = true;
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
     return success;
@@ -140,8 +140,7 @@ class AuthController extends GetxController implements GetxService {
       );
       debugPrint(('Data:=====> $deviceToken'));
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     update();
   }
@@ -181,8 +180,7 @@ class AuthController extends GetxController implements GetxService {
         String url = await snapshot.ref.getDownloadURL();
         updateUserProfile(user: UserModel(image: url));
       }catch(e) {
-        showSnackBar(message: e.toString());
-        debugPrint(('Error:=====> ${e.toString()}'));
+        Helper.handleError(e);
       }
     }
   }
@@ -197,8 +195,7 @@ class AuthController extends GetxController implements GetxService {
     } on FirebaseAuthException catch (e) {
       showSnackBar(message: e.message.toString());
     } catch (e) {
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     _isLoading = false;
     update();
@@ -211,12 +208,11 @@ class AuthController extends GetxController implements GetxService {
       _user = user;
       // saveUserData(user);
       debugPrint(('Body:=====> ${user.toJsonForUpdate()}'));
-      await FirebaseFirestore.instance.collection(DbTable.users.name).doc(_user!.uid).update(user.toJsonForUpdate());
+      await FirebaseFirestore.instance.collection(DbTable.users.name).doc(FirebaseAuth.instance.currentUser!.uid).update(user.toJsonForUpdate());
       buttonController?.success();
     }catch(e) {
       buttonController?.error();
-      showSnackBar(message: e.toString());
-      debugPrint(('Error:=====> ${e.toString()}'));
+      Helper.handleError(e);
     }
     _isLoading = false;
     update();

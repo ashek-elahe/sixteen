@@ -5,8 +5,9 @@ import 'package:sixteen/utilities/style.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   final String message;
+  final bool isLoading;
   final Function() onOkPressed;
-  const ConfirmationDialog({super.key, required this.message, required this.onOkPressed});
+  const ConfirmationDialog({super.key, required this.message, required this.onOkPressed, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,10 @@ class ConfirmationDialog extends StatelessWidget {
           child: Text(message, style: fontMedium.copyWith(color: Theme.of(context).canvasColor)),
         ),
 
-        Row(children: [
+        isLoading ? const Padding(
+          padding: EdgeInsets.only(bottom: 30),
+          child: Center(child: CircularProgressIndicator()),
+        ) : Row(children: [
           Expanded(child: InkWell(
             onTap: () => Get.back(),
             child: Container(

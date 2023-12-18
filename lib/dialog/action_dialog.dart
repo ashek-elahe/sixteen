@@ -52,24 +52,30 @@ class ActionDialog extends StatelessWidget {
 
         ActionButton(
           title: Get.find<SplashController>().isAdmin(user.email!) ? 'remove_from_admin'.tr : 'mark_as_admin'.tr,
-          onPressed: () => showAnimatedDialog(ConfirmationDialog(
-            message: Get.find<SplashController>().isAdmin(user.email!) ? 'remove_from_admin'.tr : 'mark_as_admin'.tr,
-            onOkPressed: () {
-              Get.back();
-              Get.find<SplashController>().updateAdmin(user.email!, !Get.find<SplashController>().isAdmin(user.email!));
-            },
-          )),
+          onPressed: () => showAnimatedDialog(GetBuilder<SplashController>(builder: (splashController) {
+            return ConfirmationDialog(
+              message: Get.find<SplashController>().isAdmin(user.email!) ? 'remove_from_admin'.tr : 'mark_as_admin'.tr,
+              isLoading: splashController.isLoading,
+              onOkPressed: () async {
+                await Get.find<SplashController>().updateAdmin(user.email!, !Get.find<SplashController>().isAdmin(user.email!));
+                Get.back();
+              },
+            );
+          })),
         ),
 
         ActionButton(
           title: user.isActive! ? 'disable_account'.tr : 'enable_account'.tr,
-          onPressed: () => showAnimatedDialog(ConfirmationDialog(
-            message: user.isActive! ? 'are_you_sure_to_disable'.tr : 'are_you_sure_to_enable'.tr,
-            onOkPressed: () {
-              Get.back();
-              Get.find<UserController>().updateAccountStatus(user);
-            },
-          )),
+          onPressed: () => showAnimatedDialog(GetBuilder<UserController>(builder: (userController) {
+            return ConfirmationDialog(
+              message: user.isActive! ? 'are_you_sure_to_disable'.tr : 'are_you_sure_to_enable'.tr,
+              isLoading: userController.isLoading,
+              onOkPressed: () async {
+                await Get.find<UserController>().updateAccountStatus(user);
+                Get.back();
+              },
+            );
+          })),
         ),
 
       ],
