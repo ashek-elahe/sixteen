@@ -61,7 +61,7 @@ class _EmojiTextEditorState extends State<EmojiTextEditor> {
           Material(color: Colors.transparent, child: GetBuilder<MessageController>(builder: (messageController) {
             return IconButton(
               onPressed: () async {
-                if(!messageController.isLoading && messageController.conversation?.id != null) {
+                if(!messageController.isLoading) {
                   bool success = await messageController.sendMessage(reply: _controller.text.trim());
                   if(success) {
                     _controller.text = '';

@@ -170,16 +170,20 @@ class AuthController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> updateProfileImage() async {
+  Future<void> updateProfileImage({required RoundedLoadingButtonController buttonController}) async {
     _file = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 40);
     if(_file != null) {
+      buttonController.start();
       try {
         Uint8List data = await _file!.readAsBytes();
         UploadTask task = FirebaseStorage.instance.ref().child(DbTable.users.name).child('${_user!.uid}.${_file!.name.split('.').last}').putData(data);
         TaskSnapshot snapshot = await task.whenComplete(() {});
         String url = await snapshot.ref.getDownloadURL();
         updateUserProfile(user: UserModel(image: url));
+        showSnackBar(message: 'profile_image_updated'.tr, isError: false);
+        buttonController.success();
       }catch(e) {
+        buttonController.error();
         Helper.handleError(e);
       }
     }
@@ -205,7 +209,18 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     try {
-      _user = user;
+      if(user.image != null) {
+        _user!.image = user.image;
+      }
+      if(user.name != null) {
+        _user!.name = user.name;
+      }
+      if(user.phone != null) {
+        _user!.phone = user.phone;
+      }
+      if(user.address != null) {
+        _user!.address = user.address;
+      }
       // saveUserData(user);
       debugPrint(('Body:=====> ${user.toJsonForUpdate()}'));
       await FirebaseFirestore.instance.collection(DbTable.users.name).doc(FirebaseAuth.instance.currentUser!.uid).update(user.toJsonForUpdate());

@@ -5,7 +5,6 @@ class MessageModel {
   String? userPhone;
   String? message;
   List<String>? attachments;
-  bool? isSeen;
   DateTime? time;
 
   MessageModel(
@@ -15,7 +14,6 @@ class MessageModel {
         this.userPhone,
         this.message,
         this.attachments,
-        this.isSeen,
         this.time});
 
   MessageModel.fromJson(Map<String, dynamic> json, bool firebase) {
@@ -25,7 +23,6 @@ class MessageModel {
     userPhone = json['user_phone'];
     message = json['message'];
     attachments = json['attachments'].cast<String>();
-    isSeen = json['is_seen'];
     time = json['time'] != null ? firebase ? DateTime.parse(json['time'].toDate().toString())
         : DateTime.parse(json['time']) : null;
   }
@@ -38,7 +35,6 @@ class MessageModel {
     data['user_phone'] = userPhone;
     data['message'] = message;
     data['attachments'] = attachments;
-    data['is_seen'] = isSeen;
     data['time'] = time != null ? firebase ? time : time!.toIso8601String() : null;
     return data;
   }

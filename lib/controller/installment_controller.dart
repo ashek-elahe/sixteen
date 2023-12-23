@@ -13,26 +13,26 @@ import 'package:sixteen/widget/loading_button.dart';
 class InstallmentController extends GetxController implements GetxService {
 
   List<InstallmentModel>? _installments;
-  List<InstallmentModel>? _personInstallments;
-  DocumentSnapshot? _lastDocument;
-  DocumentSnapshot? _lastPersonDocument;
+  List<InstallmentModel>? _allInstallments;
+  DocumentSnapshot? _allDocument;
+  DocumentSnapshot? _lastAllDocument;
   bool _paginate = true;
-  bool _personPaginate = true;
+  bool _allPaginate = true;
   DateTime? _dateTime;
   bool _isAmount = false;
   double _amount = Constants.amounts[0];
   String _medium = Constants.mediums[0];
-  bool _isLoading = false;
+  DateTimeRange? _dateTimeRange;
 
   List<InstallmentModel>? get installments => _installments;
-  List<InstallmentModel>? get personInstallments => _personInstallments;
+  List<InstallmentModel>? get allInstallments => _allInstallments;
   bool get paginate => _paginate;
-  bool get personPaginate => _personPaginate;
+  bool get allPaginate => _allPaginate;
   DateTime? get dateTime => _dateTime;
   bool get isAmount => _isAmount;
   double get amount => _amount;
   String get medium => _medium;
-  bool get isLoading => _isLoading;
+  DateTimeRange? get dateTimeRange => _dateTimeRange;
 
   void initData() {
     _dateTime = null;
@@ -85,22 +85,22 @@ class InstallmentController extends GetxController implements GetxService {
 
   Future<void> getMyInstallments({required String uid, bool reload = false}) async {
     if(reload || _installments == null) {
-      _lastDocument = null;
+      _allDocument = null;
       _paginate = true;
     }
     try {
       Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.installments.name)
           .where('user_id', isEqualTo: uid).orderBy('month', descending: true).limit(Constants.pagination);
 
-      if(_lastDocument != null) {
-        query = query.startAfterDocument(_lastDocument!);
+      if(_allDocument != null) {
+        query = query.startAfterDocument(_allDocument!);
       }
       QuerySnapshot snapshot = await query.get();
       if(reload || _installments == null) {
         _installments = [];
       }
       if(snapshot.docs.isNotEmpty) {
-        _lastDocument = snapshot.docs.last;
+        _allDocument = snapshot.docs.last;
       }
       if(snapshot.docs.length < Constants.pagination) {
         _paginate = false;
@@ -117,36 +117,82 @@ class InstallmentController extends GetxController implements GetxService {
   }
 
   Future<void> getPersonInstallments({required String uid, bool reload = false}) async {
-    if(reload || _personInstallments == null) {
-      _lastPersonDocument = null;
-      _personPaginate = true;
-      _personInstallments = null;
+    if(reload || _allInstallments == null) {
+      _lastAllDocument = null;
+      _allPaginate = true;
+      _allInstallments = null;
     }
     try {
       Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.installments.name)
           .where('user_id', isEqualTo: uid).orderBy('month', descending: true).limit(Constants.pagination);
 
-      if(_lastPersonDocument != null) {
-        query = query.startAfterDocument(_lastPersonDocument!);
+      if(_lastAllDocument != null) {
+        query = query.startAfterDocument(_lastAllDocument!);
       }
       QuerySnapshot snapshot = await query.get();
-      if(reload || _personInstallments == null) {
-        _personInstallments = [];
+      if(reload || _allInstallments == null) {
+        _allInstallments = [];
       }
       if(snapshot.docs.isNotEmpty) {
-        _lastPersonDocument = snapshot.docs.last;
+        _lastAllDocument = snapshot.docs.last;
       }
       if(snapshot.docs.length < Constants.pagination) {
-        _personPaginate = false;
+        _allPaginate = false;
       }
 
       for(QueryDocumentSnapshot document in snapshot.docs) {
-        _personInstallments!.add(InstallmentModel.fromJson(document.data() as Map<String, dynamic>, true));
+        _allInstallments!.add(InstallmentModel.fromJson(document.data() as Map<String, dynamic>, true));
       }
       debugPrint(('Fetched Size:=====> ${snapshot.docs.length}'));
     } catch (e) {
       Helper.handleError(e);
     }
+    update();
+  }
+
+  Future<void> getAllInstallments({bool reload = false, dateReset = false}) async {
+    if(dateReset) {
+      _dateTimeRange = null;
+    }
+    if(reload || _allInstallments == null) {
+      _lastAllDocument = null;
+      _allPaginate = true;
+      _allInstallments = null;
+    }
+    try {
+      Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.installments.name)
+          .orderBy('month', descending: true).orderBy('created_at', descending: true).limit(Constants.pagination);
+      if(_dateTimeRange != null) {
+        query = query.where('month', isGreaterThanOrEqualTo: _dateTimeRange!.start).where('month', isLessThanOrEqualTo: _dateTimeRange!.end);
+      }
+
+      if(_lastAllDocument != null) {
+        query = query.startAfterDocument(_lastAllDocument!);
+      }
+      QuerySnapshot snapshot = await query.get();
+      if(reload || _allInstallments == null) {
+        _allInstallments = [];
+      }
+      if(snapshot.docs.isNotEmpty) {
+        _lastAllDocument = snapshot.docs.last;
+      }
+      if(snapshot.docs.length < Constants.pagination) {
+        _allPaginate = false;
+      }
+
+      for(QueryDocumentSnapshot document in snapshot.docs) {
+        _allInstallments!.add(InstallmentModel.fromJson(document.data() as Map<String, dynamic>, true));
+      }
+      debugPrint(('Fetched Size:=====> ${snapshot.docs.length}'));
+    } catch (e) {
+      Helper.handleError(e);
+    }
+    update();
+  }
+
+  void setDateRange(DateTimeRange dateTimeRange) {
+    _dateTimeRange = dateTimeRange;
+    getAllInstallments(reload: true);
     update();
   }
 

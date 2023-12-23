@@ -121,9 +121,7 @@ class _AddInstallmentDialogState extends State<AddInstallmentDialog> {
         InputField(
           titleText: 'reference'.tr,
           hintText: 'enter_reference'.tr,
-          controller: _amountController,
-          isNumber: true,
-          inputType: const TextInputType.numberWithOptions(decimal: true, signed: true),
+          controller: _referenceController,
           borderRadius: BorderRadius.circular(10),
           inputAction: TextInputAction.done,
         ),

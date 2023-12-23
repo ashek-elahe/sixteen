@@ -20,8 +20,8 @@ class Helper {
   }
 
   static void handleError(Object e) {
-    showSnackBar(message: e.toString());
     debugPrint(('Error:=====> ${e.toString()}'));
+    showSnackBar(message: e.toString());
   }
 
 }

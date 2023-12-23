@@ -7,6 +7,7 @@ import 'package:sixteen/view/admin_page.dart';
 import 'package:sixteen/view/conversation_page.dart';
 import 'package:sixteen/view/forgot_page.dart';
 import 'package:sixteen/view/initial_page.dart';
+import 'package:sixteen/view/installments_page.dart';
 import 'package:sixteen/view/login_page.dart';
 import 'package:sixteen/view/message_page.dart';
 import 'package:sixteen/view/notification_page.dart';
@@ -28,6 +29,7 @@ class Routes {
   static const String notification = '/notification';
   static const String conversation = '/conversation';
   static const String messages = '/messages';
+  static const String installments = '/installments';
 
   static String getInitialRoute() => initial;
   static String getSplashRoute() => splash;
@@ -46,6 +48,7 @@ class Routes {
     String data = base64Url.encode(utf8.encode(jsonEncode(conversation.toJson(false))));
     return '$messages?conversation=$data';
   }
+  static String getInstallmentsRoute() => installments;
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => const InitialPage()),
@@ -65,6 +68,7 @@ class Routes {
     GetPage(name: messages, page: () => MessagePage(
       conversation: ConversationModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['conversation']!.replaceAll(' ', '+')))), false),
     )),
+    GetPage(name: installments, page: () => const InstallmentsPage()),
   ];
 
 }

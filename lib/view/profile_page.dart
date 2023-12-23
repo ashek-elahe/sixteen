@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
 
                 InkWell(
-                  onTap: () => Get.find<AuthController>().updateProfileImage(),
+                  onTap: () => Get.find<AuthController>().updateProfileImage(buttonController: _buttonController),
                   child: Container(
                     height: 100, width: 100,
                     decoration: BoxDecoration(

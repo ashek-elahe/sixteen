@@ -40,7 +40,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
 
           GetBuilder<InstallmentController>(builder: (insController) {
             return InstallmentsView(
-              installments: insController.personInstallments, scrollController: _scrollController, enabledPagination: insController.personPaginate,
+              installments: insController.allInstallments, scrollController: _scrollController, enabledPagination: insController.allPaginate,
               onPaginate: () => Get.find<InstallmentController>().getPersonInstallments(uid: widget.user.uid!),
             );
           }),

@@ -51,7 +51,7 @@ class CustomButton extends StatelessWidget {
           ) : const SizedBox(),
           Text(
             buttonText, textAlign: TextAlign.center,
-            style: fontBold.copyWith(color: transparent ? Theme.of(context).primaryColor : Theme.of(context).cardColor, fontSize: 16),
+            style: fontBold.copyWith(color: transparent ? Theme.of(context).primaryColor : Colors.white, fontSize: 16),
           ),
         ]),
       ),

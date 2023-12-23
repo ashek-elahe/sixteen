@@ -1,5 +1,6 @@
 class ConversationModel {
   String? id;
+  String? users;
   String? user1Id;
   String? user1Email;
   String? user1Phone;
@@ -17,6 +18,7 @@ class ConversationModel {
 
   ConversationModel(
       {this.id,
+        this.users,
         this.user1Id,
         this.user1Email,
         this.user1Phone,
@@ -34,6 +36,7 @@ class ConversationModel {
 
   ConversationModel.fromJson(Map<String, dynamic> json, bool firebase) {
     id = json['id'];
+    users = json['users'];
     user1Id = json['user_1_id'];
     user1Email = json['user_1_email'];
     user1Phone = json['user_1_phone'];
@@ -54,6 +57,7 @@ class ConversationModel {
   Map<String, dynamic> toJson(bool firebase) {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['users'] = users;
     data['user_1_id'] = user1Id;
     data['user_1_email'] = user1Email;
     data['user_1_phone'] = user1Phone;

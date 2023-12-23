@@ -12,15 +12,21 @@ class InstallmentsView extends StatelessWidget {
   final List<InstallmentModel>? installments;
   final ScrollController scrollController;
   final bool enabledPagination;
+  final bool showTitle;
   final Function() onPaginate;
-  const InstallmentsView({super.key, required this.installments, required this.scrollController, required this.enabledPagination, required this.onPaginate});
+  const InstallmentsView({
+    super.key, required this.installments, required this.scrollController, required this.enabledPagination,
+    required this.onPaginate, this.showTitle = true,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
 
-      Text('installments'.tr, style: fontBold.copyWith(fontSize: 20, color: Theme.of(context).canvasColor)),
-      const SizedBox(height: 10),
+      showTitle ? Text(
+        'installments'.tr, style: fontBold.copyWith(fontSize: 20, color: Theme.of(context).canvasColor),
+      ) : const SizedBox(),
+      SizedBox(height: showTitle ? 10 : 0),
 
       installments != null ? installments!.isNotEmpty ? PaginatedListView(
         scrollController: scrollController,

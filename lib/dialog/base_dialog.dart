@@ -21,7 +21,9 @@ class BaseDialog extends StatelessWidget {
             color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(Constants.padding),
           ),
-          child: Column(mainAxisSize: MainAxisSize.min, children: children),
+          child: SingleChildScrollView(
+            child: Column(mainAxisSize: MainAxisSize.min, children: children),
+          ),
         ),
 
         Positioned(

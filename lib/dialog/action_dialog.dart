@@ -41,6 +41,7 @@ class ActionDialog extends StatelessWidget {
       user.email != me.email ? ActionButton(title: 'send_message'.tr, onPressed: () => Get.toNamed(Routes.getMessagesRoute(ConversationModel(
         user1Id: user.uid, user1Email: user.email, user1Phone: user.phone, user1Name: user.name, user1Image: user.image,
         user2Id: me.uid, user2Email: me.email, user2Phone: me.phone, user2Name: me.name, user2Image: me.image,
+        users: '${user.email!}_${me.email!}',
       )))) : const SizedBox(),
 
       if(isAdmin)...[

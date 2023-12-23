@@ -50,6 +50,12 @@ class _MenuPageState extends State<MenuPage> {
           ) : const SizedBox(),
           SizedBox(height: Get.find<AuthController>().isAdmin ? Constants.padding : 0),
 
+          Get.find<AuthController>().isAdmin ? MenuButton(
+            icon: Icons.list_alt, title: 'installments'.tr,
+            onPressed: () => Get.toNamed(Routes.getInstallmentsRoute()),
+          ) : const SizedBox(),
+          SizedBox(height: Get.find<AuthController>().isAdmin ? Constants.padding : 0),
+
           MenuButton(
             icon: Icons.language, title: 'language'.tr,
             trailing: GetBuilder<TranslationController>(builder: (transController) {

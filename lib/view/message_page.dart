@@ -20,6 +20,7 @@ class MessagePage extends StatefulWidget {
 
 class _MessagePageState extends State<MessagePage> {
   final ScrollController _scrollController = ScrollController();
+  int _senderMessageCount = 0;
 
   @override
   void initState() {
@@ -53,8 +54,14 @@ class _MessagePageState extends State<MessagePage> {
               itemCount: messageController.messages!.length,
               reverse: true,
               itemBuilder: (context, index) {
+                if(index == 0) {
+                  _senderMessageCount = 0;
+                }
                 MessageModel message = messageController.messages![index];
                 bool isMe = messageController.isMe(message);
+                if(isMe) {
+                  _senderMessageCount++;
+                }
 
                 return BubbleSpecialThree(
                   text: message.message ?? '',
@@ -62,7 +69,7 @@ class _MessagePageState extends State<MessagePage> {
                   textStyle: fontRegular.copyWith(color: isMe ? Colors.white : Colors.black),
                   tail: index == 0 || (messageController.isMe(messageController.messages![index])
                       != messageController.isMe(messageController.messages![index -1])),
-                  seen: isMe && message.isSeen!,
+                  seen: isMe && (messageController.getReceiverUnreadCount(messageController.conversation!)! < _senderMessageCount),
                   delivered: isMe,
                   sent: isMe,
                   isSender: isMe,

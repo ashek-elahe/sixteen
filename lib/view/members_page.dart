@@ -42,67 +42,75 @@ class _MembersPageState extends State<MembersPage> {
       ) : null,
 
       body: GetBuilder<UserController>(builder: (userController) {
-        return userController.users != null ? userController.users!.isNotEmpty ? ListView.builder(
-          itemCount: userController.users!.length,
-          padding: const EdgeInsets.all(Constants.padding),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: Constants.padding),
-              child: Slidable(
-                startActionPane: Get.find<AuthController>().isAdmin ? ActionPane(
-                  extentRatio: 0.3,
-                  motion: const ScrollMotion(),
-                  children: [SlidableAction(
-                    onPressed: (context) => showAnimatedDialog(ConfirmationDialog(
-                      message: 'are_you_sure_to_delete_this_account'.tr,
-                      isLoading: userController.isLoading,
-                      onOkPressed: () async {
-                        await Get.find<UserController>().deleteAccount(userController.users![index]);
-                        Get.back();
-                      },
-                    ), isFlip: true),
-                    backgroundColor: Theme.of(context).colorScheme.error,
-                    foregroundColor: Colors.white,
-                    icon: Icons.delete,
-                    label: 'delete'.tr,
-                  )],
-                ) : null,
-
-                endActionPane: ActionPane(
-                  extentRatio: Get.find<AuthController>().isAdmin ? 0.5 : 0.3,
-                  motion: const DrawerMotion(),
-                  children: [
-
-                    if(Get.find<AuthController>().isAdmin)...[SlidableAction(
-                      onPressed: (context) => showAnimatedDialog(AddInstallmentDialog(user: userController.users![index])),
-                      backgroundColor: Theme.of(context).primaryColor,
-                      foregroundColor: Colors.white,
-                      icon: Icons.add_comment,
-                      label: 'add_new_installment'.tr,
-                      spacing: 2,
-                      padding: EdgeInsets.zero,
-                    )],
-
-                    SlidableAction(
-                      onPressed: (context) => showAnimatedDialog(ActionDialog(user: userController.users![index]), isFlip: true),
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      icon: Icons.more_horiz,
-                      label: 'actions'.tr,
-                      spacing: 2,
-                      padding: EdgeInsets.zero,
-                    ),
-
-                  ],
-                ),
-
-                child: InkWell(
-                  onTap: Get.find<AuthController>().isAdmin ? () => Get.toNamed(Routes.getUserDetailsRoute(userController.users![index])) : null,
-                  child: UserWidget(user: userController.users![index], showBalance: Get.find<AuthController>().isAdmin),
-                ),
-              ),
-            );
+        return userController.users != null ? userController.users!.isNotEmpty ? RefreshIndicator(
+          onRefresh: () async {
+            await Get.find<UserController>().getUsers();
           },
+          backgroundColor: Theme.of(context).primaryColor,
+          color: Colors.white,
+          child: ListView.builder(
+            itemCount: userController.users!.length,
+            physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+            padding: const EdgeInsets.all(Constants.padding),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: Constants.padding),
+                child: Slidable(
+                  startActionPane: Get.find<AuthController>().isAdmin ? ActionPane(
+                    extentRatio: 0.3,
+                    motion: const ScrollMotion(),
+                    children: [SlidableAction(
+                      onPressed: (context) => showAnimatedDialog(ConfirmationDialog(
+                        message: 'are_you_sure_to_delete_this_account'.tr,
+                        isLoading: userController.isLoading,
+                        onOkPressed: () async {
+                          await Get.find<UserController>().deleteAccount(userController.users![index]);
+                          Get.back();
+                        },
+                      ), isFlip: true),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: 'delete'.tr,
+                    )],
+                  ) : null,
+
+                  endActionPane: ActionPane(
+                    extentRatio: Get.find<AuthController>().isAdmin ? 0.5 : 0.3,
+                    motion: const DrawerMotion(),
+                    children: [
+
+                      if(Get.find<AuthController>().isAdmin)...[SlidableAction(
+                        onPressed: (context) => showAnimatedDialog(AddInstallmentDialog(user: userController.users![index])),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        foregroundColor: Colors.white,
+                        icon: Icons.add_comment,
+                        label: 'add_new_installment'.tr,
+                        spacing: 2,
+                        padding: EdgeInsets.zero,
+                      )],
+
+                      SlidableAction(
+                        onPressed: (context) => showAnimatedDialog(ActionDialog(user: userController.users![index]), isFlip: true),
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                        icon: Icons.more_horiz,
+                        label: 'actions'.tr,
+                        spacing: 2,
+                        padding: EdgeInsets.zero,
+                      ),
+
+                    ],
+                  ),
+
+                  child: InkWell(
+                    onTap: Get.find<AuthController>().isAdmin ? () => Get.toNamed(Routes.getUserDetailsRoute(userController.users![index])) : null,
+                    child: UserWidget(user: userController.users![index], showBalance: Get.find<AuthController>().isAdmin),
+                  ),
+                ),
+              );
+            },
+          ),
         ) : Center(child: Text(
           'no_member_found'.tr, style: fontRegular.copyWith(color: Theme.of(context).canvasColor),
         )) : ListView.builder(

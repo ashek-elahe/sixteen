@@ -94,5 +94,9 @@
   "year": "year",
   "your_account_is_disabled": "Your account is disabled. Please contact with admin",
   "call": "Call",
-  "phone_number_not_added": "Phone number not added"
+  "phone_number_not_added": "Phone number not added",
+  "profile_image_updated": "Profile image updated",
+  "select_date_range": "Select Date Range",
+  "save": "Save",
+  "select_range": "Select Range"
 }

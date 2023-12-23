@@ -1,9 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Converter {
 
   static String dateToDateString(DateTime dateTime) {
     return DateFormat('dd MMMM yyyy').format(dateTime);
+  }
+
+  static String dateRangeToDateRangeString(DateTimeRange dateRange) {
+    return '${DateFormat('dd MMM yy').format(dateRange.start)} - ${DateFormat('dd MMM yy').format(dateRange.end)}';
   }
 
   static String dateToTime(DateTime dateTime) {
