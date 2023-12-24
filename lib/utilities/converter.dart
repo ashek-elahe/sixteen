@@ -30,7 +30,7 @@ class Converter {
   }
 
   static String convertAmount(double amount) {
-    return '${amount.floor()}৳';
+    return '${amount.floor()} ৳';
   }
 
   static String convertPhone(String phone) {

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/installment_controller.dart';
+import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/style.dart';
+import 'package:sixteen/widget/balance_view.dart';
 import 'package:sixteen/widget/balance_widget.dart';
 import 'package:sixteen/widget/installments_view.dart';
 import 'package:sixteen/widget/user_widget.dart';
@@ -48,6 +50,7 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () async {
           await Get.find<AuthController>().getUser(uid: Get.find<AuthController>().user!.uid!);
           await Get.find<InstallmentController>().getMyInstallments(uid: Get.find<AuthController>().user!.uid!, reload: true);
+          await Get.find<SplashController>().getSettings();
         },
         backgroundColor: Theme.of(context).primaryColor,
         color: Colors.white,
@@ -60,6 +63,9 @@ class _HomePageState extends State<HomePage> {
             GetBuilder<AuthController>(builder: (authController) {
               return UserWidget(user: authController.user!);
             }),
+            const SizedBox(height: Constants.padding),
+
+            const BalanceView(),
             const SizedBox(height: Constants.padding),
 
             GetBuilder<InstallmentController>(builder: (insController) {

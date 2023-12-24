@@ -59,6 +59,31 @@ class SplashController extends GetxController implements GetxService {
     update();
   }
 
+  Future<void> manageBalance(double amount, bool isAdd, bool isInstallment) async {
+    await getSettings();
+
+    SettingsModel settingsModel = SettingsModel();
+    if(isAdd && isInstallment) {
+      settingsModel.installments = _settings!.installments! + amount;
+      _settings!.installments = _settings!.installments! + amount;
+    }else if(isAdd) {
+      settingsModel.others = _settings!.others! + amount;
+      _settings!.others = _settings!.others! + amount;
+    }else {
+      settingsModel.cost = _settings!.cost! + amount;
+      _settings!.cost = _settings!.cost! + amount;
+    }
+    Map<String, dynamic> s = settingsModel.toJson();
+    s.removeWhere((key, value) => value == null);
+
+    try {
+      await FirebaseFirestore.instance.collection(DbTable.settings.name).doc('all_settings').update(s);
+    }catch(e) {
+      Helper.handleError(e);
+    }
+    update();
+  }
+
   Future<bool> sendNotification({required bool toTopic, required String token, required String title, required String body}) async {
     bool success = false;
     try {

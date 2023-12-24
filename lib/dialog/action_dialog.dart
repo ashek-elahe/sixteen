@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/controller/user_controller.dart';
+import 'package:sixteen/dialog/add_amount_dialog.dart';
 import 'package:sixteen/dialog/animated_dialog.dart';
 import 'package:sixteen/dialog/base_dialog.dart';
 import 'package:sixteen/dialog/confirmation_dialog.dart';
@@ -50,6 +51,8 @@ class ActionDialog extends StatelessWidget {
           toTopic: false, token: user.deviceToken ?? '',
           title: '${'hello'.tr} ${user.name}', body: 'please_complete_your_installment_of_this_month'.tr,
         )),
+
+        ActionButton(title: 'add_deduct_amount'.tr, onPressed: () => showAnimatedDialog(AddAmountDialog(user: user))),
 
         ActionButton(
           title: Get.find<SplashController>().isAdmin(user.email!) ? 'remove_from_admin'.tr : 'mark_as_admin'.tr,

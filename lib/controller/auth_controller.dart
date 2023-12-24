@@ -56,7 +56,7 @@ class AuthController extends GetxController implements GetxService {
         _user = UserModel.fromJson(doc.data() as Map<String, dynamic>, true);
       }else {
         _user = UserModel(
-          uid: userCredential.user!.uid, name: '', email: email, phone: '', joiningDate: DateTime.now(),
+          uid: userCredential.user!.uid, name: '', email: email.toLowerCase(), phone: '', joiningDate: DateTime.now(),
           image: '', isActive: true, lastActive: DateTime.now(), address: '', balance: 0,
         );
         reference.set(_user!.toJson(true));

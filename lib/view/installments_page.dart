@@ -62,7 +62,7 @@ class _InstallmentsPageState extends State<InstallmentsPage> {
             child: GetBuilder<InstallmentController>(builder: (insController) {
               return InstallmentsView(
                 installments: insController.allInstallments, scrollController: _scrollController,
-                enabledPagination: insController.allPaginate, showTitle: false,
+                enabledPagination: insController.allPaginate, showTitle: false, showUser: true,
                 onPaginate: () => Get.find<InstallmentController>().getAllInstallments(),
               );
             }),

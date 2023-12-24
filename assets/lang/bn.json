@@ -98,5 +98,17 @@
   "profile_image_updated": "প্রোফাইল ছবি আপডেট করা হয়েছে",
   "select_date_range": "তারিখ পরিসীমা নির্বাচন করুন",
   "save": "সংরক্ষণ করুন",
-  "select_range": "রেঞ্জ নির্বাচন করুন"
+  "select_range": "রেঞ্জ নির্বাচন করুন",
+  "amount_added": "এমাউন্ট যোগ করা হয়েছে",
+  "amount_deducted": "এমাউন্ট কাটা হয়েছে",
+  "other_calculations": "অন্যান্য হিসেব",
+  "by": "বায়",
+  "add_deduct_amount": "পরিমাণ যোগ/কাটা",
+  "note": "নোট",
+  "enter_note": "নোট লিখুন",
+  "no_calculation_found": "কোনো হিসেব পাওয়া যায়নি",
+  "deduct": "কাটুন",
+  "others": "অন্যান্য",
+  "total_cost": "মোট খরচ",
+  "balance": "ব্যালেন্স"
 }

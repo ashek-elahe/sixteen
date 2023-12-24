@@ -1,6 +1,7 @@
 import 'package:get/instance_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixteen/controller/auth_controller.dart';
+import 'package:sixteen/controller/calculation_controller.dart';
 import 'package:sixteen/controller/installment_controller.dart';
 import 'package:sixteen/controller/message_controller.dart';
 import 'package:sixteen/controller/splash_controller.dart';
@@ -19,5 +20,6 @@ class DependencyInjection {
     Get.lazyPut(() => InstallmentController());
     Get.lazyPut(() => SplashController());
     Get.lazyPut(() => MessageController());
+    Get.lazyPut(() => CalculationController());
   }
 }

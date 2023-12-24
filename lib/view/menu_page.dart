@@ -44,17 +44,27 @@ class _MenuPageState extends State<MenuPage> {
           ),
           const SizedBox(height: Constants.padding),
 
-          Get.find<AuthController>().isAdmin ? MenuButton(
-            icon: Icons.notification_add, title: 'send_notification'.tr,
-            onPressed: () => Get.toNamed(Routes.getNotificationRoute()),
-          ) : const SizedBox(),
-          SizedBox(height: Get.find<AuthController>().isAdmin ? Constants.padding : 0),
+          if(Get.find<AuthController>().isAdmin) ...[
 
-          Get.find<AuthController>().isAdmin ? MenuButton(
-            icon: Icons.list_alt, title: 'installments'.tr,
-            onPressed: () => Get.toNamed(Routes.getInstallmentsRoute()),
-          ) : const SizedBox(),
-          SizedBox(height: Get.find<AuthController>().isAdmin ? Constants.padding : 0),
+            MenuButton(
+              icon: Icons.notification_add, title: 'send_notification'.tr,
+              onPressed: () => Get.toNamed(Routes.getNotificationRoute()),
+            ),
+            const SizedBox(height: Constants.padding),
+
+            MenuButton(
+              icon: Icons.list_alt, title: 'installments'.tr,
+              onPressed: () => Get.toNamed(Routes.getInstallmentsRoute()),
+            ),
+            const SizedBox(height: Constants.padding),
+
+            MenuButton(
+              icon: Icons.calculate_outlined, title: 'other_calculations'.tr,
+              onPressed: () => Get.toNamed(Routes.getCalculationsRoute()),
+            ),
+            const SizedBox(height: Constants.padding),
+
+          ],
 
           MenuButton(
             icon: Icons.language, title: 'language'.tr,

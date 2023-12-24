@@ -98,5 +98,17 @@
   "profile_image_updated": "Profile image updated",
   "select_date_range": "Select Date Range",
   "save": "Save",
-  "select_range": "Select Range"
+  "select_range": "Select Range",
+  "amount_added": "Amount added",
+  "amount_deducted": "Amount deducted",
+  "other_calculations": "Other Calculations",
+  "by": "By",
+  "add_deduct_amount": "Add/Deduct Amount",
+  "note": "Note",
+  "enter_note": "Enter note",
+  "no_calculation_found": "No calculation found",
+  "deduct": "Deduct",
+  "others": "Others",
+  "total_cost": "Total Cost",
+  "balance": "Balance"
 }

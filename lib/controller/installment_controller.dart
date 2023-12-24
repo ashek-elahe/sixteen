@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixteen/controller/auth_controller.dart';
+import 'package:sixteen/controller/splash_controller.dart';
+import 'package:sixteen/controller/user_controller.dart';
 import 'package:sixteen/model/installment_model.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/constants.dart';
@@ -68,10 +70,10 @@ class InstallmentController extends GetxController implements GetxService {
       );
 
       await FirebaseFirestore.instance.collection(DbTable.installments.name).doc().set(installment.toJson(true));
-      await FirebaseFirestore.instance.collection(DbTable.users.name).doc(user.uid).update(
-        UserModel(balance: user.balance! + amount).toJsonForUpdate(),
-      );
+      await Get.find<UserController>().updateUserBalance(amount, user.email!);
       debugPrint(('Data:=====> ${installment.toJson(true)}'));
+
+      await Get.find<SplashController>().manageBalance(amount, true, true);
 
       buttonController.success();
       Get.back();

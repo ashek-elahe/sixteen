@@ -13,10 +13,11 @@ class InstallmentsView extends StatelessWidget {
   final ScrollController scrollController;
   final bool enabledPagination;
   final bool showTitle;
+  final bool showUser;
   final Function() onPaginate;
   const InstallmentsView({
     super.key, required this.installments, required this.scrollController, required this.enabledPagination,
-    required this.onPaginate, this.showTitle = true,
+    required this.onPaginate, this.showTitle = true, this.showUser = false,
   });
 
   @override
@@ -57,6 +58,12 @@ class InstallmentsView extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
 
+                  showUser ? Text(
+                    installment.userName ?? '', style: fontMedium.copyWith(color: Theme.of(context).canvasColor),
+                    maxLines: 1, overflow: TextOverflow.ellipsis,
+                  ) : const SizedBox(),
+                  SizedBox(height: showUser ? 5 : 0),
+
                   Row(children: [
                     Text(installment.medium ?? '', style: fontMedium.copyWith(color: Theme.of(context).canvasColor)),
                     const SizedBox(width: 5),
@@ -82,7 +89,7 @@ class InstallmentsView extends StatelessWidget {
                 ])),
 
                 Container(
-                  height: 100,
+                  height: showUser ? 115 : 100,
                   margin: const EdgeInsets.symmetric(horizontal: 5),
                   child: DottedLine(direction: Axis.vertical, dashColor: Theme.of(context).disabledColor, lineThickness: 2),
                 ),

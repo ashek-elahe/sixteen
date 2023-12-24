@@ -3,4 +3,5 @@ enum DbTable {
   installments,
   settings,
   messages,
+  amounts,
 }
