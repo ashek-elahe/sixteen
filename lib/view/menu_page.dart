@@ -59,7 +59,7 @@ class _MenuPageState extends State<MenuPage> {
             const SizedBox(height: Constants.padding),
 
             MenuButton(
-              icon: Icons.calculate_outlined, title: 'other_calculations'.tr,
+              icon: Icons.calculate_outlined, title: 'other_accounts'.tr,
               onPressed: () => Get.toNamed(Routes.getCalculationsRoute()),
             ),
             const SizedBox(height: Constants.padding),
@@ -95,6 +95,9 @@ class _MenuPageState extends State<MenuPage> {
             await FirebaseAuth.instance.signOut();
             Get.offAllNamed(Routes.getLoginRoute());
           }),
+          const SizedBox(height: Constants.padding),
+
+          Center(child: Text('${'version'.tr}: ${Constants.version}', style: fontMedium.copyWith(fontSize: 12))),
 
         ]),
       ),

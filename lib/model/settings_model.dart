@@ -1,6 +1,6 @@
 class SettingsModel {
   List<String>? admins;
-  int? minimumVersion;
+  double? minimumVersion;
   String? appUrl;
   bool? maintenance;
   double? installments;
@@ -11,7 +11,7 @@ class SettingsModel {
 
   SettingsModel.fromJson(Map<String, dynamic> json) {
     admins = json['admins'].cast<String>();
-    minimumVersion = json['minimum_version'];
+    minimumVersion = json['minimum_version'].toDouble();
     appUrl = json['app_url'];
     maintenance = json['maintenance'];
     installments = json['installments'].toDouble();

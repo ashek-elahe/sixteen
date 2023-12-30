@@ -32,7 +32,7 @@ class _CalculationsPageState extends State<CalculationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'other_calculations'.tr),
+      appBar: MyAppBar(title: 'other_accounts'.tr),
 
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showAnimatedDialog(const AddAmountDialog()),

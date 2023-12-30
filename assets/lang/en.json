@@ -101,7 +101,7 @@
   "select_range": "Select Range",
   "amount_added": "Amount added",
   "amount_deducted": "Amount deducted",
-  "other_calculations": "Other Calculations",
+  "other_accounts": "Other Accounts",
   "by": "By",
   "add_deduct_amount": "Add/Deduct Amount",
   "note": "Note",
@@ -110,5 +110,6 @@
   "deduct": "Deduct",
   "others": "Others",
   "total_cost": "Total Cost",
-  "balance": "Balance"
+  "balance": "Balance",
+  "version": "Version"
 }
