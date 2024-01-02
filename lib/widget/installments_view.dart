@@ -4,30 +4,29 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sixteen/model/installment_model.dart';
 import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/converter.dart';
 import 'package:sixteen/utilities/style.dart';
+import 'package:sixteen/widget/installment_widget.dart';
 import 'package:sixteen/widget/paginated_list_view.dart';
 
 class InstallmentsView extends StatelessWidget {
   final List<InstallmentModel>? installments;
   final ScrollController scrollController;
   final bool enabledPagination;
-  final bool showTitle;
   final bool showUser;
   final Function() onPaginate;
   const InstallmentsView({
     super.key, required this.installments, required this.scrollController, required this.enabledPagination,
-    required this.onPaginate, this.showTitle = true, this.showUser = false,
+    required this.onPaginate, this.showUser = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
 
-      showTitle ? Text(
+      Text(
         'installments'.tr, style: fontBold.copyWith(fontSize: 20, color: Theme.of(context).canvasColor),
-      ) : const SizedBox(),
-      SizedBox(height: showTitle ? 10 : 0),
+      ),
+      const SizedBox(height: 10),
 
       installments != null ? installments!.isNotEmpty ? PaginatedListView(
         scrollController: scrollController,
@@ -40,72 +39,9 @@ class InstallmentsView extends StatelessWidget {
           itemBuilder: (context, index) {
             InstallmentModel installment = installments![index];
 
-            return Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Theme.of(context).disabledColor, width: 0.5),
-              ),
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Row(children: [
-
-                Expanded(flex: 7, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                  Text(
-                    Converter.dateToMonth(installment.month!),
-                    style: fontBold.copyWith(fontSize: 18, color: Theme.of(context).canvasColor),
-                  ),
-                  const SizedBox(height: 5),
-
-                  showUser ? Text(
-                    installment.userName ?? '', style: fontMedium.copyWith(color: Theme.of(context).canvasColor),
-                    maxLines: 1, overflow: TextOverflow.ellipsis,
-                  ) : const SizedBox(),
-                  SizedBox(height: showUser ? 5 : 0),
-
-                  Row(children: [
-                    Text(installment.medium ?? '', style: fontMedium.copyWith(color: Theme.of(context).canvasColor)),
-                    const SizedBox(width: 5),
-                    Expanded(child: Text(
-                      '(${installment.reference ?? ''})',
-                      style: fontRegular.copyWith(color: Theme.of(context).canvasColor),
-                    )),
-                  ]),
-                  const SizedBox(height: 5),
-
-                  Row(children: [
-                    Text('${'received_by'.tr}:', style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
-                    const SizedBox(width: 5),
-                    Expanded(child: Text(installment.receiverName ?? '', style: fontMedium.copyWith(color: Theme.of(context).canvasColor))),
-                  ]),
-                  const SizedBox(height: 5),
-
-                  Text(
-                    Converter.dateToDateTimeString(installment.createdAt!),
-                    style: fontRegular.copyWith(fontSize: 10, color: Theme.of(context).disabledColor),
-                  ),
-
-                ])),
-
-                Container(
-                  height: showUser ? 115 : 100,
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  child: DottedLine(direction: Axis.vertical, dashColor: Theme.of(context).disabledColor, lineThickness: 2),
-                ),
-
-                Expanded(flex: 3, child: Column(children: [
-
-                  Text(
-                    installment.amount?.toStringAsFixed(0) ?? '0',
-                    style: fontBlack.copyWith(fontSize: 20, color: Theme.of(context).canvasColor),
-                  ),
-
-                  Text('BDT', style: fontMedium.copyWith(color: Theme.of(context).canvasColor)),
-
-                ])),
-
-              ]),
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: InstallmentWidget(installment: installment, showUser: showUser),
             );
           },
         ),

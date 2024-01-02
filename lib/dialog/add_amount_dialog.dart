@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/controller/calculation_controller.dart';
+import 'package:sixteen/controller/account_controller.dart';
 import 'package:sixteen/dialog/base_dialog.dart';
 import 'package:sixteen/model/amount_model.dart';
 import 'package:sixteen/model/user_model.dart';
@@ -28,12 +28,12 @@ class _AddAmountDialogState extends State<AddAmountDialog> {
   void initState() {
     super.initState();
 
-    Get.find<CalculationController>().initData();
+    Get.find<AccountController>().initData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CalculationController>(builder: (calController) {
+    return GetBuilder<AccountController>(builder: (calController) {
       return BaseDialog(children: [
 
         Text('add_deduct_amount'.tr, style: fontMedium.copyWith(color: Theme.of(context).canvasColor, fontSize: 20)),
@@ -90,7 +90,7 @@ class _AddAmountDialogState extends State<AddAmountDialog> {
               _buttonController.error();
             }else {
               UserModel admin = Get.find<AuthController>().user!;
-              Get.find<CalculationController>().addAmount(
+              Get.find<AccountController>().addAmount(
                 amountModel: AmountModel(
                   amount: double.parse(amount), note: _noteController.text.trim(), isAdd: calController.isAdd, date: DateTime.now(),
                   adminEmail: admin.email, adminId: admin.uid, adminName: admin.name,

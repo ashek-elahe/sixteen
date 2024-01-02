@@ -135,12 +135,18 @@ class UserController extends GetxController implements GetxService {
     update();
   }
   
-  Future<void> updateUserBalance(double amount, String userEmail) async {
+  Future<void> updateUserBalance(double amount, String userEmail, bool isAdd) async {
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(DbTable.users.name).where('email', isEqualTo: userEmail).get();
       UserModel user = UserModel.fromJson(snapshot.docs.first.data() as Map<String, dynamic>, true);
+      double balance = 0;
+      if(isAdd) {
+        balance = user.balance! + amount;
+      }else {
+        balance = user.balance! - amount;
+      }
       await FirebaseFirestore.instance.collection(DbTable.users.name).doc(user.uid).update(
-        UserModel(balance: user.balance! + amount).toJsonForUpdate(),
+        UserModel(balance: balance).toJsonForUpdate(),
       );
     } catch (e) {
       Helper.handleError(e);

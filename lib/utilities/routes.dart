@@ -11,7 +11,7 @@ import 'package:sixteen/view/installments_page.dart';
 import 'package:sixteen/view/login_page.dart';
 import 'package:sixteen/view/message_page.dart';
 import 'package:sixteen/view/notification_page.dart';
-import 'package:sixteen/view/calculations_page.dart';
+import 'package:sixteen/view/account_page.dart';
 import 'package:sixteen/view/profile_page.dart';
 import 'package:sixteen/view/splash_page.dart';
 import 'package:sixteen/view/update_page.dart';
@@ -31,7 +31,7 @@ class Routes {
   static const String conversation = '/conversation';
   static const String messages = '/messages';
   static const String installments = '/installments';
-  static const String calculations = '/calculations';
+  static const String accounts = '/accounts';
 
   static String getInitialRoute() => initial;
   static String getSplashRoute() => splash;
@@ -51,7 +51,7 @@ class Routes {
     return '$messages?conversation=$data';
   }
   static String getInstallmentsRoute() => installments;
-  static String getCalculationsRoute() => calculations;
+  static String getAccountsRoute() => accounts;
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => const InitialPage()),
@@ -72,7 +72,7 @@ class Routes {
       conversation: ConversationModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['conversation']!.replaceAll(' ', '+')))), false),
     )),
     GetPage(name: installments, page: () => const InstallmentsPage()),
-    GetPage(name: calculations, page: () => const CalculationsPage()),
+    GetPage(name: accounts, page: () => const AccountPage()),
   ];
 
 }

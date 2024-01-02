@@ -1,5 +1,7 @@
 class InstallmentModel {
+  String? id;
   String? userId;
+  String? userEmail;
   String? userName;
   String? userImage;
   double? amount;
@@ -7,17 +9,20 @@ class InstallmentModel {
   String? medium;
   String? reference;
   String? receiverId;
+  String? receiverEmail;
   String? receiverName;
   String? receiverImage;
   DateTime? createdAt;
 
   InstallmentModel({
-    this.userId, this.userName, this.userImage, this.amount, this.month, this.medium, this.reference,
-    this.receiverId, this.receiverName, this.receiverImage, this.createdAt,
+    this.id, this.userId, this.userEmail, this.userName, this.userImage, this.amount, this.month, this.medium, this.reference,
+    this.receiverId, this.receiverEmail, this.receiverName, this.receiverImage, this.createdAt,
   });
 
   InstallmentModel.fromJson(Map<String, dynamic> json, bool firebase) {
+    id = json['id'];
     userId = json['user_id'];
+    userEmail = json['user_email'];
     userName = json['user_name'];
     userImage = json['user_image'];
     amount = json['amount']?.toDouble();
@@ -26,6 +31,7 @@ class InstallmentModel {
     medium = json['medium'];
     reference = json['reference'];
     receiverId = json['receiver_id'];
+    receiverEmail = json['receiver_email'];
     receiverName = json['receiver_name'];
     receiverImage = json['receiver_image'];
     createdAt = json['created_at'] != null ? firebase ? DateTime.parse(json['created_at'].toDate().toString())
@@ -34,7 +40,9 @@ class InstallmentModel {
 
   Map<String, dynamic> toJson(bool firebase) {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['user_id'] = userId;
+    data['user_email'] = userEmail;
     data['user_name'] = userName;
     data['user_image'] = userImage;
     data['amount'] = amount;
@@ -42,107 +50,10 @@ class InstallmentModel {
     data['medium'] = medium;
     data['reference'] = reference;
     data['receiver_id'] = receiverId;
+    data['receiver_email'] = receiverEmail;
     data['receiver_name'] = receiverName;
     data['receiver_image'] = receiverImage;
     data['created_at'] = createdAt != null ? firebase ? createdAt : createdAt!.toIso8601String() : null;
-    return data;
-  }
-
-  Map<String, dynamic> toJsonForShared(InstallmentModel? install) {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if(userId != null) {
-      data['user_id'] = userId;
-    }else if(install?.userId != null) {
-      data['user_id'] = install?.userId;
-    }
-    if(userName != null) {
-      data['user_name'] = userName;
-    }else if(install?.userName != null) {
-      data['user_name'] = install?.userName;
-    }
-    if(userImage != null) {
-      data['user_image'] = userImage;
-    }else if(install?.userImage != null) {
-      data['user_image'] = install?.userImage;
-    }
-    if(amount != null) {
-      data['amount'] = amount;
-    }else if(install?.amount != null) {
-      data['amount'] = install?.amount;
-    }
-    if(month != null) {
-      data['month'] = month!.toIso8601String();
-    }else if(install?.month != null) {
-      data['month'] = install?.month!.toIso8601String();
-    }
-    if(medium != null) {
-      data['medium'] = medium;
-    }else if(install?.medium != null) {
-      data['medium'] = install?.medium;
-    }
-    if(reference != null) {
-      data['reference'] = reference;
-    }else if(install?.reference != null) {
-      data['reference'] = install?.reference;
-    }
-    if(receiverId != null) {
-      data['receiver_id'] = receiverId;
-    }else if(install?.receiverId != null) {
-      data['receiver_id'] = install?.receiverId!;
-    }
-    if(receiverName != null) {
-      data['receiver_name'] = receiverName;
-    }else if(install?.receiverName != null) {
-      data['receiver_name'] = install?.receiverName!;
-    }
-    if(receiverImage != null) {
-      data['receiver_image'] = receiverImage;
-    }else if(install?.receiverImage != null) {
-      data['receiver_image'] = install?.receiverImage!;
-    }
-    if(createdAt != null) {
-      data['created_at'] = createdAt!.toIso8601String();
-    }else if(install?.createdAt != null) {
-      data['created_at'] = install?.createdAt!.toIso8601String();
-    }
-    return data;
-  }
-
-  Map<String, dynamic> toJsonForUpdate() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if(userId != null) {
-      data['user_id'] = userId;
-    }
-    if(userName != null) {
-      data['user_name'] = userName;
-    }
-    if(userName != null) {
-      data['user_image'] = userImage;
-    }
-    if(amount != null) {
-      data['amount'] = amount;
-    }
-    if(month != null) {
-      data['month'] = month;
-    }
-    if(medium != null) {
-      data['medium'] = medium;
-    }
-    if(reference != null) {
-      data['reference'] = reference;
-    }
-    if(receiverId != null) {
-      data['receiver_id'] = receiverId;
-    }
-    if(receiverName != null) {
-      data['receiver_name'] = receiverName;
-    }
-    if(receiverImage != null) {
-      data['receiver_image'] = receiverImage;
-    }
-    if(createdAt != null) {
-      data['created_at'] = createdAt;
-    }
     return data;
   }
 

@@ -1,4 +1,5 @@
 class AmountModel {
+  String? id;
   double? amount;
   String? note;
   String? userEmail;
@@ -11,11 +12,12 @@ class AmountModel {
   DateTime? date;
 
   AmountModel({
-    this.amount, this.note, this.userEmail, this.userId, this.userName,
+    this.id, this.amount, this.note, this.userEmail, this.userId, this.userName,
     this.adminEmail, this.adminName, this.adminId, this.isAdd, this.date,
   });
 
   AmountModel.fromJson(Map<String, dynamic> json, bool firebase) {
+    id = json['id'];
     amount = json['amount'];
     note = json['note'];
     userEmail = json['user_email'];
@@ -31,6 +33,7 @@ class AmountModel {
 
   Map<String, dynamic> toJson(bool firebase) {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     data['amount'] = amount;
     data['note'] = note;
     data['user_email'] = userEmail;

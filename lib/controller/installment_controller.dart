@@ -25,6 +25,7 @@ class InstallmentController extends GetxController implements GetxService {
   double _amount = Constants.amounts[0];
   String _medium = Constants.mediums[0];
   DateTimeRange? _dateTimeRange;
+  bool _isLoading = false;
 
   List<InstallmentModel>? get installments => _installments;
   List<InstallmentModel>? get allInstallments => _allInstallments;
@@ -35,6 +36,7 @@ class InstallmentController extends GetxController implements GetxService {
   double get amount => _amount;
   String get medium => _medium;
   DateTimeRange? get dateTimeRange => _dateTimeRange;
+  bool get isLoading => _isLoading;
 
   void initData() {
     _dateTime = null;
@@ -65,15 +67,17 @@ class InstallmentController extends GetxController implements GetxService {
     try {
       UserModel receiver = Get.find<AuthController>().user!;
       InstallmentModel installment = InstallmentModel(
-        userId: user.uid, userName: user.name, userImage: user.image, amount: amount, month: month, medium: _medium, reference: reference,
-        receiverId: receiver.uid, receiverName: receiver.name, receiverImage: receiver.image, createdAt: DateTime.now(),
+        userId: user.uid, userEmail: user.email, userName: user.name, userImage: user.image, amount: amount, month: month,
+        medium: _medium, reference: reference, createdAt: DateTime.now(),
+        receiverId: receiver.uid, receiverEmail: receiver.email, receiverName: receiver.name, receiverImage: receiver.image,
       );
 
-      await FirebaseFirestore.instance.collection(DbTable.installments.name).doc().set(installment.toJson(true));
-      await Get.find<UserController>().updateUserBalance(amount, user.email!);
+      DocumentReference document = await FirebaseFirestore.instance.collection(DbTable.installments.name).add(installment.toJson(true));
+      await FirebaseFirestore.instance.collection(DbTable.installments.name).doc(document.id).update({'id': document.id});
+      await Get.find<UserController>().updateUserBalance(amount, user.email!, true);
       debugPrint(('Data:=====> ${installment.toJson(true)}'));
 
-      await Get.find<SplashController>().manageBalance(amount, true, true);
+      await Get.find<SplashController>().manageBalance(amount, true, true, false);
 
       buttonController.success();
       Get.back();
@@ -82,6 +86,26 @@ class InstallmentController extends GetxController implements GetxService {
       buttonController.error();
       Helper.handleError(e);
     }
+    update();
+  }
+
+  Future<void> deleteInstallment({required InstallmentModel installment, required int index}) async {
+    _isLoading = true;
+    update();
+    try {
+      await FirebaseFirestore.instance.collection(DbTable.installments.name).doc(installment.id).delete();
+      _allInstallments!.removeAt(index);
+      await Get.find<UserController>().updateUserBalance(installment.amount!, installment.userEmail!, false);
+      debugPrint(('Data:=====> ${installment.toJson(true)}'));
+
+      await Get.find<SplashController>().manageBalance(installment.amount!, true, true, true);
+
+      Get.back();
+      showSnackBar(message: 'deleted'.tr, isError: false);
+    } catch (e) {
+      Helper.handleError(e);
+    }
+    _isLoading = false;
     update();
   }
 
@@ -124,6 +148,7 @@ class InstallmentController extends GetxController implements GetxService {
       _allPaginate = true;
       _allInstallments = null;
     }
+
     try {
       Query<Map<String, dynamic>> query = FirebaseFirestore.instance.collection(DbTable.installments.name)
           .where('user_id', isEqualTo: uid).orderBy('month', descending: true).limit(Constants.pagination);

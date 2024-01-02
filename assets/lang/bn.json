@@ -111,5 +111,7 @@
   "others": "অন্যান্য",
   "total_cost": "মোট খরচ",
   "balance": "ব্যালেন্স",
-  "version": "সংস্করণ"
+  "version": "সংস্করণ",
+  "are_you_sure_to_delete_this": "আপনি কি নিশ্চিত যে এটি মুছে ফেলতে চান?",
+  "deleted": "মুছে ফেলা হয়েছে"
 }

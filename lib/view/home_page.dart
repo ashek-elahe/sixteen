@@ -4,6 +4,7 @@ import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/installment_controller.dart';
 import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/utilities/constants.dart';
+import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/utilities/style.dart';
 import 'package:sixteen/widget/balance_view.dart';
 import 'package:sixteen/widget/balance_widget.dart';
@@ -65,7 +66,10 @@ class _HomePageState extends State<HomePage> {
             }),
             const SizedBox(height: Constants.padding),
 
-            const BalanceView(),
+            InkWell(
+              onTap: () => Get.toNamed(Routes.getAccountsRoute()),
+              child: const BalanceView(),
+            ),
             const SizedBox(height: Constants.padding),
 
             GetBuilder<InstallmentController>(builder: (insController) {

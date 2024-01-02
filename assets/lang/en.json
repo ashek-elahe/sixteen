@@ -111,5 +111,7 @@
   "others": "Others",
   "total_cost": "Total Cost",
   "balance": "Balance",
-  "version": "Version"
+  "version": "Version",
+  "are_you_sure_to_delete_this": "Are you sure to delete this?",
+  "deleted": "Deleted"
 }

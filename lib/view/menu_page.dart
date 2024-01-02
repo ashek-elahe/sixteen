@@ -58,13 +58,13 @@ class _MenuPageState extends State<MenuPage> {
             ),
             const SizedBox(height: Constants.padding),
 
-            MenuButton(
-              icon: Icons.calculate_outlined, title: 'other_accounts'.tr,
-              onPressed: () => Get.toNamed(Routes.getCalculationsRoute()),
-            ),
-            const SizedBox(height: Constants.padding),
-
           ],
+
+          MenuButton(
+            icon: Icons.calculate_outlined, title: 'other_accounts'.tr,
+            onPressed: () => Get.toNamed(Routes.getAccountsRoute()),
+          ),
+          const SizedBox(height: Constants.padding),
 
           MenuButton(
             icon: Icons.language, title: 'language'.tr,
