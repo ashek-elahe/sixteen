@@ -26,7 +26,7 @@ class AuthController extends GetxController implements GetxService {
   UserModel? _user;
   bool _isLoading = false;
   XFile? _file;
-  bool _isAdmin = true;
+  bool _isAdmin = false;
 
   LoginState get loginState => _loginState;
   UserModel? get user => _user;
@@ -108,12 +108,12 @@ class AuthController extends GetxController implements GetxService {
   }
 
   void setAdmin() {
-    // if(FirebaseAuth.instance.currentUser != null
-    //     && Get.find<SplashController>().settings!.admins!.contains(FirebaseAuth.instance.currentUser!.email)) {
-    //   _isAdmin = true;
-    // }else {
-    //   _isAdmin = false;
-    // }
+    if(FirebaseAuth.instance.currentUser != null
+        && Get.find<SplashController>().settings!.admins!.contains(FirebaseAuth.instance.currentUser!.email)) {
+      _isAdmin = true;
+    }else {
+      _isAdmin = false;
+    }
   }
 
   bool isAnAdmin(String email) {
@@ -159,7 +159,7 @@ class AuthController extends GetxController implements GetxService {
     _loginState = LoginState.success;
     update();
     await Future.delayed(const Duration(seconds: 2));
-    Get.toNamed(Routes.getInitialRoute());
+    Get.offNamed(Routes.getInitialRoute());
   }
 
   Future<void> logoutUser() async {

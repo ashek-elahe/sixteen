@@ -4,7 +4,7 @@ class Constants {
 
   static const String appName = 'প্রজন্ম-১৬';
   static const String slogan = 'শিকড় থেকে শিখরে পৌছানোর প্রত্যয়';
-  static const double version = 1.0;
+  static const double version = 1.2;
   static const int pagination = 20;
   static const String fontFamily = 'FiraSans';
   static const String logo = 'assets/image/logo.png';
