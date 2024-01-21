@@ -2,14 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/controller/splash_controller.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/routes.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/animated_entrance_widget.dart';
-import 'package:sixteen/widget/animated_zoom_widget.dart';
-import 'package:sixteen/widget/custom_snackbar.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/controller/splash_controller.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/routes.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/animated_entrance_widget.dart';
+import 'package:nub/widget/animated_zoom_widget.dart';
+import 'package:nub/widget/custom_snackbar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/view/home_page.dart';
-import 'package:sixteen/view/members_page.dart';
-import 'package:sixteen/view/menu_page.dart';
-import 'package:sixteen/widget/nav_bar_item.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/view/home_page.dart';
+import 'package:nub/view/members_page.dart';
+import 'package:nub/view/menu_page.dart';
+import 'package:nub/widget/nav_bar_item.dart';
 
 class InitialPage extends StatefulWidget {
   const InitialPage({Key? key}) : super(key: key);

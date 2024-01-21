@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/controller/installment_controller.dart';
-import 'package:sixteen/controller/splash_controller.dart';
-import 'package:sixteen/dialog/add_installment_dialog.dart';
-import 'package:sixteen/dialog/animated_dialog.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/routes.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/balance_view.dart';
-import 'package:sixteen/widget/balance_widget.dart';
-import 'package:sixteen/widget/installments_view.dart';
-import 'package:sixteen/widget/user_widget.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/controller/installment_controller.dart';
+import 'package:nub/controller/splash_controller.dart';
+import 'package:nub/dialog/add_installment_dialog.dart';
+import 'package:nub/dialog/animated_dialog.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/routes.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/balance_view.dart';
+import 'package:nub/widget/balance_widget.dart';
+import 'package:nub/widget/installments_view.dart';
+import 'package:nub/widget/user_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

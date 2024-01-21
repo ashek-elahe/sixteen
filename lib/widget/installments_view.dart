@@ -2,11 +2,11 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sixteen/model/installment_model.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/installment_widget.dart';
-import 'package:sixteen/widget/paginated_list_view.dart';
+import 'package:nub/model/installment_model.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/installment_widget.dart';
+import 'package:nub/widget/paginated_list_view.dart';
 
 class InstallmentsView extends StatelessWidget {
   final List<InstallmentModel>? installments;

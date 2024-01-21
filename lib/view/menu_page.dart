@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/controller/theme_controller.dart';
-import 'package:sixteen/controller/translation_controller.dart';
-import 'package:sixteen/dialog/animated_dialog.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/routes.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/my_app_bar.dart';
-import 'package:sixteen/widget/menu_button.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/controller/theme_controller.dart';
+import 'package:nub/controller/translation_controller.dart';
+import 'package:nub/dialog/animated_dialog.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/routes.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/my_app_bar.dart';
+import 'package:nub/widget/menu_button.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});

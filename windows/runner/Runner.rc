@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.sixteen.user" "\0"
-            VALUE "FileDescription", "sixteen" "\0"
+            VALUE "CompanyName", "com.nub.user" "\0"
+            VALUE "FileDescription", "nub" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "sixteen" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2023 com.sixteen.user. All rights reserved." "\0"
-            VALUE "OriginalFilename", "sixteen.exe" "\0"
-            VALUE "ProductName", "sixteen" "\0"
+            VALUE "InternalName", "nub" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 com.nub.user. All rights reserved." "\0"
+            VALUE "OriginalFilename", "nub.exe" "\0"
+            VALUE "ProductName", "nub" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

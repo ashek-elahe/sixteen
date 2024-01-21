@@ -1,23 +1,23 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:sixteen/model/conversation_model.dart';
-import 'package:sixteen/model/user_model.dart';
-import 'package:sixteen/view/admin_page.dart';
-import 'package:sixteen/view/conversation_page.dart';
-import 'package:sixteen/view/forgot_page.dart';
-import 'package:sixteen/view/initial_page.dart';
-import 'package:sixteen/view/installment_request_page.dart';
-import 'package:sixteen/view/installments_page.dart';
-import 'package:sixteen/view/login_page.dart';
-import 'package:sixteen/view/message_page.dart';
-import 'package:sixteen/view/notification_page.dart';
-import 'package:sixteen/view/account_page.dart';
-import 'package:sixteen/view/payment_accounts_page.dart';
-import 'package:sixteen/view/profile_page.dart';
-import 'package:sixteen/view/splash_page.dart';
-import 'package:sixteen/view/update_page.dart';
-import 'package:sixteen/view/user_details_page.dart';
+import 'package:nub/model/conversation_model.dart';
+import 'package:nub/model/user_model.dart';
+import 'package:nub/view/admin_page.dart';
+import 'package:nub/view/conversation_page.dart';
+import 'package:nub/view/forgot_page.dart';
+import 'package:nub/view/initial_page.dart';
+import 'package:nub/view/installment_request_page.dart';
+import 'package:nub/view/installments_page.dart';
+import 'package:nub/view/login_page.dart';
+import 'package:nub/view/message_page.dart';
+import 'package:nub/view/notification_page.dart';
+import 'package:nub/view/account_page.dart';
+import 'package:nub/view/payment_accounts_page.dart';
+import 'package:nub/view/profile_page.dart';
+import 'package:nub/view/splash_page.dart';
+import 'package:nub/view/update_page.dart';
+import 'package:nub/view/user_details_page.dart';
 
 class Routes {
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:sixteen/dialog/animated_dialog.dart';
-import 'package:sixteen/utilities/constants.dart';
+import 'package:nub/dialog/animated_dialog.dart';
+import 'package:nub/utilities/constants.dart';
 
 class PhotoViewer {
 

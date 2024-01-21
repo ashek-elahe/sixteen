@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyA9xSKFX88eJx39IWZauubS-wpqmB0jWGI</string>
+	<string>AIzaSyBmyti4dgalWXQjABoBkGd-M3jEJaXdkqU</string>
 	<key>GCM_SENDER_ID</key>
-	<string>940829537826</string>
+	<string>884390625587</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.sixteen.user.sixteen</string>
+	<string>com.nub.studentAssociation</string>
 	<key>PROJECT_ID</key>
-	<string>six-teen</string>
+	<string>nub-student-association</string>
 	<key>STORAGE_BUCKET</key>
-	<string>six-teen.appspot.com</string>
+	<string>nub-student-association.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:940829537826:ios:0cbe3fd15472e6484cfc7b</string>
+	<string>1:884390625587:ios:ce0b071bcabc5cf28dbe46</string>
 </dict>
 </plist>

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/controller/user_controller.dart';
-import 'package:sixteen/dialog/action_dialog.dart';
-import 'package:sixteen/dialog/add_installment_dialog.dart';
-import 'package:sixteen/dialog/add_member_dialog.dart';
-import 'package:sixteen/dialog/animated_dialog.dart';
-import 'package:sixteen/dialog/confirmation_dialog.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/routes.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/user_widget.dart';
-import 'package:sixteen/widget/my_app_bar.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/controller/user_controller.dart';
+import 'package:nub/dialog/action_dialog.dart';
+import 'package:nub/dialog/add_installment_dialog.dart';
+import 'package:nub/dialog/add_member_dialog.dart';
+import 'package:nub/dialog/animated_dialog.dart';
+import 'package:nub/dialog/confirmation_dialog.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/routes.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/user_widget.dart';
+import 'package:nub/widget/my_app_bar.dart';
 
 class MembersPage extends StatefulWidget {
   const MembersPage({super.key});

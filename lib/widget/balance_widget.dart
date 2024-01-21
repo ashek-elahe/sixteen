@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/utilities/converter.dart';
-import 'package:sixteen/utilities/style.dart';
+import 'package:nub/utilities/converter.dart';
+import 'package:nub/utilities/style.dart';
 
 class BalanceWidget extends StatefulWidget {
   final double balance;

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/controller/account_controller.dart';
-import 'package:sixteen/dialog/base_dialog.dart';
-import 'package:sixteen/model/amount_model.dart';
-import 'package:sixteen/model/user_model.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/custom_snackbar.dart';
-import 'package:sixteen/widget/input_field.dart';
-import 'package:sixteen/widget/loading_button.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/controller/account_controller.dart';
+import 'package:nub/dialog/base_dialog.dart';
+import 'package:nub/model/amount_model.dart';
+import 'package:nub/model/user_model.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/custom_snackbar.dart';
+import 'package:nub/widget/input_field.dart';
+import 'package:nub/widget/loading_button.dart';
 
 class AddAmountDialog extends StatefulWidget {
   final UserModel? user;

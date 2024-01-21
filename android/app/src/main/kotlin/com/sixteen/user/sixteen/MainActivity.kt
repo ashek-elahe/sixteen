@@ -1,4 +1,4 @@
-package com.sixteen.user.sixteen
+package com.nub.student_association
 
 import io.flutter.embedding.android.FlutterActivity
 

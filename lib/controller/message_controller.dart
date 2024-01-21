@@ -6,13 +6,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/model/conversation_model.dart';
-import 'package:sixteen/model/message_model.dart';
-import 'package:sixteen/model/user_model.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/db_table.dart';
-import 'package:sixteen/utilities/helper.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/model/conversation_model.dart';
+import 'package:nub/model/message_model.dart';
+import 'package:nub/model/user_model.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/db_table.dart';
+import 'package:nub/utilities/helper.dart';
 
 class MessageController extends GetxController implements GetxService {
 

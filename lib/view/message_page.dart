@@ -2,13 +2,13 @@ import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sixteen/controller/message_controller.dart';
-import 'package:sixteen/model/conversation_model.dart';
-import 'package:sixteen/model/message_model.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/emoji_text_editor.dart';
-import 'package:sixteen/widget/my_app_bar.dart';
-import 'package:sixteen/widget/paginated_list_view.dart';
+import 'package:nub/controller/message_controller.dart';
+import 'package:nub/model/conversation_model.dart';
+import 'package:nub/model/message_model.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/emoji_text_editor.dart';
+import 'package:nub/widget/my_app_bar.dart';
+import 'package:nub/widget/paginated_list_view.dart';
 
 class MessagePage extends StatefulWidget {
   final ConversationModel conversation;

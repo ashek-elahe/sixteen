@@ -18,7 +18,7 @@
     </queries>
 
     <application
-        android:label="প্রজন্ম-১৬"
+        android:label="NUB Student Association"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
@@ -40,7 +40,7 @@
               />
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_channel_id"
-                android:value="sixteen" />
+                android:value="nub" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

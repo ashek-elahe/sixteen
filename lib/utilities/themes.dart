@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sixteen/utilities/constants.dart';
+import 'package:nub/utilities/constants.dart';
 
 ThemeData lightTheme({Color color = const Color(0xFF005953)}) => ThemeData(
   fontFamily: Constants.fontFamily,

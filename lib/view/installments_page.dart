@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/controller/installment_controller.dart';
-import 'package:sixteen/dialog/animated_dialog.dart';
-import 'package:sixteen/dialog/confirmation_dialog.dart';
-import 'package:sixteen/model/installment_model.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/converter.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/custom_button.dart';
-import 'package:sixteen/widget/installment_widget.dart';
-import 'package:sixteen/widget/installments_view.dart';
-import 'package:sixteen/widget/my_app_bar.dart';
-import 'package:sixteen/widget/paginated_list_view.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/controller/installment_controller.dart';
+import 'package:nub/dialog/animated_dialog.dart';
+import 'package:nub/dialog/confirmation_dialog.dart';
+import 'package:nub/model/installment_model.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/converter.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/custom_button.dart';
+import 'package:nub/widget/installment_widget.dart';
+import 'package:nub/widget/installments_view.dart';
+import 'package:nub/widget/my_app_bar.dart';
+import 'package:nub/widget/paginated_list_view.dart';
 
 class InstallmentsPage extends StatefulWidget {
   const InstallmentsPage({super.key});

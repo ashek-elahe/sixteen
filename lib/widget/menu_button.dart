@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/card_widget.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/card_widget.dart';
 
 class MenuButton extends StatelessWidget {
   final IconData icon;

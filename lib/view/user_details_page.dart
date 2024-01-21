@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/installment_controller.dart';
-import 'package:sixteen/model/user_model.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/widget/installments_view.dart';
-import 'package:sixteen/widget/my_app_bar.dart';
-import 'package:sixteen/widget/user_widget.dart';
+import 'package:nub/controller/installment_controller.dart';
+import 'package:nub/model/user_model.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/widget/installments_view.dart';
+import 'package:nub/widget/my_app_bar.dart';
+import 'package:nub/widget/user_widget.dart';
 
 class UserDetailsPage extends StatefulWidget {
   final UserModel user;

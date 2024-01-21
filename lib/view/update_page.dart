@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
-import 'package:sixteen/controller/splash_controller.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/custom_button.dart';
+import 'package:nub/controller/splash_controller.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/custom_button.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class UpdatePage extends StatefulWidget {

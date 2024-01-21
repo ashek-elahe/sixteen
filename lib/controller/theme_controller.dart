@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/themes.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/themes.dart';
 
 class ThemeController extends GetxController implements GetxService {
   final SharedPreferences sharedPreferences;

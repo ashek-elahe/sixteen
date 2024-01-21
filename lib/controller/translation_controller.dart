@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:sixteen/utilities/constants.dart';
+import 'package:nub/utilities/constants.dart';
 
 class TranslationController extends GetxController implements GetxService {
   final SharedPreferences sharedPreferences;

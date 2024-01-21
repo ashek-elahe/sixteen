@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/message_controller.dart';
-import 'package:sixteen/model/conversation_model.dart';
-import 'package:sixteen/utilities/converter.dart';
-import 'package:sixteen/utilities/routes.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/custom_image.dart';
-import 'package:sixteen/widget/my_app_bar.dart';
+import 'package:nub/controller/message_controller.dart';
+import 'package:nub/model/conversation_model.dart';
+import 'package:nub/utilities/converter.dart';
+import 'package:nub/utilities/routes.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/custom_image.dart';
+import 'package:nub/widget/my_app_bar.dart';
 
 class ConversationPage extends StatefulWidget {
   const ConversationPage({super.key});

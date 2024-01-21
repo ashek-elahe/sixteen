@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "940829537826",
-    "project_id": "six-teen",
-    "storage_bucket": "six-teen.appspot.com"
+    "project_number": "884390625587",
+    "project_id": "nub-student-association",
+    "storage_bucket": "nub-student-association.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:940829537826:android:10118ed1b4b639594cfc7b",
+        "mobilesdk_app_id": "1:884390625587:android:8bfd8026a1657f2f8dbe46",
         "android_client_info": {
-          "package_name": "com.sixteen.user.sixteen"
+          "package_name": "com.nub.student_association"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDtjIoxEJ5XDcB7TK6B-9vytSD_jHLok8Q"
+          "current_key": "AIzaSyCxZdMiupVEkVYGuT11wh9yxZPdU5rpqv8"
         }
       ],
       "services": {

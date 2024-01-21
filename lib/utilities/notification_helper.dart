@@ -43,7 +43,7 @@ class NotificationHelper {
       contentTitle: notification.title!, htmlFormatContentTitle: true,
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'sixteen', 'sixteen', sound: const RawResourceAndroidNotificationSound('notification'),
+      'nub', 'nub', sound: const RawResourceAndroidNotificationSound('notification'),
       importance: Importance.max, priority: Priority.high, playSound: true, styleInformation: bigTextStyleInformation,
     );
     NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);

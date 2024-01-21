@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/model/user_model.dart';
-import 'package:sixteen/utilities/converter.dart';
-import 'package:sixteen/utilities/helper.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/card_widget.dart';
-import 'package:sixteen/widget/custom_image.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/model/user_model.dart';
+import 'package:nub/utilities/converter.dart';
+import 'package:nub/utilities/helper.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/card_widget.dart';
+import 'package:nub/widget/custom_image.dart';
 
 class UserWidget extends StatelessWidget {
   final UserModel user;

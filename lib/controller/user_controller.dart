@@ -4,13 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_admin/firebase_admin.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/model/user_model.dart';
-import 'package:sixteen/utilities/db_table.dart';
-import 'package:sixteen/utilities/helper.dart';
-import 'package:sixteen/widget/custom_snackbar.dart';
+import 'package:nub/model/user_model.dart';
+import 'package:nub/utilities/db_table.dart';
+import 'package:nub/utilities/helper.dart';
+import 'package:nub/widget/custom_snackbar.dart';
 // ignore: implementation_imports
 import 'package:firebase_admin/src/auth/credential.dart';
-import 'package:sixteen/widget/loading_button.dart';
+import 'package:nub/widget/loading_button.dart';
 
 class UserController extends GetxController implements GetxService {
 

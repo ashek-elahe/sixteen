@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/utilities/constants.dart';
+import 'package:nub/utilities/constants.dart';
 
 class BaseDialog extends StatelessWidget {
   final List<Widget> children;

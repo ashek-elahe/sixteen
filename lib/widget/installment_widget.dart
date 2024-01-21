@@ -1,9 +1,9 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/model/installment_model.dart';
-import 'package:sixteen/utilities/converter.dart';
-import 'package:sixteen/utilities/style.dart';
+import 'package:nub/model/installment_model.dart';
+import 'package:nub/utilities/converter.dart';
+import 'package:nub/utilities/style.dart';
 
 class InstallmentWidget extends StatelessWidget {
   final InstallmentModel installment;

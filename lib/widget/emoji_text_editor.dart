@@ -1,8 +1,8 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/message_controller.dart';
-import 'package:sixteen/utilities/style.dart';
+import 'package:nub/controller/message_controller.dart';
+import 'package:nub/utilities/style.dart';
 
 class EmojiTextEditor extends StatefulWidget {
   const EmojiTextEditor({super.key});

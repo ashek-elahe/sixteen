@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sixteen/utilities/style.dart';
+import 'package:nub/utilities/style.dart';
 
 class NavBarItem extends StatelessWidget {
   final IconData icon;

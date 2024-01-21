@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sixteen/utilities/constants.dart';
+import 'package:nub/utilities/constants.dart';
 
 class PaginatedListView extends StatefulWidget {
   final ScrollController? scrollController;

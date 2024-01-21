@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/utilities/style.dart';
+import 'package:nub/utilities/style.dart';
 
 void showSnackBar({required String message, bool isError = true, bool getXSnackBar = false}) {
   if(message.isNotEmpty && message.isNotEmpty) {

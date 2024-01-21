@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sixteen/utilities/style.dart';
+import 'package:nub/utilities/style.dart';
 
 class InputField extends StatefulWidget {
   final String titleText;

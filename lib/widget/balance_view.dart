@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/splash_controller.dart';
-import 'package:sixteen/utilities/converter.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/card_widget.dart';
+import 'package:nub/controller/splash_controller.dart';
+import 'package:nub/utilities/converter.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/card_widget.dart';
 
 class BalanceView extends StatelessWidget {
   const BalanceView({super.key});

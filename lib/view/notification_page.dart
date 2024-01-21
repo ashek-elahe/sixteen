@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/splash_controller.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/style.dart';
-import 'package:sixteen/widget/animated_entrance_widget.dart';
-import 'package:sixteen/widget/custom_snackbar.dart';
-import 'package:sixteen/widget/input_field.dart';
-import 'package:sixteen/widget/loading_button.dart';
-import 'package:sixteen/widget/my_app_bar.dart';
+import 'package:nub/controller/splash_controller.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/style.dart';
+import 'package:nub/widget/animated_entrance_widget.dart';
+import 'package:nub/widget/custom_snackbar.dart';
+import 'package:nub/widget/input_field.dart';
+import 'package:nub/widget/loading_button.dart';
+import 'package:nub/widget/my_app_bar.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});

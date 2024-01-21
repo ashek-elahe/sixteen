@@ -1,15 +1,15 @@
-import 'package:sixteen/model/language_model.dart';
+import 'package:nub/model/language_model.dart';
 
 class Constants {
 
-  static const String appName = 'প্রজন্ম-১৬';
+  static const String appName = 'NUB Student Association';
   static const String slogan = 'শিকড় থেকে শিখরে পৌছানোর প্রত্যয়';
-  static const double version = 1.2;
+  static const double version = 1.0;
   static const int pagination = 20;
   static const String fontFamily = 'FiraSans';
   static const String logo = 'assets/image/logo.png';
   static const String logoTransparent = 'assets/image/logo_transparent.png';
-  static const String firebaseServerKey = 'AAAA2w3PdiI:APA91bF1k5JDwx6-mmX7bZh8YeIUZsDLzAjKdjWbNkh2HD_4i2fgXWwDcpltEZ1F8gP2DNQMq4QO3Z0bHUwJ0mwMF3Z88fNqMQpvrUzT27JeFsBPwqP5gAhZ14IxxgaCIM8ua3UnyDPo';
+  static const String firebaseServerKey = 'AAAAzenKATM:APA91bFxBKMOjWTVw6U0w2knOiPJL8PKiVCvGKX_TmB6rqpI37bMBTkxOqtXXi0bstqCgy3q7q-63oF38tG380Xfkanq-2CdmWfZ-lkBtYs-MLdFpHY54Fz4Fl13OyEI4xsWy7hnXNa9';
 
   static const List<double> amounts = [1000, 1500, 2000, 3000, 4000, 5000];
   static const List<String> mediums = ['Cash', 'Mobile Banking', 'Bank', 'Others'];
@@ -32,7 +32,7 @@ class Constants {
   static const String languageCode = 'language_code';
   static const String countryCode = 'country_code';
   static const String theme = 'theme';
-  static const String topic = 'sixteen';
+  static const String topic = 'nub';
 
   /// Paddings
   static const double padding = 20.0;

@@ -44,37 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCzKhV2I807TzSI-RymNVE3euVB9PK_1RU',
-    appId: '1:940829537826:web:314b2369e15ee5144cfc7b',
-    messagingSenderId: '940829537826',
-    projectId: 'six-teen',
-    authDomain: 'six-teen.firebaseapp.com',
-    storageBucket: 'six-teen.appspot.com',
+    apiKey: 'AIzaSyAhGvNdnZkI9XIEBgxvaGkUlZQERwompnA',
+    appId: '1:884390625587:web:09eee70cd2a61dd58dbe46',
+    messagingSenderId: '884390625587',
+    projectId: 'nub-student-association',
+    authDomain: 'nub-student-association.firebaseapp.com',
+    storageBucket: 'nub-student-association.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDtjIoxEJ5XDcB7TK6B-9vytSD_jHLok8Q',
-    appId: '1:940829537826:android:10118ed1b4b639594cfc7b',
-    messagingSenderId: '940829537826',
-    projectId: 'six-teen',
-    storageBucket: 'six-teen.appspot.com',
+    apiKey: 'AIzaSyCxZdMiupVEkVYGuT11wh9yxZPdU5rpqv8',
+    appId: '1:884390625587:android:8bfd8026a1657f2f8dbe46',
+    messagingSenderId: '884390625587',
+    projectId: 'nub-student-association',
+    storageBucket: 'nub-student-association.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA9xSKFX88eJx39IWZauubS-wpqmB0jWGI',
-    appId: '1:940829537826:ios:0cbe3fd15472e6484cfc7b',
-    messagingSenderId: '940829537826',
-    projectId: 'six-teen',
-    storageBucket: 'six-teen.appspot.com',
-    iosBundleId: 'com.sixteen.user.sixteen',
+    apiKey: 'AIzaSyBmyti4dgalWXQjABoBkGd-M3jEJaXdkqU',
+    appId: '1:884390625587:ios:ce0b071bcabc5cf28dbe46',
+    messagingSenderId: '884390625587',
+    projectId: 'nub-student-association',
+    storageBucket: 'nub-student-association.appspot.com',
+    iosBundleId: 'com.nub.studentAssociation',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA9xSKFX88eJx39IWZauubS-wpqmB0jWGI',
-    appId: '1:940829537826:ios:4cf8db4812314c864cfc7b',
-    messagingSenderId: '940829537826',
-    projectId: 'six-teen',
-    storageBucket: 'six-teen.appspot.com',
-    iosBundleId: 'com.sixteen.user.sixteen.RunnerTests',
+    apiKey: 'AIzaSyBmyti4dgalWXQjABoBkGd-M3jEJaXdkqU',
+    appId: '1:884390625587:ios:d9643d72f6af36768dbe46',
+    messagingSenderId: '884390625587',
+    projectId: 'nub-student-association',
+    storageBucket: 'nub-student-association.appspot.com',
+    iosBundleId: 'com.nub.studentAssociation.RunnerTests',
   );
 }

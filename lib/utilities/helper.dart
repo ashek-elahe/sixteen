@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/widget/custom_snackbar.dart';
+import 'package:nub/widget/custom_snackbar.dart';
 
 class Helper {
 

@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/model/settings_model.dart';
-import 'package:sixteen/utilities/constants.dart';
-import 'package:sixteen/utilities/db_table.dart';
-import 'package:sixteen/utilities/helper.dart';
-import 'package:sixteen/widget/custom_snackbar.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/model/settings_model.dart';
+import 'package:nub/utilities/constants.dart';
+import 'package:nub/utilities/db_table.dart';
+import 'package:nub/utilities/helper.dart';
+import 'package:nub/widget/custom_snackbar.dart';
 import 'package:http/http.dart' as http;
 
 class SplashController extends GetxController implements GetxService {
@@ -106,7 +106,7 @@ class SplashController extends GetxController implements GetxService {
           'title': title,
           'body': body,
           "sound": "notification.wav",
-          "android_channel_id": "sixteen"
+          "android_channel_id": "nub"
         },
       };
       http.Response response = await http.post(

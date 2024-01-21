@@ -1,13 +1,13 @@
 import 'package:get/instance_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sixteen/controller/auth_controller.dart';
-import 'package:sixteen/controller/account_controller.dart';
-import 'package:sixteen/controller/installment_controller.dart';
-import 'package:sixteen/controller/message_controller.dart';
-import 'package:sixteen/controller/splash_controller.dart';
-import 'package:sixteen/controller/theme_controller.dart';
-import 'package:sixteen/controller/translation_controller.dart';
-import 'package:sixteen/controller/user_controller.dart';
+import 'package:nub/controller/auth_controller.dart';
+import 'package:nub/controller/account_controller.dart';
+import 'package:nub/controller/installment_controller.dart';
+import 'package:nub/controller/message_controller.dart';
+import 'package:nub/controller/splash_controller.dart';
+import 'package:nub/controller/theme_controller.dart';
+import 'package:nub/controller/translation_controller.dart';
+import 'package:nub/controller/user_controller.dart';
 
 class DependencyInjection {
   static void injectDependency() async {
