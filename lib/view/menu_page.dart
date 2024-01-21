@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/theme_controller.dart';
 import 'package:sixteen/controller/translation_controller.dart';
+import 'package:sixteen/dialog/animated_dialog.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/utilities/style.dart';
@@ -34,7 +35,31 @@ class _MenuPageState extends State<MenuPage> {
 
           MenuButton(
             icon: Icons.lock_reset, title: 'change_password'.tr,
-            onPressed: () => Get.find<AuthController>().resetPassword(Get.find<AuthController>().user!.email!),
+            onPressed: () async {
+
+              showAnimatedDialog(Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Constants.padding),
+                  side: BorderSide(color: Theme.of(Get.context!).disabledColor, width: 0.5),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(Constants.padding),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(Constants.padding),
+                  ),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    const CircularProgressIndicator(),
+                    const SizedBox(height: 20),
+                    Text('password_reset_mail_sending'.tr, style: fontRegular.copyWith(color: Theme.of(Get.context!).canvasColor)),
+                  ]),
+                ),
+              ), isFlip: true);
+
+              await Get.find<AuthController>().resetPassword(Get.find<AuthController>().user!.email!);
+              Get.back();
+
+            },
           ),
           const SizedBox(height: Constants.padding),
 
@@ -58,11 +83,23 @@ class _MenuPageState extends State<MenuPage> {
             ),
             const SizedBox(height: Constants.padding),
 
+            MenuButton(
+              icon: Icons.request_page_outlined, title: 'installment_requests'.tr,
+              onPressed: () => Get.toNamed(Routes.getInstallmentRequestsRoute()),
+            ),
+            const SizedBox(height: Constants.padding),
+
           ],
 
           MenuButton(
             icon: Icons.calculate_outlined, title: 'other_accounts'.tr,
             onPressed: () => Get.toNamed(Routes.getAccountsRoute()),
+          ),
+          const SizedBox(height: Constants.padding),
+
+          MenuButton(
+            icon: Icons.account_balance_sharp, title: 'payment_accounts'.tr,
+            onPressed: () => Get.toNamed(Routes.getPaymentAccountsRoute()),
           ),
           const SizedBox(height: Constants.padding),
 

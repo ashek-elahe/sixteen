@@ -47,10 +47,13 @@ class ActionDialog extends StatelessWidget {
 
       if(isAdmin)...[
 
-        ActionButton(title: 'poke_for_installment'.tr, onPressed: () => Get.find<SplashController>().sendNotification(
-          toTopic: false, token: user.deviceToken ?? '',
-          title: '${'hello'.tr} ${user.name}', body: 'please_complete_your_installment_of_this_month'.tr,
-        )),
+        ActionButton(title: 'poke_for_installment'.tr, onPressed: () async {
+          await Get.find<SplashController>().sendNotification(
+            toTopic: false, token: user.deviceToken ?? '',
+            title: '${'hello'.tr} ${user.name}', body: 'please_complete_your_installment_of_this_month'.tr,
+          );
+          showSnackBar(message: 'poked'.tr, isError: false);
+        }),
 
         ActionButton(title: 'add_deduct_amount'.tr, onPressed: () => showAnimatedDialog(AddAmountDialog(user: user))),
 

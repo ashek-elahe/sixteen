@@ -48,6 +48,12 @@
 @import flutter_local_notifications;
 #endif
 
+#if __has_include(<flutter_sslcommerz/FlutterSslcommerzPlugin.h>)
+#import <flutter_sslcommerz/FlutterSslcommerzPlugin.h>
+#else
+@import flutter_sslcommerz;
+#endif
+
 #if __has_include(<image_picker_ios/FLTImagePickerPlugin.h>)
 #import <image_picker_ios/FLTImagePickerPlugin.h>
 #else
@@ -94,6 +100,7 @@
   [FLTFirebaseMessagingPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseMessagingPlugin"]];
   [FLTFirebaseStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseStoragePlugin"]];
   [FlutterLocalNotificationsPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterLocalNotificationsPlugin"]];
+  [FlutterSslcommerzPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterSslcommerzPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];
   [PathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"PathProviderPlugin"]];
   [RivePlugin registerWithRegistrar:[registry registrarForPlugin:@"RivePlugin"]];

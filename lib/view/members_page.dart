@@ -81,7 +81,7 @@ class _MembersPageState extends State<MembersPage> {
                     children: [
 
                       if(Get.find<AuthController>().isAdmin)...[SlidableAction(
-                        onPressed: (context) => showAnimatedDialog(AddInstallmentDialog(user: userController.users![index])),
+                        onPressed: (context) => showAnimatedDialog(AddInstallmentDialog(user: userController.users![index], isSelf: false)),
                         backgroundColor: Theme.of(context).primaryColor,
                         foregroundColor: Colors.white,
                         icon: Icons.add_comment,

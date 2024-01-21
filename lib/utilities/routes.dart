@@ -7,11 +7,13 @@ import 'package:sixteen/view/admin_page.dart';
 import 'package:sixteen/view/conversation_page.dart';
 import 'package:sixteen/view/forgot_page.dart';
 import 'package:sixteen/view/initial_page.dart';
+import 'package:sixteen/view/installment_request_page.dart';
 import 'package:sixteen/view/installments_page.dart';
 import 'package:sixteen/view/login_page.dart';
 import 'package:sixteen/view/message_page.dart';
 import 'package:sixteen/view/notification_page.dart';
 import 'package:sixteen/view/account_page.dart';
+import 'package:sixteen/view/payment_accounts_page.dart';
 import 'package:sixteen/view/profile_page.dart';
 import 'package:sixteen/view/splash_page.dart';
 import 'package:sixteen/view/update_page.dart';
@@ -31,7 +33,9 @@ class Routes {
   static const String conversation = '/conversation';
   static const String messages = '/messages';
   static const String installments = '/installments';
+  static const String installmentRequests = '/installment-requests';
   static const String accounts = '/accounts';
+  static const String paymentAccounts = '/payment-accounts';
 
   static String getInitialRoute() => initial;
   static String getSplashRoute() => splash;
@@ -51,7 +55,9 @@ class Routes {
     return '$messages?conversation=$data';
   }
   static String getInstallmentsRoute() => installments;
+  static String getInstallmentRequestsRoute() => installmentRequests;
   static String getAccountsRoute() => accounts;
+  static String getPaymentAccountsRoute() => paymentAccounts;
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => const InitialPage()),
@@ -72,7 +78,9 @@ class Routes {
       conversation: ConversationModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['conversation']!.replaceAll(' ', '+')))), false),
     )),
     GetPage(name: installments, page: () => const InstallmentsPage()),
+    GetPage(name: installmentRequests, page: () => const InstallmentRequestPage()),
     GetPage(name: accounts, page: () => const AccountPage()),
+    GetPage(name: paymentAccounts, page: () => const PaymentAccountsPage()),
   ];
 
 }

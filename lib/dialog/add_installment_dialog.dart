@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sslcommerz/model/SSLCTransactionInfoModel.dart';
 import 'package:get/get.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:sixteen/controller/installment_controller.dart';
+import 'package:sixteen/controller/splash_controller.dart';
 import 'package:sixteen/dialog/base_dialog.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/converter.dart';
+import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/utilities/style.dart';
+import 'package:sixteen/widget/card_widget.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 import 'package:sixteen/widget/input_field.dart';
 import 'package:sixteen/widget/loading_button.dart';
+import 'package:sixteen/widget/menu_button.dart';
 
 class AddInstallmentDialog extends StatefulWidget {
   final UserModel user;
-  const AddInstallmentDialog({super.key, required this.user});
+  final bool isSelf;
+  const AddInstallmentDialog({super.key, required this.user, required this.isSelf});
 
   @override
   State<AddInstallmentDialog> createState() => _AddInstallmentDialogState();
@@ -36,8 +42,24 @@ class _AddInstallmentDialogState extends State<AddInstallmentDialog> {
     return GetBuilder<InstallmentController>(builder: (insController) {
       return BaseDialog(children: [
 
-        Text('add_installment'.tr, style: fontMedium.copyWith(color: Theme.of(context).canvasColor, fontSize: 20)),
+        Text(
+          widget.isSelf ? 'pay_installment'.tr : 'add_installment'.tr,
+          style: fontMedium.copyWith(color: Theme.of(context).canvasColor, fontSize: 20),
+        ),
         const SizedBox(height: Constants.padding),
+
+        (widget.isSelf && Get.find<SplashController>().settings!.autoPay!) ? CardWidget(padding: EdgeInsets.zero, child: CheckboxListTile(
+          value: insController.autoPay,
+          onChanged: (bool? isSelected) => insController.toggleAutoPay(),
+          checkboxShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          title: Text('auto_payment'.tr, style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
+        )) : const SizedBox(),
+        SizedBox(height: widget.isSelf ? Constants.padding : 0),
+
+        !insController.autoPay ? MenuButton(icon: Icons.account_balance_sharp, title: 'payment_accounts'.tr, onPressed: () {
+          Get.toNamed(Routes.getPaymentAccountsRoute());
+        }) : const SizedBox(),
+        SizedBox(height: !insController.autoPay ? Constants.padding : 0),
 
         Row(children: [
           Expanded(child: InkWell(
@@ -89,43 +111,47 @@ class _AddInstallmentDialogState extends State<AddInstallmentDialog> {
         ),
         const SizedBox(height: Constants.padding),
 
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text('medium'.tr, style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
-        ),
-        const SizedBox(height: 5),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Theme.of(context).primaryColor),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: Constants.padding),
-          child: DropdownButton<String>(
-            value: insController.medium,
-            style: fontMedium.copyWith(color: Theme.of(context).canvasColor),
-            underline: const SizedBox(),
-            isExpanded: true,
-            dropdownColor: Theme.of(context).cardColor,
-            borderRadius: BorderRadius.circular(10),
-            items: Constants.mediums.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value, style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
-              );
-            }).toList(),
-            onChanged: (String? value) => insController.setMedium(value!),
-          ),
-        ),
-        const SizedBox(height: Constants.padding),
+        !insController.autoPay ? Column(children: [
 
-        InputField(
-          titleText: 'reference'.tr,
-          hintText: 'enter_reference'.tr,
-          controller: _referenceController,
-          borderRadius: BorderRadius.circular(10),
-          inputAction: TextInputAction.done,
-        ),
-        const SizedBox(height: Constants.padding),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text('medium'.tr, style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
+          ),
+          const SizedBox(height: 5),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Theme.of(context).primaryColor),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: Constants.padding),
+            child: DropdownButton<String>(
+              value: insController.medium,
+              style: fontMedium.copyWith(color: Theme.of(context).canvasColor),
+              underline: const SizedBox(),
+              isExpanded: true,
+              dropdownColor: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(10),
+              items: Constants.mediums.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value, style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
+                );
+              }).toList(),
+              onChanged: (String? value) => insController.setMedium(value!),
+            ),
+          ),
+          const SizedBox(height: Constants.padding),
+
+          InputField(
+            titleText: 'reference'.tr,
+            hintText: 'enter_reference'.tr,
+            controller: _referenceController,
+            borderRadius: BorderRadius.circular(10),
+            inputAction: TextInputAction.done,
+          ),
+          const SizedBox(height: Constants.padding),
+
+        ]) : const SizedBox(),
 
         InkWell(
           onTap: () async {
@@ -161,20 +187,42 @@ class _AddInstallmentDialogState extends State<AddInstallmentDialog> {
             if(amount <= 0) {
               showSnackBar(message: 'enter_amount'.tr);
               _buttonController.error();
-            }else if(_referenceController.text.trim().isEmpty) {
+            }else if(_referenceController.text.trim().isEmpty && !insController.autoPay) {
               showSnackBar(message: 'enter_reference'.tr);
               _buttonController.error();
             }else if(insController.dateTime == null) {
               showSnackBar(message: 'select_month'.tr);
               _buttonController.error();
             }else {
-              Get.find<InstallmentController>().addInstallment(
-                user: widget.user, amount: amount, month: insController.dateTime!, reference: _referenceController.text.trim(),
-                buttonController: _buttonController,
-              );
+              SSLCTransactionInfoModel? response;
+              if(widget.isSelf && insController.autoPay) {
+                response = await Get.find<InstallmentController>().sslCommerzCall(amount);
+              }
+              if(!(widget.isSelf && insController.autoPay) || response != null) {
+                if(widget.isSelf && !insController.autoPay) {
+                  Get.find<InstallmentController>().addInstallmentRequest(
+                    amount: amount, month: insController.dateTime!,
+                    medium: response != null ? response.cardType! : insController.medium,
+                    reference: response != null ? response.bankTranId! : _referenceController.text.trim(),
+                    buttonController: _buttonController,
+                  );
+                }else {
+                  Get.find<InstallmentController>().addInstallment(
+                    user: widget.user, amount: amount, month: insController.dateTime!,
+                    medium: response != null ? response.cardType! : insController.medium,
+                    reference: response != null ? response.bankTranId! : _referenceController.text.trim(),
+                    autoPay: insController.autoPay, buttonController: _buttonController,
+                  );
+                }
+              }else {
+                _buttonController.error();
+              }
             }
           },
-          child: Text('add'.tr, style: fontMedium.copyWith(color: Colors.white)),
+          child: Text(
+            widget.isSelf ? insController.autoPay ? 'pay_now'.tr : 'submit_request'.tr : 'add'.tr,
+            style: fontMedium.copyWith(color: Colors.white),
+          ),
         ),
 
       ]);

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/controller/installment_controller.dart';
 import 'package:sixteen/controller/splash_controller.dart';
+import 'package:sixteen/dialog/add_installment_dialog.dart';
+import 'package:sixteen/dialog/animated_dialog.dart';
 import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/routes.dart';
 import 'package:sixteen/utilities/style.dart';
@@ -33,7 +35,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
-        titleSpacing: 0,
+        titleSpacing: 0, elevation: 0.5,
+        backgroundColor: Theme.of(context).cardColor,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(10))),
         leading: Center(child: ClipRRect(
           borderRadius: BorderRadius.circular(5),
@@ -41,12 +44,18 @@ class _HomePageState extends State<HomePage> {
         )),
         title: Text(Constants.appName, style:fontBold.copyWith(color: Theme.of(context).canvasColor, fontSize: 20)),
         actions: [Padding(
-          padding: const EdgeInsets.only(right: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: GetBuilder<AuthController>(builder: (authController) {
             return BalanceWidget(balance: authController.user!.balance ?? 0);
           }),
         )],
       ),
+
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add, color: Colors.white),
+        onPressed: () => showAnimatedDialog(AddInstallmentDialog(user: Get.find<AuthController>().user!, isSelf: true)),
+      ),
+
       body: RefreshIndicator(
         onRefresh: () async {
           await Get.find<AuthController>().getUser(uid: Get.find<AuthController>().user!.uid!);

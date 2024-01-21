@@ -46,12 +46,12 @@ class InstallmentWidget extends StatelessWidget {
           ]),
           const SizedBox(height: 5),
 
-          Row(children: [
+          installment.receiverEmail != null ? Row(children: [
             Text('${'received_by'.tr}:', style: fontRegular.copyWith(color: Theme.of(context).canvasColor)),
             const SizedBox(width: 5),
             Expanded(child: Text(installment.receiverName ?? '', style: fontMedium.copyWith(color: Theme.of(context).canvasColor))),
-          ]),
-          const SizedBox(height: 5),
+          ]) : const SizedBox(),
+          SizedBox(height: installment.receiverEmail != null ? 5 : 0),
 
           Text(
             Converter.dateToDateTimeString(installment.createdAt!),

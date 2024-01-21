@@ -9,10 +9,14 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixteen/controller/splash_controller.dart';
+import 'package:sixteen/dialog/animated_dialog.dart';
+import 'package:sixteen/dialog/base_dialog.dart';
 import 'package:sixteen/model/user_model.dart';
+import 'package:sixteen/utilities/constants.dart';
 import 'package:sixteen/utilities/db_table.dart';
 import 'package:sixteen/utilities/helper.dart';
 import 'package:sixteen/utilities/routes.dart';
+import 'package:sixteen/utilities/style.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
 import 'package:sixteen/widget/loading_button.dart';
 
@@ -190,8 +194,6 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<void> resetPassword(String email) async {
-    _isLoading = true;
-    update();
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       Get.back();
@@ -201,8 +203,6 @@ class AuthController extends GetxController implements GetxService {
     } catch (e) {
       Helper.handleError(e);
     }
-    _isLoading = false;
-    update();
   }
 
   Future<void> updateUserProfile({required UserModel user, RoundedLoadingButtonController? buttonController}) async {

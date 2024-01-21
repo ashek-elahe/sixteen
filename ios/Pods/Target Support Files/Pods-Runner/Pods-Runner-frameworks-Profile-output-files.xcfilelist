@@ -20,6 +20,7 @@ ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RecaptchaInterop.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/absl.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/emoji_picker_flutter.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_local_notifications.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_sslcommerz.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/image_picker_ios.framework
@@ -30,3 +31,4 @@ ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/rive_common.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/shared_preferences_foundation.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/sqflite.framework
 ${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/url_launcher_ios.framework
+${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSLCommerzSDK.framework

@@ -5128,6 +5128,10 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+## flutter_sslcommerz
+
+This is the initial release of sslcommerz plugin. The plugin provides the SDK to integrate the payment gateway to flutter application. Currently it is avaliable for Android and iOS development.
+
 ## gRPC-C++
 
 
