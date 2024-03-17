@@ -29,6 +29,10 @@ class Converter {
     return DateFormat('dd MMMM yyyy  hh:mm a').format(dateTime);
   }
 
+  static String dateToTimeString(DateTime dateTime) {
+    return DateFormat('hh:mm:ss a').format(dateTime);
+  }
+
   static String convertAmount(double amount) {
     return '${amount.floor()} ৳';
   }

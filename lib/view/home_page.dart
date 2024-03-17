@@ -94,3 +94,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+extension ParentReloader on Widget {
+  static DateTime _counter = DateTime(2000);
+
+  Widget reload<T extends GetxController>() {
+    return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+      return GetBuilder<T>(builder: (controller) {
+        if(_counter.year != 2000 && DateTime.now().difference(_counter).inSeconds > 0) {
+          _counter = DateTime.now();
+          Future.delayed(const Duration(seconds: 1), () {
+            setState(() {});
+          });
+        }
+        Future.delayed(const Duration(seconds: 1), () => _counter = DateTime.now());
+        return this;
+      });
+    });
+  }
+}

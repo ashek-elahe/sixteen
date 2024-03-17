@@ -31,6 +31,7 @@ class AuthController extends GetxController implements GetxService {
   bool _isLoading = false;
   XFile? _file;
   bool _isAdmin = false;
+  int counter = 0;
 
   LoginState get loginState => _loginState;
   UserModel? get user => _user;
@@ -254,5 +255,10 @@ class AuthController extends GetxController implements GetxService {
   //   }catch(e) {}
   //   return user;
   // }
+
+  void updater() {
+    counter++;
+    update();
+  }
 
 }
