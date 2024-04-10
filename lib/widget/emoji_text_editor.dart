@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nub/controller/message_controller.dart';
+import 'package:nub/utilities/helper.dart';
 import 'package:nub/utilities/style.dart';
 
 class EmojiTextEditor extends StatefulWidget {
@@ -31,6 +35,49 @@ class _EmojiTextEditorState extends State<EmojiTextEditor> {
   Widget build(BuildContext context) {
     return Column(children: [
 
+      GetBuilder<MessageController>(builder: (messageController) {
+        return messageController.attachments.isNotEmpty ? SizedBox(height: 60, child: ListView.builder(
+          itemCount: messageController.attachments.length,
+          scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.all(5),
+          itemBuilder: (context, index) {
+            XFile file = messageController.attachments[index];
+            String extension = file.name.split('.').last;
+
+            return Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Stack(children: [
+                Helper.isImage(extension) ? ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image.file(
+                    File(file.path),
+                    height: 50, width: 50, fit: BoxFit.cover,
+                  ),
+                ) : Container(
+                  height: 50, width: 50, alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    border: Border.all(color: Theme.of(context).primaryColor),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Text(
+                    extension.toUpperCase(),
+                    style: fontRegular.copyWith(color: Colors.white, fontSize: 12),
+                  ),
+                ),
+                Positioned(
+                  top: 0, right: 0,
+                  child: InkWell(
+                    onTap: () => messageController.removeAttachment(index),
+                    child: const Icon(Icons.close, color: Colors.red, size: 15),
+                  ),
+                ),
+              ]),
+            );
+          },
+        )) : const SizedBox();
+      }),
+
       Container(height: 66.0 + MediaQuery.of(context).padding.bottom, color: Theme.of(context).primaryColor, child: SafeArea(
         child: Row(children: [
 
@@ -43,11 +90,17 @@ class _EmojiTextEditorState extends State<EmojiTextEditor> {
             icon: const Icon(Icons.emoji_emotions, color: Colors.white),
           )),
 
+          Material(color: Colors.transparent, child: IconButton(
+            onPressed: () => Get.find<MessageController>().pickAttachments(),
+            icon: const Icon(Icons.feed, color: Colors.white),
+          )),
+
           Expanded(child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: TextField(
               controller: _controller,
               style: fontRegular.copyWith(color: Theme.of(context).canvasColor),
+              textCapitalization: TextCapitalization.sentences,
               decoration: InputDecoration(
                 hintText: 'type_a_message'.tr,
                 filled: true,

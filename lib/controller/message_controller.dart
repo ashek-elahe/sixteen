@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class MessageController extends GetxController implements GetxService {
   List<MessageModel>? _messages;
   DocumentSnapshot? _lastDocument;
   bool _paginate = true;
-  List<XFile>? _attachments;
+  List<XFile> _attachments = [];
   StreamSubscription? _conversationSubscription;
   StreamSubscription? _subscription;
   StreamSubscription? _cSubscription;
@@ -33,7 +34,7 @@ class MessageController extends GetxController implements GetxService {
   ConversationModel? get conversation => _conversation;
   List<MessageModel>? get messages => _messages;
   bool get paginate => _paginate;
-  List<XFile>? get attachments => _attachments;
+  List<XFile> get attachments => _attachments;
   bool get isLoading => _isLoading;
 
   Future<void> getConversations() async {
@@ -223,6 +224,7 @@ class MessageController extends GetxController implements GetxService {
 
   Future<ConversationModel?> getConversationAndMessages({required ConversationModel conversation}) async {
     _messages = null;
+    _attachments = [];
     _conversation = ConversationModel.fromJson(conversation.toJson(false), false);
     if(_conversation?.id == null) {
       try {
@@ -291,8 +293,19 @@ class MessageController extends GetxController implements GetxService {
   }
 
   void pickAttachments() async {
-    List<XFile> files = await ImagePicker().pickMultiImage(imageQuality: 40);
-    _attachments!.addAll(files);
+    // List<XFile> files = await ImagePicker().pickMultiImage(imageQuality: 40);
+    // _attachments!.addAll(files);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
+    if (result != null) {
+      for(PlatformFile file in result.files) {
+        _attachments.add(file.xFile);
+      }
+    }
+    update();
+  }
+
+  void removeAttachment(int index) {
+    _attachments.removeAt(index);
     update();
   }
 
