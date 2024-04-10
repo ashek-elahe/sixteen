@@ -132,5 +132,6 @@
   "installment_request_approved": "Installment request approved",
   "your_installment_request_has_been_approved_by": "Your installment request has been approved by",
   "approved": "Approved",
-  "password_reset_mail_sending": "Password reset mail sending..."
+  "password_reset_mail_sending": "Password reset mail sending...",
+  "downloaded_to": "downloaded to"
 }

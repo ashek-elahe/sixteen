@@ -24,4 +24,9 @@ class Helper {
     showSnackBar(message: e.toString());
   }
 
+  static bool isImage(String extension) {
+    List<String> imageExtensions = ['JPEG','JPG','PNG','GIF','TIFF','PSD','EPS','INDD'];
+    return imageExtensions.contains(extension.toUpperCase());
+  }
+
 }
