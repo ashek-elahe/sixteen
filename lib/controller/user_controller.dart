@@ -59,7 +59,7 @@ class UserController extends GetxController implements GetxService {
 
   Future<void> _initApp() async {
     if(_app == null) {
-      String jsonStringValues =  await rootBundle.loadString('assets/credential/six-teen-7ff12f568cab.json');
+      String jsonStringValues =  await rootBundle.loadString('assets/credential/nub-student-association-firebase-adminsdk-sx8bg-6251174f9b.json');
       Map<String, dynamic> mappedJson = jsonDecode(jsonStringValues);
       _app = FirebaseAdmin.instance.initializeApp(AppOptions(
         credential: ServiceAccountCredential.fromJson({

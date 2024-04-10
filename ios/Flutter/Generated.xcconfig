@@ -1,15 +1,15 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=/Users/ashek/Documents/flutter/latest
-FLUTTER_APPLICATION_PATH=/Users/ashek/Desktop/sixteen
+FLUTTER_ROOT=/Users/ashek/Documents/flutter/flutter
+FLUTTER_APPLICATION_PATH=/Users/ashek/Documents/Project/My Project/sixteen
 COCOAPODS_PARALLEL_CODE_SIGN=true
-FLUTTER_TARGET=/Users/ashek/Desktop/sixteen/lib/main.dart
+FLUTTER_TARGET=/Users/ashek/Documents/Project/My Project/sixteen/lib/main.dart
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=1.2.0
 FLUTTER_BUILD_NUMBER=2
 EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
 EXCLUDED_ARCHS[sdk=iphoneos*]=armv7
-DART_DEFINES=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz10cnVl,RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC83NGQxNjYyN2I5NDBiYjE1ZTUwODkxZjgyY2FkNmMzZTM0NjViZDZkLw==
+DART_DEFINES=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz10cnVl,RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC9mNDBlOTc2YmVkZmY1N2U2OWUxYjNkODlhN2MyYTNjNjE3YTAzZGFkLw==
 DART_OBFUSCATION=false
 TRACK_WIDGET_CREATION=true
 TREE_SHAKE_ICONS=false
-PACKAGE_CONFIG=/Users/ashek/Desktop/sixteen/.dart_tool/package_config.json
+PACKAGE_CONFIG=/Users/ashek/Documents/Project/My Project/sixteen/.dart_tool/package_config.json

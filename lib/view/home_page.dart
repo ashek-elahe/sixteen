@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(5),
           child: Image.asset(Constants.logoTransparent, height: 40, width: 40),
         )),
-        title: Text(Constants.appName, style:fontBold.copyWith(color: Theme.of(context).canvasColor, fontSize: 20)),
+        title: Text(Constants.appName, style:fontBold.copyWith(color: Theme.of(context).canvasColor, fontSize: 16)),
         actions: [Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: GetBuilder<AuthController>(builder: (authController) {
