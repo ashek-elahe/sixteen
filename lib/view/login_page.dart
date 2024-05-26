@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
@@ -137,6 +138,18 @@ class _LoginPageState extends State<LoginPage> {
                 },
                 child: Text('login'.tr, style: fontMedium.copyWith(color: Colors.white)),
               ))),
+              const SizedBox(height: 30),
+
+              RichText(text: TextSpan(
+                text: 'if_you_do_not_have_account'.tr,
+                style: fontRegular.copyWith(color: Theme.of(context).canvasColor),
+                children: [TextSpan(
+                  text: 'register'.tr, style: fontMedium.copyWith(color: Colors.blue),
+                  recognizer: TapGestureRecognizer()..onTap = () {
+                    Get.toNamed(Routes.getRegistrationRoute());
+                  },
+                )],
+              )),
 
             ]),
           ),

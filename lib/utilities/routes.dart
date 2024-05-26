@@ -10,11 +10,13 @@ import 'package:nub/view/initial_page.dart';
 import 'package:nub/view/installment_request_page.dart';
 import 'package:nub/view/installments_page.dart';
 import 'package:nub/view/login_page.dart';
+import 'package:nub/view/member_request_page.dart';
 import 'package:nub/view/message_page.dart';
 import 'package:nub/view/notification_page.dart';
 import 'package:nub/view/account_page.dart';
 import 'package:nub/view/payment_accounts_page.dart';
 import 'package:nub/view/profile_page.dart';
+import 'package:nub/view/registration_page.dart';
 import 'package:nub/view/splash_page.dart';
 import 'package:nub/view/update_page.dart';
 import 'package:nub/view/user_details_page.dart';
@@ -24,6 +26,7 @@ class Routes {
   static const String initial = '/';
   static const String splash = '/splash';
   static const String login = '/login';
+  static const String registration = '/registration';
   static const String admin = '/admin';
   static const String forgotPassword = '/forgot-password';
   static const String editProfile = '/edit-profile';
@@ -36,10 +39,12 @@ class Routes {
   static const String installmentRequests = '/installment-requests';
   static const String accounts = '/accounts';
   static const String paymentAccounts = '/payment-accounts';
+  static const String memberRequests = '/member-requests';
 
   static String getInitialRoute() => initial;
   static String getSplashRoute() => splash;
   static String getLoginRoute() => login;
+  static String getRegistrationRoute() => registration;
   static String getAdminRoute() => admin;
   static String getForgotRoute() => forgotPassword;
   static String getEditProfileRoute() => editProfile;
@@ -58,11 +63,13 @@ class Routes {
   static String getInstallmentRequestsRoute() => installmentRequests;
   static String getAccountsRoute() => accounts;
   static String getPaymentAccountsRoute() => paymentAccounts;
+  static String getMemberRequestsRoute() => memberRequests;
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => const InitialPage()),
     GetPage(name: splash, page: () => const SplashScreen()),
     GetPage(name: login, page: () => const LoginPage()),
+    GetPage(name: registration, page: () => const RegistrationPage()),
     GetPage(name: admin, page: () => const AdminPage()),
     GetPage(name: forgotPassword, page: () => const ForgotPage()),
     GetPage(name: editProfile, page: () => const ProfilePage()),
@@ -81,6 +88,7 @@ class Routes {
     GetPage(name: installmentRequests, page: () => const InstallmentRequestPage()),
     GetPage(name: accounts, page: () => const AccountPage()),
     GetPage(name: paymentAccounts, page: () => const PaymentAccountsPage()),
+    GetPage(name: memberRequests, page: () => const MemberRequestPage()),
   ];
 
 }

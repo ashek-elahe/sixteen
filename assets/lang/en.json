@@ -92,7 +92,7 @@
   "ago": "ago",
   "days": "days",
   "year": "year",
-  "your_account_is_disabled": "Your account is disabled. Please contact with admin",
+  "your_account_is_disabled": "Your account is not active. Please contact with admin",
   "call": "Call",
   "phone_number_not_added": "Phone number not added",
   "profile_image_updated": "Profile image updated",
@@ -133,5 +133,13 @@
   "your_installment_request_has_been_approved_by": "Your installment request has been approved by",
   "approved": "Approved",
   "password_reset_mail_sending": "Password reset mail sending...",
-  "downloaded_to": "downloaded to"
+  "downloaded_to": "downloaded to",
+  "maximum_limit_of_transaction_is": "Maximum limit of transaction is",
+  "registration": "Registration",
+  "register": "Register",
+  "account_registration_successful_contact_with_admin": "Account registration successful. Please contact with admin to activate it",
+  "if_you_do_not_have_account": "If you do not have account, ",
+  "member_requests": "Member Requests",
+  "are_you_sure_to_approve_this_account": "Are you sure you want to approve this account?",
+  "account_approved_successfully": "Account approved successfully"
 }

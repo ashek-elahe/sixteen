@@ -187,6 +187,10 @@ class _AddInstallmentDialogState extends State<AddInstallmentDialog> {
             if(amount <= 0) {
               showSnackBar(message: 'enter_amount'.tr);
               _buttonController.error();
+            }else if(amount > Get.find<SplashController>().settings!.transactionLimit!) {
+              showSnackBar(message: '${'maximum_limit_of_transaction_is'.tr}'
+                  ' ${Converter.convertAmount(Get.find<SplashController>().settings!.transactionLimit!)}');
+              _buttonController.error();
             }else if(_referenceController.text.trim().isEmpty && !insController.autoPay) {
               showSnackBar(message: 'enter_reference'.tr);
               _buttonController.error();

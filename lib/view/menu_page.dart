@@ -89,6 +89,12 @@ class _MenuPageState extends State<MenuPage> {
             ),
             const SizedBox(height: Constants.padding),
 
+            MenuButton(
+              icon: Icons.people_alt_outlined, title: 'member_requests'.tr,
+              onPressed: () => Get.toNamed(Routes.getMemberRequestsRoute()),
+            ),
+            const SizedBox(height: Constants.padding),
+
           ],
 
           MenuButton(

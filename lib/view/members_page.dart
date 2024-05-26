@@ -63,9 +63,8 @@ class _MembersPageState extends State<MembersPage> {
                       onPressed: (context) => showAnimatedDialog(ConfirmationDialog(
                         message: 'are_you_sure_to_delete_this_account'.tr,
                         isLoading: userController.isLoading,
-                        onOkPressed: () async {
-                          await Get.find<UserController>().deleteAccount(userController.users![index]);
-                          Get.back();
+                        onOkPressed: () {
+                          Get.find<UserController>().deleteAccount(userController.users![index]);
                         },
                       ), isFlip: true),
                       backgroundColor: Theme.of(context).colorScheme.error,

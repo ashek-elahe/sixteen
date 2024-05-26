@@ -133,5 +133,13 @@
   "your_installment_request_has_been_approved_by": "আপনার কিস্তি অনুরোধটি অনুমোদন করা হয়েছে",
   "approved": "অনুমোদিত",
   "password_reset_mail_sending": "পাসওয়ার্ড রিসেট মেইল পাঠানো হচ্ছে...",
-  "downloaded_to": "ডাউনলোড হয়েছে"
+  "downloaded_to": "ডাউনলোড হয়েছে",
+  "maximum_limit_of_transaction_is": "লেনদেনের সর্বোচ্চ সীমা",
+  "registration": "নিবন্ধন",
+  "register": "রেজিস্টার",
+  "account_registration_successful_contact_with_admin": "অ্যাকাউন্ট নিবন্ধন সফল হয়েছে। এটি সক্রিয় করতে অ্যাডমিনের সাথে যোগাযোগ করুন",
+  "if_you_do_not_have_account": "যদি আপনার অ্যাকাউন্ট না থাকে, ",
+  "member_requests": "সদস্য অনুরোধ",
+  "are_you_sure_to_approve_this_account": "আপনি কি এই অ্যাকাউন্টটি অনুমোদন করার বিষয়ে নিশ্চিত?",
+  "account_approved_successfully": "অ্যাকাউন্ট সফলভাবে অনুমোদিত হয়েছে"
 }

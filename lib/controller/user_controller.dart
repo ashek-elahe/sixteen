@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_admin/firebase_admin.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nub/model/user_model.dart';
 import 'package:nub/utilities/db_table.dart';
 import 'package:nub/utilities/helper.dart';
@@ -15,15 +17,20 @@ import 'package:nub/widget/loading_button.dart';
 class UserController extends GetxController implements GetxService {
 
   List<UserModel>? _users;
+  List<UserModel>? _userRequests;
   bool _isLoading = false;
   App? _app;
+  XFile? _file;
 
   List<UserModel>? get users => _users;
+  List<UserModel>? get userRequests => _userRequests;
   bool get isLoading => _isLoading;
+  XFile? get file => _file;
 
   Future<void> getUsers() async {
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(DbTable.users.name).orderBy('balance', descending: true).get();
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(DbTable.users.name)
+          .where('is_active', isEqualTo: true).orderBy('balance', descending: true).get();
       _users = [];
       for(QueryDocumentSnapshot document in snapshot.docs) {
         _users!.add(UserModel.fromJson(document.data() as Map<String, dynamic>, true));
@@ -127,6 +134,8 @@ class UserController extends GetxController implements GetxService {
       }
 
       _users!.removeWhere((u) => u.email == user.email);
+      _userRequests!.removeWhere((u) => u.email == user.email);
+      Get.back();
       showSnackBar(message: 'user_account_status_updated'.tr, isError: false);
     }catch(e) {
       Helper.handleError(e);
@@ -151,6 +160,79 @@ class UserController extends GetxController implements GetxService {
     } catch (e) {
       Helper.handleError(e);
     }
+  }
+
+  void initData() {
+    _file = null;
+  }
+
+  Future<void> pickImage() async {
+    _file = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 40);
+    update();
+  }
+
+  Future<void> register({required UserModel user, required String password, RoundedLoadingButtonController? buttonController}) async {
+    _isLoading = true;
+    update();
+    try {
+      /// Account create
+      await _initApp();
+      var record = await _app!.auth().createUser(email: user.email, password: password);
+
+      /// Image upload
+      String url = '';
+      if(_file != null) {
+        Uint8List data = await _file!.readAsBytes();
+        UploadTask task = FirebaseStorage.instance.ref().child(DbTable.users.name).child('${record.uid}.${_file!.name.split('.').last}').putData(data);
+        TaskSnapshot snapshot = await task.whenComplete(() {});
+        url = await snapshot.ref.getDownloadURL();
+      }
+
+      /// Profile data
+      FirebaseFirestore.instance.collection(DbTable.users.name).doc(record.uid).set(UserModel(
+        uid: record.uid, name: user.name, email: user.email!.toLowerCase(), phone: user.phone, joiningDate: DateTime.now(),
+        image: url, isActive: false, lastActive: DateTime.now(), address: user.address, balance: 0,
+      ).toJson(true));
+
+      buttonController?.success();
+      Get.back();
+      showSnackBar(message: 'account_registration_successful_contact_with_admin'.tr, isError: false);
+    }catch(e) {
+      buttonController?.error();
+      Helper.handleError(e);
+    }
+    _isLoading = false;
+    update();
+  }
+
+  Future<void> getMemberRequest() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(DbTable.users.name)
+          .where('is_active', isEqualTo: false).orderBy('joining_date', descending: false).get();
+      _userRequests = [];
+      for(QueryDocumentSnapshot document in snapshot.docs) {
+        _userRequests!.add(UserModel.fromJson(document.data() as Map<String, dynamic>, true));
+      }
+    } catch (e) {
+      Helper.handleError(e);
+    }
+    update();
+  }
+
+  Future<void> approveUser(String userEmail) async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection(DbTable.users.name).where('email', isEqualTo: userEmail).get();
+      UserModel user = UserModel.fromJson(snapshot.docs.first.data() as Map<String, dynamic>, true);
+      await FirebaseFirestore.instance.collection(DbTable.users.name).doc(user.uid).update(
+        UserModel(isActive: true).toJsonForUpdate(),
+      );
+      _userRequests!.removeWhere((u) => u.email == user.email);
+      Get.back();
+      showSnackBar(message: 'account_approved_successfully'.tr, isError: false);
+    } catch (e) {
+      Helper.handleError(e);
+    }
+    update();
   }
 
 }

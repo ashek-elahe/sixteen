@@ -7,11 +7,12 @@ class SettingsModel {
   double? installments;
   double? others;
   double? cost;
+  double? transactionLimit;
   List<Map<String, dynamic>>? accounts;
 
   SettingsModel({
     this.admins, this.minimumVersion, this.appUrl, this.maintenance, this.autoPay,
-    this.installments, this.others, this.cost, this.accounts,
+    this.installments, this.others, this.cost, this.transactionLimit, this.accounts,
   });
 
   SettingsModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +24,7 @@ class SettingsModel {
     installments = json['installments'].toDouble();
     others = json['others'].toDouble();
     cost = json['cost'].toDouble();
+    transactionLimit = json['transaction_limit'].toDouble();
     accounts = <Map<String, dynamic>>[];
     if (json['accounts'] != null) {
       json['accounts'].forEach((v) {
@@ -41,6 +43,7 @@ class SettingsModel {
     data['installments'] = installments;
     data['others'] = others;
     data['cost'] = cost;
+    data['transaction_limit'] = transactionLimit;
     if (accounts != null) {
       data['accounts'] = accounts!.map((v) => v).toList();
     }
