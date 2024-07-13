@@ -39,6 +39,8 @@ dependencies:
   flutter_sslcommerz: ^2.2.2-nullsafety.0
   file_picker: ^8.0.0+1
   path_provider: ^2.1.2
+  pdf: ^3.11.0
+  open_file: ^3.3.2
 
 dev_dependencies:
   flutter_test:

@@ -133,5 +133,7 @@
   "your_installment_request_has_been_approved_by": "Your installment request has been approved by",
   "approved": "Approved",
   "password_reset_mail_sending": "Password reset mail sending...",
-  "downloaded_to": "downloaded to"
+  "downloaded_to": "downloaded to",
+  "can_not_download_the_receipt": "Can't download the receipt",
+  "receipt_saved_to": "Receipt saved to"
 }
