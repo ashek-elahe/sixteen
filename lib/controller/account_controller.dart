@@ -33,25 +33,20 @@ class AccountController extends GetxController implements GetxService {
   }
 
   Future<void> addAmount({required AmountModel amountModel, required RoundedLoadingButtonController buttonController}) async {
-    try {
-      DocumentReference reference = await FirebaseFirestore.instance.collection(DbTable.amounts.name).add(amountModel.toJson(true));
-      await FirebaseFirestore.instance.collection(DbTable.amounts.name).doc(reference.id).update({'id': reference.id});
-      amountModel.id = reference.id;
-      debugPrint(('Data:=====> ${amountModel.toJson(true)}'));
+    DocumentReference reference = await FirebaseFirestore.instance.collection(DbTable.amounts.name).add(amountModel.toJson(true));
+    await FirebaseFirestore.instance.collection(DbTable.amounts.name).doc(reference.id).update({'id': reference.id});
+    amountModel.id = reference.id;
+    debugPrint(('Data:=====> ${amountModel.toJson(true)}'));
 
-      _amounts!.insert(0, amountModel);
-      await Get.find<SplashController>().manageBalance(amountModel.amount!, amountModel.isAdd!, false, false);
-      if(amountModel.userEmail != null) {
-        await Get.find<UserController>().updateUserBalance(amountModel.amount!, amountModel.userEmail!, amountModel.isAdd!);
-      }
-
-      buttonController.success();
-      Get.back();
-      showSnackBar(message: amountModel.isAdd! ? 'amount_added'.tr : 'amount_deducted'.tr, isError: false);
-    } catch (e) {
-      buttonController.error();
-      Helper.handleError(e);
+    _amounts?.insert(0, amountModel);
+    await Get.find<SplashController>().manageBalance(amountModel.amount!, amountModel.isAdd!, false, false);
+    if(amountModel.userEmail != null) {
+      await Get.find<UserController>().updateUserBalance(amountModel.amount!, amountModel.userEmail!, amountModel.isAdd!);
     }
+
+    buttonController.success();
+    Get.back();
+    showSnackBar(message: amountModel.isAdd! ? 'amount_added'.tr : 'amount_deducted'.tr, isError: false);
     update();
   }
 
