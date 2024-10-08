@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:googleapis_auth/auth_io.dart';
 import 'package:sixteen/controller/auth_controller.dart';
 import 'package:sixteen/model/settings_model.dart';
 import 'package:sixteen/utilities/constants.dart';
@@ -97,31 +99,90 @@ class SplashController extends GetxController implements GetxService {
     update();
   }
 
+  Future<String> getAccessToken() async {
+    String serviceString = await rootBundle.loadString(Constants.firebaseServiceFile);
+    final serviceAccountCredentials = ServiceAccountCredentials.fromJson(jsonDecode(serviceString));
+    final List<String> scopes = ['https://www.googleapis.com/auth/firebase.messaging'];
+
+    final AuthClient authClient = await clientViaServiceAccount(serviceAccountCredentials, scopes);
+    return authClient.credentials.accessToken.data;
+  }
+
   Future<bool> sendNotification({required bool toTopic, required String token, required String title, required String body}) async {
     bool success = false;
-    try {
-      Map<String, dynamic> data = {
-        'to': toTopic ? '/topics/${Constants.topic}' : token,
-        'notification': {
-          'title': title,
-          'body': body,
-          "sound": "notification.wav",
-          "android_channel_id": "sixteen"
-        },
-      };
-      http.Response response = await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: {'Content-Type': 'application/json', 'Authorization': 'key=${Constants.firebaseServerKey}'},
-        body: jsonEncode(data),
-      );
+    final String accessToken = await getAccessToken();
+    final Uri url = Uri.parse('https://fcm.googleapis.com/v1/projects/${Constants.firebaseProjectId}/messages:send');
 
-      debugPrint(('Success:=====> ${response.statusCode}/${response.body}'));
-      debugPrint(('Body:=====> $data'));
+    Map<String, dynamic> payload = {
+      'notification': {
+        'title': title,
+        'body': body
+      },
+      "android": {
+        "notification": {
+          "sound": "notification.wav"
+        }
+      },
+      "apns": {
+        "payload": {
+          "aps": {
+            "sound": "notification.wav"
+          }
+        }
+      }
+    };
+
+    if(toTopic) {
+      payload['topic'] = Constants.topic;
+    }else {
+      payload['token'] = token;
+    }
+
+    payload = {'message': payload};
+
+    final http.Response response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+      body: jsonEncode(payload),
+    );
+
+    debugPrint(('Success:=====> ${response.statusCode}/${response.body}'));
+    debugPrint(('Body:=====> $payload'));
+
+    if (response.statusCode == 200) {
       success = true;
-    }catch(e) {
-      Helper.handleError(e);
     }
     return success;
   }
+
+  // Future<bool> sendNotification({required bool toTopic, required String token, required String title, required String body}) async {
+  //   bool success = false;
+  //   try {
+  //     Map<String, dynamic> data = {
+  //       'to': toTopic ? '/topics/${Constants.topic}' : token,
+  //       'notification': {
+  //         'title': title,
+  //         'body': body,
+  //         "sound": "notification.wav",
+  //         "android_channel_id": "sixteen"
+  //       },
+  //     };
+  //     http.Response response = await http.post(
+  //       Uri.parse('https://fcm.googleapis.com/fcm/send'),
+  //       headers: {'Content-Type': 'application/json', 'Authorization': 'key=${Constants.firebaseServerKey}'},
+  //       body: jsonEncode(data),
+  //     );
+  //
+  //     debugPrint(('Success:=====> ${response.statusCode}/${response.body}'));
+  //     debugPrint(('Body:=====> $data'));
+  //     success = true;
+  //   }catch(e) {
+  //     Helper.handleError(e);
+  //   }
+  //   return success;
+  // }
 
 }

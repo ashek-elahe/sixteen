@@ -135,5 +135,6 @@
   "password_reset_mail_sending": "পাসওয়ার্ড রিসেট মেইল পাঠানো হচ্ছে...",
   "downloaded_to": "ডাউনলোড হয়েছে",
   "can_not_download_the_receipt": "রসিদ ডাউনলোড করতে পারছি না",
-  "receipt_saved_to": "রসিদ সংরক্ষিত হয়েছে"
+  "receipt_saved_to": "রসিদ সংরক্ষিত হয়েছে",
+  "installment_has_been_added": "কিস্তি যোগ করা হয়েছে"
 }

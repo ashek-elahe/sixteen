@@ -135,5 +135,6 @@
   "password_reset_mail_sending": "Password reset mail sending...",
   "downloaded_to": "downloaded to",
   "can_not_download_the_receipt": "Can't download the receipt",
-  "receipt_saved_to": "Receipt saved to"
+  "receipt_saved_to": "Receipt saved to",
+  "installment_has_been_added": "installment has been added"
 }

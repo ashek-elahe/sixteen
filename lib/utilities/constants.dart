@@ -4,12 +4,14 @@ class Constants {
 
   static const String appName = 'প্রজন্ম-১৬';
   static const String slogan = 'শিকড় থেকে শিখরে পৌছানোর প্রত্যয়';
-  static const double version = 1.2;
+  static const double version = 1.4;
   static const int pagination = 20;
   static const String fontFamily = 'FiraSans';
   static const String logo = 'assets/image/logo.png';
   static const String logoTransparent = 'assets/image/logo_transparent.png';
   static const String firebaseServerKey = 'AAAA2w3PdiI:APA91bF1k5JDwx6-mmX7bZh8YeIUZsDLzAjKdjWbNkh2HD_4i2fgXWwDcpltEZ1F8gP2DNQMq4QO3Z0bHUwJ0mwMF3Z88fNqMQpvrUzT27JeFsBPwqP5gAhZ14IxxgaCIM8ua3UnyDPo';
+  static const String firebaseServiceFile = 'assets/credential/six-teen-firebase-adminsdk-l5r84-37795e2777.json';
+  static const String firebaseProjectId = 'six-teen';
 
   static const List<double> amounts = [1000, 1500, 2000, 3000, 4000, 5000];
   static const List<String> mediums = ['Cash', 'Mobile Banking', 'Bank', 'Others'];

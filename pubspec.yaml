@@ -19,6 +19,7 @@ dependencies:
   firebase_auth: ^4.14.1
   firebase_storage: ^11.5.2
   firebase_messaging: ^14.7.6
+  googleapis_auth: ^1.6.0
   flutter_local_notifications: ^16.2.0
   url_strategy: ^0.2.0
   flare_flutter: ^3.0.2
@@ -26,11 +27,11 @@ dependencies:
   intl: ^0.18.1
   image_picker: ^1.0.4
   cached_network_image: ^3.3.0
-  firebase_admin: ^0.2.0
+  firebase_admin: ^0.3.0
   flutter_slidable: ^3.0.1
   month_picker_dialog: ^2.2.1
   dotted_line: ^3.2.2
-  http: ^0.13.0
+  http: ^1.2.2
   photo_view: ^0.14.0
   url_launcher: ^6.2.2
   shimmer: ^3.0.0
@@ -68,5 +69,15 @@ flutter:
         - asset: assets/fonts/FiraSans-Bold.ttf
           weight: 700
         - asset: assets/fonts/FiraSans-Black.ttf
+          weight: 900
+    - family: FiraSans
+      fonts:
+        - asset: assets/fonts/NotoSansBengali-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/NotoSansBengali-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/NotoSansBengali-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/NotoSansBengali-Black.ttf
           weight: 900
 

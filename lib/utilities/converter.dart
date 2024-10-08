@@ -7,6 +7,10 @@ class Converter {
     return DateFormat('dd MMMM yyyy').format(dateTime);
   }
 
+  static String dateToDateShortString(DateTime dateTime) {
+    return DateFormat('dd/MM/yy').format(dateTime);
+  }
+
   static String dateRangeToDateRangeString(DateTimeRange dateRange) {
     return '${DateFormat('dd MMM yy').format(dateRange.start)} - ${DateFormat('dd MMM yy').format(dateRange.end)}';
   }
@@ -47,6 +51,58 @@ class Converter {
       }
     }
     return number;
+  }
+
+  static String numberToWords(int number) {
+    if (number == 0) return 'zero';
+
+    final ones = [
+      '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'
+    ];
+    final teens = [
+      'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen',
+      'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+    ];
+    final tens = [
+      '', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'
+    ];
+    final thousands = ['', 'Thousand', 'Million', 'Billion'];
+
+    String convertHundreds(int num) {
+      String str = '';
+      if (num > 99) {
+        str += '${ones[num ~/ 100]} Hundred ';
+        num %= 100;
+      }
+      if (num >= 10 && num <= 19) {
+        str += '${teens[num - 10]} ';
+      } else if (num >= 20) {
+        str += '${tens[num ~/ 10]} ';
+        num %= 10;
+      }
+      if (num > 0 && num < 10) {
+        str += '${ones[num]} ';
+      }
+      return str.trim();
+    }
+
+    String convert(int num) {
+      String word = '';
+      int thousandCounter = 0;
+
+      while (num > 0) {
+        int chunk = num % 1000;
+        if (chunk > 0) {
+          word = '${convertHundreds(chunk)} ${thousands[thousandCounter]} $word';
+        }
+        num ~/= 1000;
+        thousandCounter++;
+      }
+
+      return word.trim();
+    }
+
+    return convert(number);
   }
 
 }

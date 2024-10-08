@@ -95,7 +95,7 @@ class InstallmentWidget extends StatelessWidget {
           top: 0, right: 0,
           child: InkWell(
             onTap: () async {
-              PDFGenerator.generatePdfView('${Converter.dateToMonth(installment.month!)}:${installment.userEmail}');
+              PDFGenerator.generatePdfView(installment);
             },
             child: const Padding(
               padding: EdgeInsets.all(2),

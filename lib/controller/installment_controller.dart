@@ -12,6 +12,7 @@ import 'package:sixteen/controller/user_controller.dart';
 import 'package:sixteen/model/installment_model.dart';
 import 'package:sixteen/model/user_model.dart';
 import 'package:sixteen/utilities/constants.dart';
+import 'package:sixteen/utilities/converter.dart';
 import 'package:sixteen/utilities/db_table.dart';
 import 'package:sixteen/utilities/helper.dart';
 import 'package:sixteen/widget/custom_snackbar.dart';
@@ -102,6 +103,11 @@ class InstallmentController extends GetxController implements GetxService {
         Get.back();
         showSnackBar(message: 'installment_added'.tr, isError: false);
       }
+      await Get.find<SplashController>().sendNotification(
+        toTopic: false, token: user.deviceToken ?? '',
+        title: 'installment_added'.tr,
+        body: '${Converter.dateToMonth(month)} ${'installment_has_been_added'.tr}',
+      );
     } catch (e) {
       buttonController?.error();
       Helper.handleError(e);
